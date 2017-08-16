@@ -4,6 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Lang;
+use Auth;
+use Session;
+use View;
+use URL;
 
 class LoginController extends Controller
 {
@@ -25,7 +31,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -35,5 +41,67 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index(Request $request) {
+        $view = View::make('auth.login');
+        if ($request->wantsJson()) {
+            $sections = $view->renderSections();
+            return $sections['content'];
+        }
+        return $view;
+    }
+    
+    /**
+     * Authenticate user function.
+     *
+     * @return Response
+     */
+    
+    protected function authenticated($request, $user) {
+
+        if ($request->wantsJson()) {
+            
+        }
+    }
+    
+    /**
+     * Get the failed login response instance.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    protected function sendFailedLoginResponse(Request $request) {
+        if ($request->wantsJson()) {
+            return response()->json([
+                        'error' => Lang::get('auth.failed')
+                            ], 401);
+        }
+
+        return redirect()->back()
+                        ->withInput($request->only($this->username(), 'remember'))
+                        ->withErrors([
+                            $this->username() => Lang::get('auth.failed'),
+        ]);
+    }
+
+    protected function sendLockoutResponse(Request $request) {
+        $seconds = $this->limiter()->availableIn(
+                $this->throttleKey($request)
+        );
+        if ($request->wantsJson()) {
+            return response()->json([
+                        'error' => $message
+                            ], 401);
+        }
+
+        return redirect()->back()
+                        ->withInput($request->only($this->username(), 'remember'))
+                        ->withErrors([$this->username() => $message]);
     }
 }
