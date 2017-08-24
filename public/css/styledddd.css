@@ -395,42 +395,14 @@ section.login-wrp {
 
 
 /********social icons********/
-.btn-social {
-  display: inline-block;
-  margin: 0;
-  overflow: hidden;
-  padding-left: 30px;
-  position: relative;
-  text-align: center;
-  text-overflow: ellipsis;
-  vertical-align: middle;
-  white-space: nowrap;
-  width: 180px;
-}
-.btn-social *:first-child {
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
-  bottom: 0;
-  font-size: 16px;
-  left: 5px;
-  line-height: 34px;
-  position: absolute;
-  text-align: center;
-  top: 0;
-  width: 32px;
-}
-.btn.btn-social.btn-facebook {
-  float: left;
-}
+.btn-social{position:relative;padding-left:44px;text-align:left;white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis}
+.btn-social :first-child{position:absolute;left:0;top:0;bottom:0;width:32px;line-height:34px;font-size:1.6em;text-align:center;border-right:1px solid rgba(0,0,0,0.2)}
 .btn-facebook{color:#fff;background-color:#3b5998;border-color:rgba(0,0,0,0.2)}
 .btn-facebook:hover,.btn-facebook:focus,.btn-facebook:active,.btn-facebook.active,.open .dropdown-toggle.btn-facebook{color:#fff;background-color:#30487b;border-color:rgba(0,0,0,0.2)}
 .btn-facebook:active,.btn-facebook.active,.open .dropdown-toggle.btn-facebook{background-image:none}
 .btn-facebook.disabled,.btn-facebook[disabled],fieldset[disabled] .btn-facebook,.btn-facebook.disabled:hover,.btn-facebook[disabled]:hover,fieldset[disabled] .btn-facebook:hover,.btn-facebook.disabled:focus,.btn-facebook[disabled]:focus,fieldset[disabled] .btn-facebook:focus,.btn-facebook.disabled:active,.btn-facebook[disabled]:active,fieldset[disabled] .btn-facebook:active,.btn-facebook.disabled.active,.btn-facebook[disabled].active,fieldset[disabled] .btn-facebook.active{background-color:#3b5998;border-color:rgba(0,0,0,0.2)}
-.btn-google-plus {
-  background-color: rgb(221, 75, 57);
-  border-color: rgba(0, 0, 0, 0.2);
-  color: rgb(255, 255, 255);
-  float: right;
-}.btn-google-plus:hover,.btn-google-plus:focus,.btn-google-plus:active,.btn-google-plus.active,.open .dropdown-toggle.btn-google-plus{color:#fff;background-color:#ca3523;border-color:rgba(0,0,0,0.2)}
+.btn-google-plus{color:#fff;background-color:#dd4b39;border-color:rgba(0,0,0,0.2)}.btn-google-plus:hover,.btn-google-plus:focus,.btn-google-plus:active,.btn-google-plus.active,.open .dropdown-toggle.btn-google-plus{color:#fff;background-color:#ca3523;border-color:rgba(0,0,0,0.2)}
 .btn-google-plus:active,.btn-google-plus.active,.open .dropdown-toggle.btn-google-plus{background-image:none}
 .btn-google-plus.disabled,.btn-google-plus[disabled],fieldset[disabled] .btn-google-plus,
 .btn-google-plus.disabled:hover,.btn-google-plus[disabled]:hover,fieldset[disabled] 
@@ -440,10 +412,10 @@ section.login-wrp {
 .btn-google-plus:active,.btn-google-plus.disabled.active,.btn-google-plus[disabled].active,
 fieldset[disabled] .btn-google-plus.active{background-color:#dd4b39;border-color:rgba(0,0,0,0.2)}
 /********end social icons********/
-.social-buttons {
-  display: inline-block;
-  margin: 0;
-  width: 100%;
+
+
+.social-buttons .btn.btn-facebook {
+  margin-bottom: 10px;
 }
 .login-form {
   margin: 20px 0px;
@@ -452,16 +424,15 @@ fieldset[disabled] .btn-google-plus.active{background-color:#dd4b39;border-color
   float: right;
   margin: 0px 0px 15px;
 }
-.signup-wrapper .btn.btn-lg.btn-success {
-  background: rgb(2, 19, 31) none repeat scroll 0 0;
-  border-color: rgb(2, 19, 31);
+.login-form .btn.btn-lg.btn-success {
+  background: rgb(208, 51, 16) none repeat scroll 0 0;
+  border-color: rgb(208, 38, 0);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
   color: rgb(255, 255, 255);
   font-size: 14px;
   font-weight: bold;
   line-height: 1.28571em;
-  margin-top: 30px;
-  padding: 12px 19px;
+  padding: 8px 19px 9px;
 }
 .sub-text-box {
   float: right;
@@ -593,119 +564,4 @@ color:#fff;
 }
 .dropdown-menu li a i {
   width: 30px;
-}
-
-.card .title {
-  position: relative;
-  z-index: 1;
-  border-left: 5px solid #ec2652;
-  margin: 0 0 35px;
-  padding: 10px 0 10px 50px;
-  color:#ec2652;
-  font-size: 32px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-.card .input-container {
-  display: inline-block;
-  margin: 0 0 10px;
-  position: relative;
-  width: 100%;
-}
-.card .input-container input {
-  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-  border: 0 none;
-  color: rgb(33, 33, 33);
-  font-size: 20px;
-  font-weight: 400;
-  height: 54px;
-  outline: medium none;
-  position: relative;
-  width: 100%;
-  z-index: 1;
-}
-.card .input-container input:focus ~ label {
-  color: #9d9d9d;
-  -webkit-transform: translate(-12%, -50%) scale(0.75);
-          transform: translate(-12%, -50%) scale(0.75);
-}
-.card .input-container input:focus ~ .bar:before, .card .input-container input:focus ~ .bar:after {
-  width: 50%;
-}
-.card .input-container input:valid ~ label {
-  color: #9d9d9d;
-  -webkit-transform: translate(-12%, -50%) scale(0.75);
-          transform: translate(-12%, -50%) scale(0.75);
-}
-.card .input-container label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  color: #757575;
-  font-size: 14px;
-  font-weight: 300;
-  line-height: 60px;
-  -webkit-transition: 0.2s ease;
-  transition: 0.2s ease;
-}
-.card {
-  display: inline-block;
-  margin: 0 auto;
-  padding: 40px;
-  width: 100%;
-}
-.card .input-container .bar {
-  background: rgb(204, 204, 204) none repeat scroll 0 0;
-  bottom: 0;
-  height: 1px;
-  left: 0;
-  position: absolute;
-  width: 100%;
-}
-.card .input-container .bar::before, .card .input-container .bar::after {
-  background: rgb(208, 51, 16) none repeat scroll 0 0;
-  content: "";
-  height: 2px;
-  position: absolute;
-  transition: all 0.2s ease 0s;
-  width: 0;
-}
-.card .input-container .bar:before {
-  left: 50%;
-}
-.card .input-container .bar:after {
-  right: 50%;
-}
-.col-wrp {
-  background-color: rgb(249, 249, 249);
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  display: table;
-  width: 100%;
-}
-.col-sign {
- 
-  margin: 0 auto;
-  max-width: 500px;
-}
-.signup-wrapper .header {
-  margin-bottom: 30px;
-}
-.form-group {
-  position: relative;
-}
-.input-container .form-group {
-  margin: 0;
-}
-.col-wrp .col-6 {
-  display: table-cell;
-  width: 50%;
-  vertical-align: middle;
-}
-.side-img {
-  background: rgb(2, 19, 31) none repeat scroll 0 0;
-  border-radius: 5px 0 0 5px;
-}
-.side-img img{
-    margin:0 auto;
 }

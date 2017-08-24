@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-sm-4 col-xs-8">
-                <div class="logo"><a href="#"><img src="{{ URL::asset('images/logo.png') }}"></a></div>
+                <div class="logo"><a href="{{ url('/') }}"><img src="{{ URL::asset('images/logo.png') }}"></a></div>
             </div>
             <div class="col-md-8 col-sm-8 col-xs-12">
                 <button class="menu_mobile"><i class="fa fa-bars" aria-hidden="true"></i></button>
@@ -12,8 +12,12 @@
                         <li><a href="#">Write a Review</a></li>
                         <li><a href="#">Events</a></li>
                         <li><a href="#">Talk</a></li>
-                        <li><a href="#">Login</a></li>
-                        <li class="Register"><a href="#">Register</a></li>
+                        @if(!Auth::check())
+                        <li><a href="{{ route('login') }}">Login</a></li>
+                        <li class="Register"><a href="{{ route('register') }}">Register</a></li>
+                        @else
+                        <li class="Register"><a href="javascript:void(0);">My Account</a></li>
+                        @endif
                     </ul>
                 </div>
             </div>

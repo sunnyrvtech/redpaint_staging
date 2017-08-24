@@ -6,21 +6,23 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Mail;
+use View;
 
-class RegisterController extends Controller
-{
+class RegisterController extends Controller {
     /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
+      |--------------------------------------------------------------------------
+      | Register Controller
+      |--------------------------------------------------------------------------
+      |
+      | This controller handles the registration of new users as well as their
+      | validation and creation. By default this controller uses a trait to
+      | provide this functionality without requiring any additional code.
+      |
+     */
 
-    use RegistersUsers;
+use RegistersUsers;
 
     /**
      * Where to redirect users after registration.
@@ -34,9 +36,22 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('guest');
+    }
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index(Request $request) {
+        $view = View::make('auth.register');
+//        if ($request->wantsJson()) {
+//            $sections = $view->renderSections();
+//            return $sections['content'];
+//        }
+        return $view;
     }
 
     /**
@@ -45,12 +60,12 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
+    protected function validator(array $data) {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+                    'first_name' => 'required|max:255',
+                    'last_name' => 'required|max:255',
+                    'email' => 'required|email|max:255|unique:users',
+                    'password' => 'required|min:6|confirmed',
         ]);
     }
 
@@ -60,12 +75,33 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
+    protected function create(Request $request) {
+        $data = $request->all();
+        $validator = Validator::make($data, [
+                    'first_name' => 'required|max:255',
+                    'last_name' => 'required|max:255',
+                    'email' => 'required|email|max:255|unique:users',
+                    'password' => 'required|min:6|confirmed',
+        ]);
+
+        $errors = $validator->errors();
+        if (!empty($errors->messages())) {
+            return response()->json($errors, 401);
+        }
+        $code = str_random(10) . time();
+        User::create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'verify_token' => $code,
         ]);
+
+        Mail::send('auth.emails.activated', array('link' => route('account.activate', $code), 'username' => $data['first_name'] . ' ' . $data['last_name']), function($message) use ($data) {
+            $message->from('test4rvtech@gmail.com', " Welcome To Redpaint");
+            $message->to($data['email'], $data['first_name'])->subject('Welcome to Redpaint!');
+        });
+        return response()->json(['success' => true, 'messages' => "Your account has been created! We have sent you an email to activate your account."]);
     }
+
 }

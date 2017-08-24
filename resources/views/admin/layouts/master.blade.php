@@ -19,7 +19,7 @@
         <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">-->
         <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css" rel="stylesheet">   
         <link href="//cdn.datatables.net/1.10.13/css/dataTables.semanticui.min.css" rel="stylesheet">   
-    
+
     </head>
 
     <body>
@@ -70,23 +70,29 @@
                         <li class="@if(Request::segment(2) == 'admin')active @endif">
                             <a href="{{ url('admin')}}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                         </li>
-                        <li class="@if(Request::segment(2) == 'admin')active @endif">
+                        <li class="@if(Request::segment(2) == 'users')active @endif">
+                            <a href="{{ route('users.index')}}"><i class="fa fa-fw fa-user "></i> Users</a>
+                        </li>
+                        <li class="@if(Request::segment(2) == 'categories' || Request::segment(2) == 'subcategories')active @endif">
+                            <a href="{{ route('categories.index')}}"><i class="fa fa-fw fa-tags"></i> Categories</a>
+                        </li>
+                        <li class="@if(Request::segment(2) == 'packages')active @endif">
                             <a href="{{ route('packages.index')}}"><i class="fa fa-fw fa-credit-card"></i>Ad Package</a>
                         </li>
-<!--                        <li class="">
-                            <a href=""><i class="fa fa-fw fa-files-o"></i>Pages</a>
-                        </li>-->
-<!--                        <li class="">
-                            <a href="javascript:void(0);" data-toggle="collapse" data-target="#vehicle-menu"><i class="fa fa-fw fa-car"></i> Vehicles<i class="fa fa-fw fa-caret-down"></i></a>
-                            <ul id="vehicle-menu" class="collapse" >
-                                <li class="">
-                                    <a href="">Vehicle Models</a>
-                                </li>
-                                <li class="">
-                                    <a href="">Vehicle Companies</a>
-                                </li>
-                            </ul>
-                        </li>-->
+                        <!--                        <li class="">
+                                                    <a href=""><i class="fa fa-fw fa-files-o"></i>Pages</a>
+                                                </li>-->
+                        <!--                        <li class="">
+                                                    <a href="javascript:void(0);" data-toggle="collapse" data-target="#vehicle-menu"><i class="fa fa-fw fa-car"></i> Vehicles<i class="fa fa-fw fa-caret-down"></i></a>
+                                                    <ul id="vehicle-menu" class="collapse" >
+                                                        <li class="">
+                                                            <a href="">Vehicle Models</a>
+                                                        </li>
+                                                        <li class="">
+                                                            <a href="">Vehicle Companies</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>-->
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
@@ -131,8 +137,6 @@
         <!--<script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js "></script>-->
         <script type="text/javascript">
                             $(document).ready(function () {
-
-                                
                                 $("body").tooltip({selector: '[data-toggle=tooltip]', trigger: 'hover'});
                                 //initialize ckeditor        
 //                                $('textarea').ckeditor({
@@ -161,6 +165,38 @@
                                         url: $this.data('href')
                                     }).done(function (data) {
                                         window.location.reload();
+                                    });
+                                });
+
+                                $(document).on('click', '.status-toggle', function (e) {
+                                    e.preventDefault(); // does not go through with the link.
+                                    $(".alert-danger").remove();
+                                    $(".alert-success").remove();
+                                    var $this = $(this);
+                                    $this.find('.btn').toggleClass('active');
+
+                                    if ($this.find('.btn-primary').size() > 0) {
+                                        $this.find('.btn').toggleClass('btn-primary');
+                                    }
+                                    if ($this.find('.btn-default').size() > 0) {
+                                        $this.find('.btn').toggleClass('btn-default');
+                                    }
+
+                                    $.post({
+                                        data: {'id': $this.data('id'), 'status': $this.find('.active').data('value')},
+                                        url: $this.data('url')
+                                    }).done(function (data) {
+                                        var HTML = '<div class="alert alert-success fade in">';
+                                        HTML += '<a href="javascript:void(0);" onclick="$(this).parent().remove();" class="close" title="close">×</a>';
+                                        HTML += '<strong>Success! </strong>' + data.messages + '</div>';
+                                        $("#page-wrapper .container-fluid").before(HTML);
+                                        $(window).scrollTop(0);
+                                    }).fail(function (data) {
+                                        var HTML = '<div class="alert alert-danger fade in">';
+                                        HTML += '<a href="javascript:void(0);" onclick="$(this).parent().remove();" class="close" title="close">×</a>';
+                                        HTML += '<strong>Error! </strong>' + data.responseJSON.error + '</div>';
+                                        $("#page-wrapper .container-fluid").before(HTML);
+                                        $(window).scrollTop(0);
                                     });
                                 });
                             });

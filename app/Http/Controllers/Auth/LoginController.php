@@ -11,20 +11,19 @@ use Session;
 use View;
 use URL;
 
-class LoginController extends Controller
-{
+class LoginController extends Controller {
     /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
+      |--------------------------------------------------------------------------
+      | Login Controller
+      |--------------------------------------------------------------------------
+      |
+      | This controller handles authenticating users for the application and
+      | redirecting them to your home screen. The controller uses a trait
+      | to conveniently provide its functionality to your applications.
+      |
+     */
 
-    use AuthenticatesUsers;
+use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login.
@@ -38,11 +37,11 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('guest')->except('logout');
+        Session::put('backUrl', URL::to('/my-account'));
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -50,26 +49,29 @@ class LoginController extends Controller
      */
     public function index(Request $request) {
         $view = View::make('auth.login');
-        if ($request->wantsJson()) {
-            $sections = $view->renderSections();
-            return $sections['content'];
-        }
+        //if ($request->wantsJson()) {
+        //  $sections = $view->renderSections();
+        // return $sections['content'];
+        //}
         return $view;
     }
-    
+
     /**
      * Authenticate user function.
      *
      * @return Response
      */
-    
     protected function authenticated($request, $user) {
 
         if ($request->wantsJson()) {
-            
+            if (Auth::check() && Auth::user()->status == 0) {
+                Auth::logout();
+                return response()->json(['error' => "Your account is not activated yet! Please check activation email in your inbox and activate your account."], 401);
+            }
+            return response()->json(['intended' => Session::get('backUrl')]);
         }
     }
-    
+
     /**
      * Get the failed login response instance.
      *
@@ -104,4 +106,5 @@ class LoginController extends Controller
                         ->withInput($request->only($this->username(), 'remember'))
                         ->withErrors([$this->username() => $message]);
     }
+
 }

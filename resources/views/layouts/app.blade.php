@@ -27,12 +27,36 @@
 
 </head>
 <body ng-app="redPaintApp" ng-controller="redPaintController">
-    @if(Request::is('/'))
+    <div id="loaderOverlay" ng-show="loading">
+            <div class="loader">
+                <div class="side"></div>
+                <div class="side"></div>
+                <div class="side"></div>
+                <div class="side"></div>
+                <div class="side"></div>
+                <div class="side"></div>
+                <div class="side"></div>
+                <div class="side"></div>
+            </div>
+    </div>
+    @if(Request::is('/') || Request::path() == 'home')
         @include('layouts.index-header')
     @else
         @include('layouts.header')
     @endif
 <section>
+    <div class="alert-message">
+            <div id="alert_loading" class="alert fade in alert-dismissable" ng-show="alert_loading" ng-class="alertClass" style="display: none;">
+                <a href="javascript:void(0);" ng-click="alert_loading = false" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                <strong><% alertLabel %> </strong><% alert_messages %>
+            </div>
+            @if(Session::has('success-message') || Session::has('error-message'))
+            <div id="redirect_alert" class="alert @if(Session::has('success-message')) alert-success @elseif(Session::has('error-message')) alert-danger @endif fade in alert-dismissable">
+                <a href="javascript:void(0);" onclick="$(this).parent().remove();" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                <strong>@if(Session::has('success-message')) Success! @elseif(Session::has('error-message')) Error! @endif </strong>@if(Session::has('success-message')) {{ Session::pull('success-message') }} @elseif(Session::has('error-message')) {{ Session::pull('error-message') }} @endif
+            </div>
+            @endif
+        </div>
     @yield('content')
 </section><!-- end section -->
 
@@ -47,42 +71,42 @@
                 <span>PHONE: </span>800-2345-6789
             </address>
             <ul class="footer_social">
-                <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+                <li><a href="javascript:void(0);"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                <li><a href="javascript:void(0);"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                <li><a href="javascript:void(0);"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                <li><a href="javascript:void(0);"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>
+                <li><a href="javascript:void(0);"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
             </ul>
         </div>
         <div class="col-md-3 col-sm-3 col-xs-12 info-Link">
             <h2>info Link</h2>
             <ul>
-                <li><a href="#">About Yelp</a></li>
-                <li><a href="#">Order Food on Eat24</a></li>
-                <li><a href="#">Careers</a></li>
-                <li><a href="#">Press</a></li>
-                <li><a href="#">Investor Relations</a></li>
-                <li><a href="#">Content Guidelines</a></li>
-                <li><a href="#">Terms of Service</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Ad Choices</a></li>
+                <li><a href="javascript:void(0);">About Yelp</a></li>
+                <li><a href="javascript:void(0);">Order Food on Eat24</a></li>
+                <li><a href="javascript:void(0);">Careers</a></li>
+                <li><a href="javascript:void(0);">Press</a></li>
+                <li><a href="javascript:void(0);">Investor Relations</a></li>
+                <li><a href="javascript:void(0);">Content Guidelines</a></li>
+                <li><a href="javascript:void(0);">Terms of Service</a></li>
+                <li><a href="javascript:void(0);">Privacy Policy</a></li>
+                <li><a href="javascript:void(0);">Ad Choices</a></li>
             </ul>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12 instagram_gallery">
             <h2>instagram</h2>
                 <ul>
-                <li><a href="#"><img src="{{ URL::asset('images/image-1.png') }}"></a></li>
-                <li><a href="#"><img src="{{ URL::asset('images/image-2.png') }}"></a></li>
-                <li><a href="#"><img src="{{ URL::asset('images/image-3.png') }}"></a></li>
-                <li><a href="#"><img src="{{ URL::asset('images/image-1.png') }}"></a></li>
-                <li><a href="#"><img src="{{ URL::asset('images/image-2.png') }}"></a></li>
-                <li><a href="#"><img src="{{ URL::asset('images/image-3.png') }}"></a></li>
-                <li><a href="#"><img src="{{ URL::asset('images/image-1.png') }}"></a></li>
-                <li><a href="#"><img src="{{ URL::asset('images/image-2.png') }}"></a></li>
-                <li><a href="#"><img src="{{ URL::asset('images/image-3.png') }}"></a></li>
-                <li><a href="#"><img src="{{ URL::asset('images/image-1.png') }}"></a></li>
-                <li><a href="#"><img src="{{ URL::asset('images/image-2.png') }}"></a></li>
-                <li><a href="#"><img src="{{ URL::asset('images/image-3.png') }}"></a></li>
+                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-1.png') }}"></a></li>
+                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-2.png') }}"></a></li>
+                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-3.png') }}"></a></li>
+                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-1.png') }}"></a></li>
+                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-2.png') }}"></a></li>
+                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-3.png') }}"></a></li>
+                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-1.png') }}"></a></li>
+                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-2.png') }}"></a></li>
+                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-3.png') }}"></a></li>
+                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-1.png') }}"></a></li>
+                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-2.png') }}"></a></li>
+                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-3.png') }}"></a></li>
             </ul>
         </div>
     </div>
@@ -105,6 +129,9 @@
 @stack('scripts')
 <script type="text/javascript">
      var BaseUrl = "<?php echo url('/') ?>";
+     setTimeout(function () {
+        $("#redirect_alert").remove();
+    }, 8000);                                       
 </script>
  <script src="{{ URL::asset('/js/angular/front.js') }}"></script>
 </body>
