@@ -11,7 +11,9 @@
   |
  */
 
-Route::get('/', 'HomeController@index');
+Route::get('/', function () {
+    return view('index');
+});
 Route::get('/home', 'HomeController@index')->name('home');
 //routes for admin section start here
 Route::group(['prefix' => 'admin', 'middleware' => 'IsAdmin'], function () {
