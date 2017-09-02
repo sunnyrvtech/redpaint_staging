@@ -93,6 +93,7 @@ use RegistersUsers;
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
+            'role_id' => 2,
             'password' => bcrypt($data['password']),
             'verify_token' => $code,
         ]);

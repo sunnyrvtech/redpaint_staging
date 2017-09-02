@@ -15,10 +15,10 @@ class AccountController extends Controller {
      *
      * @return Response
      */
-    public function index(Request $request, $id = null) {
+    public function index(Request $request) {
         if (Auth::check()) {
             $users = User::where('id', Auth::id())->first();
-            return View::make('accounts.account', compact('users'));
+            return View::make('accounts.profile', compact('users'));
         }
         return redirect('/login');
     }
@@ -49,6 +49,15 @@ class AccountController extends Controller {
         } else {
             return Redirect::to('/my-account')->with('success-message', 'Your account has been activated and successfully logged in!');
         }
+    }
+
+    /**
+     * function to render profile html.
+     *
+     * @return Response
+     */
+    public function renderProfile(Request $request) {
+        return View::make('profile.profile');
     }
 
 }
