@@ -57,7 +57,7 @@ Route::get('/{provider}/callback/', 'SocialAuthController@callback');
 
 //Auth routes end here
 
-Route::post('stripe/webhook',function(){
+Route::get('stripe/webhook',function(){
     return 'hello';
 });
 
