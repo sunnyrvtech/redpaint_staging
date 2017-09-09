@@ -42,14 +42,24 @@ Route::get('account/activate/{code}', array(
 ));
 Route::group(['prefix' => 'account'], function () {
     Route::get('profile', 'AccountController@index')->name('account-profile');
+    Route::post('profile/update', 'AccountController@updateProfile')->name('profile-update');
     Route::get('password', function() {
         return view('accounts.password');
     })->name('account-password');
+    Route::post('change/password', 'AccountController@changePassword')->name('change-password');
     Route::get('profile/overview', 'AccountController@renderProfile')->name('account-profile-overview');
-    Route::get('ads_setting', 'SubscriptionController@index')->name('account-ads_setting');
-    Route::get('ads', 'SubscriptionController@addAdspace')->name('account-ads');
-    Route::get('events', 'EventController@index')->name('account-events');
-    Route::post('subscription/join', 'SubscriptionController@postJoin')->name('account-subscription-join');
+
+    Route::resource('events', 'EventController');
+    Route::group(['prefix' => 'events'], function () {
+        Route::resource('photo', 'EventImageController');
+    });
+    Route::post('events/status/{status}', 'EventController@eventStatus')->name('events-status');
+    Route::get('subscription', 'SubscriptionController@index')->name('account-subscription');
+    Route::post('subscription/join', 'SubscriptionController@subscriptionJoin')->name('account-subscription-join');
+    Route::post('subscription/change', 'SubscriptionController@subscriptionChange')->name('account-subscription-change');
+    Route::post('subscription/cancel', 'SubscriptionController@subscriptionCancel')->name('account-subscription-cancel');
+    Route::post('subscription/resume', 'SubscriptionController@subscriptionResume')->name('account-subscription-resume');
+    Route::post('subscription/card', 'SubscriptionController@updateCard')->name('account-subscription-card');
 });
 
 Route::get('/{provider}/redirect', 'SocialAuthController@redirect');
@@ -58,8 +68,7 @@ Route::get('/{provider}/callback/', 'SocialAuthController@callback');
 //Auth routes end here
 
 Route::post(
-    'stripe/webhook',
-    '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
+        'stripe/webhook', '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
 );
 
 

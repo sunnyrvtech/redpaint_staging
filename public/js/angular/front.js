@@ -185,6 +185,90 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
                 });
             }
         }
+        
+         $scope.submitChangePassword = function (isValid) {
+            if (isValid) {
+                $http({
+                    method: 'POST',
+                    url: BaseUrl + '/account/change/password',
+                    data: 'password=' + $scope.password.password + '&confirm_password=' + $scope.password.confirm_password + '&current_password=' + $scope.password.current_password,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function (data, status, headers, config) {
+                    $scope.loading = false;
+                    $scope.alert_loading = true;
+                    $scope.alertClass = 'alert-success';
+                    $scope.alertLabel = 'Success!';
+                    $scope.alert_messages = data.data.messages;
+                    $scope.alertHide();
+                    $(window).scrollTop(0);
+                    // $scope.push(data.data);
+//                $scope.loading = false;
+
+                }, function errorCallback(data) {
+                    $scope.loading = false;
+                    $scope.alert_loading = true;
+                    $scope.alertClass = 'alert-danger';
+                    $scope.alertLabel = 'Error!';
+                    if (data.data.error) {
+                        $scope.alert_messages = data.data.error;
+                    } else if (data.data.password) {
+                        $scope.alert_messages = data.data.password[0];
+                    } else if (data.data.password) {
+                        $scope.alert_messages = data.data.confirm_password[0];
+                    }
+                    $scope.alertHide();
+                    $(window).scrollTop(0);
+
+                });
+            }
+        }
+
+        //   ajax request send for subscription 
+        $scope.submitSubscriptionAjax = function ($Url, $Id,$method) {
+            $scope.loading = true;
+            $http({
+                method: $method,
+                url: $Url,
+                data: {id:$Id},
+                headers: {'Content-Type': 'application/json'}
+            }).then(function (data, status, headers, config) {
+                $scope.loading = false;
+                $scope.alert_loading = true;
+                $scope.alertClass = 'alert-success';
+                $scope.alertLabel = 'Success!';
+                $scope.alert_messages = data.data.messages;
+                $scope.alertHide();
+                $("#confirmationModal").modal('hide');
+                $("#confirmationModal button").attr('disabled', false);
+                $(".modal-backdrop").remove();
+                var $e1 = $('#content').html(data.data.html);
+                $compile($e1)($scope);
+                $(window).scrollTop(0);
+            }, function errorCallback(data) {
+                $scope.loading = false;
+                $scope.alert_loading = true;
+                $scope.alertClass = 'alert-danger';
+                $scope.alertLabel = 'Error!';
+                $scope.alert_messages = data.data.error;
+                $("#confirmationModal").modal('hide');
+                $("#confirmationModal button").attr('disabled', false);
+                $scope.alertHide();
+                $(window).scrollTop(0);
+
+            });
+
+        }
+        
+         $scope.choosePlan = function ($Id) {
+             $scope.paymentForm = true;
+             $scope.planForm = false;
+//             $("#plan").val($Id);
+             $("#plan option[value='"+$Id+"']").prop('selected', true);
+            
+         }
+
+
+
         // hide alert after 5 second
         $scope.alertHide = function () {
             $timeout(function () {

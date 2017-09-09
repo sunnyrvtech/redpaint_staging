@@ -57,9 +57,46 @@
             </div>
             @endif
         </div>
-    @yield('content')
+        <div class="container">
+            @if(Auth::check() && !Request::is('/'))
+                @if(Auth::user()->subscribed('ads_subscription'))
+                <div class="notice notice-success">
+                    <strong>Notice:-</strong> Hi {{ Auth::user()->first_name }}! Your currently active plan is <strong>{{ Auth::user()->get_active_plan->stripe_plan }}</strong>.If you want to cancel,upgrade or downgrade plan ,please visit here <strong><a href="{{ route('account-subscription') }}">Change plan</a></strong>
+                </div>
+                @elseif(Auth::user()->get_active_plan && Auth::user()->subscription('ads_subscription')->cancelled())
+                <div class="notice notice-success">
+                <strong>Notice:-</strong> Hi {{ Auth::user()->first_name }}! You have cancelled your subscription,please visit here to resume your subscription <strong><a href="{{ route('account-subscription') }}">resume</a></strong>.
+                </div>
+                @else
+                <div class="notice notice-success">
+                    <strong>Notice:-</strong> Hi {{ Auth::user()->first_name }}! You have not subscribed any ads plan yet,please subscribed ads plan to lists adspace.Please click here to <strong><a href="{{ route('account-subscription') }}">purchase</a></strong>
+                </div>
+                @endif
+            @endif
+            <div id="content">
+                @yield('content')
+            </div>
+        </div>
 </section><!-- end section -->
-
+<!-- Confirmation modal-->
+    <div class="modal fade" id="confirmationModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><!-- title append in ajax --></h4>
+                </div>
+                <div class="modal-body">
+                    <!-- body message append in ajax -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default confirmation-success">Yes</button>
+                    <button type="button" class="btn btn-default" onclick="$('#confirmationModal').modal('hide');">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
 <footer>
     <div class="container">
         <div class="col-md-3 col-sm-3 col-xs-12 address">
@@ -131,7 +168,40 @@
      var BaseUrl = "<?php echo url('/') ?>";
      setTimeout(function () {
         $("#redirect_alert").remove();
-    }, 8000);                                       
+    }, 8000);
+    $("body").tooltip({selector: '[data-toggle=tooltip]', trigger: 'hover'});
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $(document).on('click', '.browse', function () {
+        var file = $("#file_type");
+        file.trigger('click');
+    });
+    $(document).ready(function () {
+        $(document).on('click', '.confirmationStatus', function (e) {
+            e.preventDefault(); // does not go through with the link.
+            var $this = $(this);
+            $("#confirmationModal").find('.modal-title').html($this.data('title'));
+            $("#confirmationModal").find('.modal-body').html('<p>' + $this.data('msg') + '</p>');
+            $("#confirmationModal").modal('show');
+            $(".confirmation-success").attr('data-id', $this.attr('data-id'));
+            $(".confirmation-success").attr('data-method', $this.attr('data-method'));
+            $(".confirmation-success").attr('data-href', $this.attr('data-href'));
+        });
+        $(document).on('click', '.confirmation-success', function (e) {
+            e.preventDefault(); // does not go through with the link.
+            var $this = $(this);
+            var Url = $this.attr('data-href');
+            var Id = $this.attr('data-id');
+            var method = $this.attr('data-method');
+            $this.attr('disabled', 'disabled');
+            angular.element(this).scope().submitSubscriptionAjax(Url, Id,method);
+        });
+                            
+    });
+    
 </script>
  <script src="{{ URL::asset('/js/angular/front.js') }}"></script>
 </body>

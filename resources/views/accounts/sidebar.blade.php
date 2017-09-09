@@ -12,11 +12,11 @@
             <li><a href="{{ route('account-password') }}" class="@if(Request::path() == 'account/password')active @endif">Change Password</a></li>
             @else
             <li><a href="{{ route('account-profile-overview') }}" class="@if(Request::path() == 'account/profile/overview')active @endif">Profile Overview</a></li>
-            <li><a href="{{ route('account-ads_setting') }}" class="@if(Request::path() == 'account/ads_setting')active @endif">Ads Plan Settings</a></li>
-            <li><a href="{{ route('account-ads_setting') }}" class="">Reviews</a></li>
-            <!--<li><a href="{{ route('account-ads') }}">Add Ads</a></li>-->
-            <li><a href="{{ route('account-events') }}" class="@if(Request::path() == 'account/events')active @endif">Events</a></li>
-            <li><a href="{{ route('account-events') }}" class="">Order History</a></li>
+            <li><a href="{{ route('account-subscription') }}" class="@if(Request::path() == 'account/subscription')active @endif">Ads Plan Settings</a></li>
+            <!--<li><a href="#" class="">Reviews</a></li>-->
+            <!--<li><a href="">Add Ads</a></li>-->
+            <li><a href="{{ route('events.index') }}" class="@if(Request::path() == 'account/events')active @endif">Events</a></li>
+            <!--<li><a href="{{ route('events.index') }}" class="">Order History</a></li>-->
 
             @endif
             <!--        <li><a href="javascript:void(0);">Privacy Setting</a></li>

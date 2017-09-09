@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name','social_id','role_id','first_name','last_name', 'email','password','verify_token','user_image','status',
+        'first_name','social_id','role_id','first_name','last_name','address','city','state','zip','country_id', 'email','password','verify_token','user_image','status',
     ];
 
     /**
@@ -28,4 +28,21 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    
+    /**
+     * function to get user active plan
+     *
+     * @return Response
+     */
+
+    public function get_active_plan() {
+        return $this->belongsTo('App\Subscription', 'id','user_id');
+    }
+    
+    
+    
+    
+    
+    
 }

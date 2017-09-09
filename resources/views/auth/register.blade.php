@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
 <section class="login-wrp">
-    <div class="container">
         <div class="login">
             <div class="row">
                 <div class="col-sm-10 col-sm-offset-1">
@@ -93,6 +92,5 @@
                 </div>
             </div>
         </div>
-    </div>
 </section>
 @endsection

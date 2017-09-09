@@ -9,7 +9,7 @@ jQuery(function ($) {
             Stripe.card.createToken(form, stripeResponseHandler);
             // Prevent the form from submitting with the default action
         } else {
-            form.find('.payment-errors').text("Please choose subscription plan");
+            form.find('.payment-errors').html('<div class="notice notice-danger"><strong>Error:-</strong>Please choose subscription plan</div>');
             form.find('button').prop('disabled', false);
             form.find('button').text('Subscribe');
         }
@@ -21,7 +21,7 @@ function stripeResponseHandler(status, response) {
 
     if (response.error) {
         // Show the errors on the form
-        form.find('.payment-errors').text(response.error.message);
+        form.find('.payment-errors').html('<div class="notice notice-danger"><strong>Error:-</strong>'+response.error.message+'</div>');
         form.find('button').prop('disabled', false);
         form.find('button').text('Subscribe');
     } else {
