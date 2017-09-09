@@ -111,7 +111,7 @@
                         <div class="form-group col-md-6">
                             <div class="form-group text-center" id="previewImage">
                                 @if(!empty($users->user_image))
-                                <img width="300px" src="{{ URL::asset('/user_images').'/'.$users->user_image }}">
+                                <img height="150px" src="{{ URL::asset('/user_images').'/'.$users->user_image }}">
                                 @endif
                             </div>
                         </div>
