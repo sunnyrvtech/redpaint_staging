@@ -151,7 +151,7 @@ class SubscriptionController extends Controller {
                 'subscription_start' => date('Y-m-d H:i:s', $last_invoice->period->start),
                 'subscription_end' => date('Y-m-d H:i:s', $last_invoice->period->end),
             );
-            Payment::create($payment);
+           // Payment::create($payment);
             // send only in the email
             if ($event_json->data->object->total < 0) {
                 $payment['payment_message'] = "You're account has been successfully downgraded. Your payments and subscription plan information is following.";
