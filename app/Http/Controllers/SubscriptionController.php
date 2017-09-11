@@ -163,8 +163,6 @@ class SubscriptionController extends Controller {
             $payment['subscription_end'] = date('F d,Y H:i A', $last_invoice->period->end);
             $payment['amount_due'] = ($event_json->data->object->amount_due) / 100;
             $payment['pay_name'] = $user->first_name . ' ' . $user->last_name;
-            return json_encode($payment);
-
             //code is passed to route which is then passed back to this controller and getActivate method
             Mail::send('emails.payment', $payment, function($message) use ($user) {
                 $message->from('test4rvtech@gmail.com', " Welcome To Redpaint");
