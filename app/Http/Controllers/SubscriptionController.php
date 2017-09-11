@@ -170,7 +170,7 @@ class SubscriptionController extends Controller {
 //            });
         } else if ($event_json->type == 'invoice.payment_failed' && $subscription) {
             $end_at = date('Y-m-d H:i:s', $last_invoice->period->end);
-            echo $end_at;
+            echo json_encode($subscription->toArray());
             $subscription->fill(array('ends_at', $end_at))->save();
         }
     }
