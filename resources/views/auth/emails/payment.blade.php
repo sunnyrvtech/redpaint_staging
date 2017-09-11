@@ -3,7 +3,7 @@ Dear customer {{ $pay_name }},<br><br>
 
 {{ $payment_message }} <br />
 -------------------------------<br>
-PaymentID: 				{{ $stripe_id }} <br />
+<!--PaymentID: 				{{ $stripe_id }} <br />-->
 Subscription Plan:   	                {{ $subscription_plan }} <br />
 Amount:    				$ {{ $amount }} <br />
 Subscription Starting Date:	        {{ $subscription_start }} <br />
