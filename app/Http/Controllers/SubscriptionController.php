@@ -141,9 +141,8 @@ class SubscriptionController extends Controller {
         $last_invoice = last($event_json->data->object->lines->data);
         if ($event_json->type == 'invoice.payment_succeeded') {
             ///  insert user subscription data in the payment table
-            $subscription->fill(array('ends_at', null))->save();
+            $subscription->fill(array('ends_at', ''))->save();
             
-            die('hello');
             $payment = array(
                 'user_id' => $user->id,
                 'stripe_id' => $event_json->data->object->customer,
