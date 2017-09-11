@@ -40,7 +40,7 @@ Route::get('account/activate/{code}', array(
     'as' => 'account.activate',
     'uses' => 'AccountController@getActivate'
 ));
-Route::group(['prefix' => 'account'], function () {
+Route::group(['prefix' => 'account', 'middleware' => 'CheckLoginStatus'], function () {
     Route::get('profile', 'AccountController@index')->name('account-profile');
     Route::post('profile/update', 'AccountController@updateProfile')->name('profile-update');
     Route::get('password', function() {

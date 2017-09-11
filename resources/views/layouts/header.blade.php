@@ -33,7 +33,14 @@
                         @if(Auth::check())
                         <div class="drop-menu">
                             <span class="user-account_avatar">
-                                <img src="{{ URL::asset('images/user_medium_square.png') }}">
+                                <?php
+                                if (Auth::user()->user_image) {
+                                    $user_image = Auth::user()->user_image;
+                                } else {
+                                    $user_image = 'default.png';
+                                }
+                                ?>
+                                <img src="{{ URL::asset('/user_images').'/'.$user_image }}">
                             </span>
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -44,10 +51,10 @@
                                         <li>
                                             <div class="menu-drop">
                                                 <div class="per-img">
-                                                    <img src="{{ URL::asset('images/user_medium_square.png') }}">
+                                                    <img src="{{ URL::asset('/user_images').'/'.$user_image }}">
                                                 </div>
                                                 <div class="detail-per">
-                                                    <h3> Red P. </h3>
+                                                    <h3> {{ Auth::user()->first_name.' '.str_limit(Auth::user()->last_name, $limit = 1, $end = '.') }}</h3>
                                                     <!--<p>Richmond, VA</p>-->
                                                 </div>	
                                             </div>

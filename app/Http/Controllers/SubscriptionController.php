@@ -166,7 +166,7 @@ class SubscriptionController extends Controller {
             //code is passed to route which is then passed back to this controller and getActivate method
             Mail::send('auth.emails.payment', $payment, function($message) use ($user) {
                 $message->from('test4rvtech@gmail.com', " Welcome To Redpaint");
-                $message->to($user->email, $user->first_name)->subject('Subscription payment for redpaint');
+                $message->to($user->email, $user->first_name)->subject('Subscription payment from redpaint');
             });
         } else if ($event_json->type == 'invoice.payment_failed' && $subscription) {
             $end_at = date('Y-m-d H:i:s', $last_invoice->period->end);
