@@ -138,7 +138,7 @@ class SubscriptionController extends Controller {
         $event_json = json_decode($input);
         $user = User::where('stripe_id', 'cus_BNW17HQj2JqeIm')->select('id', 'email', 'first_name', 'last_name')->first();
         $subscription = Subscription::Where('user_id', $user->id)->first();
-return json_encode($user->toArray());
+return json_encode($event_json);
         $last_invoice = last($event_json->data->object->lines->data);
         if ($event_json->type == 'invoice.payment_succeeded') {
             ///  insert user subscription data in the payment table
