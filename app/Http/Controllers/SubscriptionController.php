@@ -137,7 +137,7 @@ class SubscriptionController extends Controller {
     public function paymentStatus() {
         $input = @file_get_contents("php://input");
         $event_json = json_decode($input);
-        $user = User::where('stripe_id', 'cus_BNW17HQj2JqeIm')->select('id', 'email', 'first_name', 'last_name')->first();
+        $user = User::where('stripe_id', $event_json->data->object->customer)->select('id', 'email', 'first_name', 'last_name')->first();
         $subscription = Subscription::Where('user_id', $user->id)->first();
         $last_invoice = last($event_json->data->object->lines->data);
         if ($event_json->type == 'invoice.payment_succeeded') {
@@ -152,7 +152,7 @@ class SubscriptionController extends Controller {
                 'subscription_start' => date('Y-m-d H:i:s', $last_invoice->period->start),
                 'subscription_end' => date('Y-m-d H:i:s', $last_invoice->period->end),
             );
-//            Payment::insert($payment);
+            Payment::insert($payment);
             // send only in the email
             if ($event_json->data->object->total < 0) {
                 $payment['payment_message'] = "You're account has been successfully downgraded. Your payments and subscription plan information is following.";
@@ -164,10 +164,10 @@ class SubscriptionController extends Controller {
             $payment['amount_due'] = ($event_json->data->object->amount_due) / 100;
             $payment['pay_name'] = $user->first_name . ' ' . $user->last_name;
             //code is passed to route which is then passed back to this controller and getActivate method
-//            Mail::send('auth.emails.payment', $payment, function($message) use ($user) {
-//                $message->from('test4rvtech@gmail.com', " Welcome To Redpaint");
-//                $message->to($user->email, $user->first_name)->subject('Subscription payment for redpaint');
-//            });
+            Mail::send('auth.emails.payment', $payment, function($message) use ($user) {
+                $message->from('test4rvtech@gmail.com', " Welcome To Redpaint");
+                $message->to($user->email, $user->first_name)->subject('Subscription payment for redpaint');
+            });
         } else if ($event_json->type == 'invoice.payment_failed' && $subscription) {
             $end_at = date('Y-m-d H:i:s', $last_invoice->period->end);
             $subscription->fill(array('ends_at'=> $end_at))->save();
