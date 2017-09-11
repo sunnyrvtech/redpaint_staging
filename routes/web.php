@@ -67,9 +67,7 @@ Route::get('/{provider}/callback/', 'SocialAuthController@callback');
 
 //Auth routes end here
 
-Route::post(
-        'stripe/webhook', '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
-);
+Route::post('stripe/webhook', 'SubscriptionController@paymentStatus');
 
 
 

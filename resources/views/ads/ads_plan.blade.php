@@ -7,13 +7,13 @@
                 <h5><span>$ {{ $value->price}}</span><lable> / {{ ucfirst($value->duration) }}</lable></h5>
             </div>
             <div class="price-bg">
-                <ul>
+<!--                <ul>
                     <li class="whyt"><a href="#">5GB Disk Space </a></li>
                     <li><a href="#">10 Domain Names</a></li>
                     <li class="whyt"><a href="#">5 E-Mail Address </a></li>
                     <li><a href="#">50GB Monthly Bandwidth </a></li>
                     <li class="whyt"><a href="#">Fully Support</a></li>
-                </ul>
+                </ul>-->
                 <div class="cart">
                     @if(!Auth::user()->get_active_plan)
                     <a ng-click="choosePlan('{{ $value->id}}')" href="javascript:void(0);">Purchase</a>
