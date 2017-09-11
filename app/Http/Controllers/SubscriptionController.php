@@ -142,7 +142,7 @@ class SubscriptionController extends Controller {
         $last_invoice = last($event_json->data->object->lines->data);
         if ($event_json->type == 'invoice.payment_succeeded') {
             ///  insert user subscription data in the payment table
-            $subscription->fill(array('ends_at', null))->save();
+            $subscription->fill(array('ends_at'=> null))->save();
             
             $payment = array(
                 'user_id' => $user->id,
@@ -170,8 +170,7 @@ class SubscriptionController extends Controller {
 //            });
         } else if ($event_json->type == 'invoice.payment_failed' && $subscription) {
             $end_at = date('Y-m-d H:i:s', $last_invoice->period->end);
-            echo json_encode($subscription->toArray());
-            $subscription->fill(array('ends_at', $end_at))->save();
+            $subscription->fill(array('ends_at'=> $end_at))->save();
         }
     }
 
