@@ -21,9 +21,16 @@
             <div class="content-middle">
 
                 @forelse($events as $value)
-                <?php $event_images = isset($value->getOwnerEventImages->event_images)?json_decode($value->getOwnerEventImages->event_images):array('default.jpg') ?>
+                <?php 
+                $event_images = isset($value->getOwnerEventImages->event_images)?json_decode($value->getOwnerEventImages->event_images):array('default.jpg'); 
+                if(empty($event_images)){
+                    $event_images = array('default.jpg');
+                }
+                ?>
                 <div class="row">
                     <div class="col-md-12">
+                       <div class="row">
+                       <div class="business-event-wrap">
                         <div class="col-md-3">
                             <div class="thumbnail">
                                 <img src="{{ URL::asset('/event_images').'/'.$event_images[0] }}" alt="">
@@ -53,6 +60,8 @@
                                 <a data-href="{{ route('events.destroy', $value->id) }}" data-title="Delete Event Permanently" data-msg="Are you sure you want to delete this event !" data-method="delete" class="label label-danger confirmationStatus" data-toggle="tooltip" title="Delete">Delete</a>
                                 <a href="{{ route('photo.show',$value->event_slug) }}" class="label label-warning" title="Add Photo">Add Photo</a>
                             </div>
+                        </div>
+                        </div>
                         </div>
                     </div>
                 </div><!-- End row -->

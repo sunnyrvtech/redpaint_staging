@@ -69,48 +69,63 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-6{{ $errors->has('address') ? ' has-error' : '' }}">
-                            <label for="address" class="col-form-label">Address</label>
-                            <span class="help-block"></span>
-                            <input type="text" required="" class="form-control" name="address" value="{{ $events->address }}" placeholder="Address">
-                            @if ($errors->has('address'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('address') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                        <div class="form-group col-md-6{{ $errors->has('city') ? ' has-error' : '' }}">
-                            <label for="city" class="col-form-label">City</label>
-                            <span class="help-block"></span>
-                            <input type="text" required="" class="form-control" name="city" value="{{ $events->city }}" placeholder="City">
-                            @if ($errors->has('city'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('city') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6{{ $errors->has('state') ? ' has-error' : '' }}">
-                            <label for="state" class="col-form-label">State</label>
-                            <span class="help-block"></span>
-                            <input type="text" required="" class="form-control" name="state" value="{{ $events->state }}" placeholder="State">
-                            @if ($errors->has('state'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('state') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                        <div class="form-group col-md-6{{ $errors->has('zip') ? ' has-error' : '' }}">
+                         <div class="form-group col-md-6{{ $errors->has('zip') ? ' has-error' : '' }}">
                             <label for="zip" class="col-form-label">Zip</label>
                             <span class="help-block"></span>
-                            <input type="text" required="" class="form-control" name="zip" value="{{ $events->zip }}" placeholder="Zip">
+                            <input type="text" required="" class="form-control zipCode" name="zip" value="{{ $events->zip }}" placeholder="Zip">
                             @if ($errors->has('zip'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('zip') }}</strong>
                             </span>
                             @endif
                         </div>
+                        <div class="form-group col-md-6{{ $errors->has('address') ? ' has-error' : '' }}">
+                            <label for="address" class="col-form-label">Address</label>
+                            <span class="help-block"></span>
+                            <input type="text" required="" class="form-control" id="address" name="address" value="{{ $events->address }}" placeholder="Address">
+                            @if ($errors->has('address'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('address') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6{{ $errors->has('city') ? ' has-error' : '' }}">
+                            <label for="city" class="col-form-label">City</label>
+                            <span class="help-block"></span>
+                            <input type="text" required="" class="form-control" id="city" name="city" value="{{ $events->city }}" placeholder="City">
+                            @if ($errors->has('city'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('city') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        <div class="form-group col-md-6{{ $errors->has('state') ? ' has-error' : '' }}">
+                            <label for="state" class="col-form-label">State</label>
+                            <span class="help-block"></span>
+                            <input type="text" required="" class="form-control" id="state" name="state" value="{{ $events->state }}" placeholder="State">
+                            @if ($errors->has('state'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('state') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                    </div>
+                    
+                    <div class="form-group {{ $errors->has('country_id') ? ' has-error' : '' }}">
+                        <label for="country" class="col-form-label">Country</label>
+                        <select name="country_id" id="country_id" required="" class="form-control">
+                            <option value="">Select Country</option>
+                            @foreach($countries as $val)
+                            <option @if($events->country_id == $val->id) selected @endif value="{{ $val->id }}">{{ $val->name }}</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('country_id'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('country_id') }}</strong>
+                        </span>
+                        @endif
                     </div>
                     <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                         <label for="description" class="col-form-label">What & Why</label>
@@ -143,6 +158,39 @@
                             </span>
                             @endif
                         </div>
+                    </div>
+                    <?php
+                    $time_array = array('Mon', "Tue", 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
+                    $operation_hour = json_decode($events->operation_hour);
+                    ?>
+                    <div class="form-row lock_hour_html">
+                        @foreach($time_array as $key=>$val)
+                        <div class="form-group col-md-4">
+                            @if($key == 0)
+                            <label for="day" class="col-form-label">Week Day</label>
+                            @endif
+                            <input type="text" class="form-control" name="day[]" value="{{ $val }}" readonly="">
+                        </div>
+                        <div class="form-group col-md-3">
+                            @if($key == 0)
+                            <label for="time_from" class="col-form-label">Time From</label>
+                            @endif
+                            <input type="text" class="form-control datetimepicker" name="time_from[]" value="{{ isset($operation_hour[$key]->time_from)?$operation_hour[$key]->time_from:'' }}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            @if($key == 0)
+                            <label for="time_to" class="col-form-label">Time To</label>
+                            @endif
+                            <input type="text" class="form-control datetimepicker" name="time_to[]" value="{{ isset($operation_hour[$key]->time_to)?$operation_hour[$key]->time_to:'' }}">
+                        </div>
+                        <div class="form-group col-md-2">
+                            @if($key == 0)
+                            <label for="hour_status" class="col-form-label">Status</label>
+                            @endif
+                            <input type="hidden" name="status[]" value="1" />
+                            <input type="checkbox" class="form-control" name="status[]" @if(isset($operation_hour[$key]->status) && $operation_hour[$key]->status == 0) checked @endif value="o">
+                        </div>
+                        @endforeach
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </form>

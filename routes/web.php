@@ -19,7 +19,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'admin', 'middleware' => 'IsAdmin'], function () {
     Route::get('/', 'Admin\IndexController@index');
     Route::resource('packages', 'Admin\PackageController');
+    Route::resource('ads_list', 'Admin\AdController');
     Route::resource('categories', 'Admin\CategoryController');
+    Route::resource('reviews', 'Admin\ReviewController');
+    Route::post('reviews/status', 'Admin\ReviewController@reviewStatus')->name('reviews-status');
     Route::post('categories/status', 'Admin\CategoryController@categoryStatus')->name('categories-status');
     Route::resource('users', 'Admin\UserController');
     Route::post('users/status', 'Admin\UserController@userStatus')->name('users-status');
@@ -35,11 +38,14 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::post('login', 'Auth\LoginController@login');
 Route::get('register', 'Auth\RegisterController@index')->name('register');
 Route::post('register', 'Auth\RegisterController@create');
+Route::get('search', 'EventController@searchEvent')->name('search');
 Route::get('logout', 'Auth\LoginController@logout');
 Route::get('account/activate/{code}', array(
     'as' => 'account.activate',
     'uses' => 'AccountController@getActivate'
 ));
+Route::get('category/autosearch','EventController@categoryAutosearch')->name('category-autosearch');
+Route::get('address/autosearch','EventController@addressAutosearch')->name('address-autosearch');
 Route::group(['prefix' => 'account', 'middleware' => 'CheckLoginStatus'], function () {
     Route::get('profile', 'AccountController@index')->name('account-profile');
     Route::post('profile/update', 'AccountController@updateProfile')->name('profile-update');
@@ -50,9 +56,11 @@ Route::group(['prefix' => 'account', 'middleware' => 'CheckLoginStatus'], functi
     Route::get('profile/overview', 'AccountController@renderProfile')->name('account-profile-overview');
 
     Route::resource('events', 'EventController');
+    Route::resource('ads', 'AdController');
     Route::group(['prefix' => 'events'], function () {
         Route::resource('photo', 'EventImageController');
     });
+    Route::post('events/review/{id}', 'EventController@addReview')->name('events-review');
     Route::post('events/status/{status}', 'EventController@eventStatus')->name('events-status');
     Route::get('subscription', 'SubscriptionController@index')->name('account-subscription');
     Route::post('subscription/join', 'SubscriptionController@subscriptionJoin')->name('account-subscription-join');
@@ -61,6 +69,8 @@ Route::group(['prefix' => 'account', 'middleware' => 'CheckLoginStatus'], functi
     Route::post('subscription/resume', 'SubscriptionController@subscriptionResume')->name('account-subscription-resume');
     Route::post('subscription/card', 'SubscriptionController@updateCard')->name('account-subscription-card');
 });
+
+Route::get('events/{slug}', 'EventController@getEventByslug')->name('events');
 
 Route::get('/{provider}/redirect', 'SocialAuthController@redirect');
 Route::get('/{provider}/callback/', 'SocialAuthController@callback');

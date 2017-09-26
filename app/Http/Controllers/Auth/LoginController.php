@@ -39,7 +39,7 @@ use AuthenticatesUsers;
      */
     public function __construct() {
         $this->middleware('guest')->except('logout');
-        Session::put('backUrl', route('account-profile'));
+        Session::put('backUrl', URL::previous());
     }
 
     /**

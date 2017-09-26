@@ -163,6 +163,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.2/angular.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.2/angular-sanitize.min.js"></script>     
 <script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>  
 @stack('scripts')
 <script type="text/javascript">
      var BaseUrl = "<?php echo url('/') ?>";
@@ -170,11 +171,11 @@
         $("#redirect_alert").remove();
     }, 8000);
     $("body").tooltip({selector: '[data-toggle=tooltip]', trigger: 'hover'});
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
+//    $.ajaxSetup({
+//        headers: {
+//            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//        }
+//    });
     $(document).on('click', '.browse', function () {
         var file = $("#file_type");
         file.trigger('click');
@@ -199,7 +200,35 @@
             $this.attr('disabled', 'disabled');
             angular.element(this).scope().submitSubscriptionAjax(Url, Id,method);
         });
-                            
+        
+        $(".file").change(function () {
+            readURL(this);
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                     $('#blah').show();
+                    $('#blah').attr('src', event.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        
+        $(document).on('blur', '.zipCode', function (e) {
+           angular.element(this).scope().submitZipRegion($(this).val());
+        });
+        $('input.typeahead').typeahead({
+            source:  function (query, process) {
+                var $url=this.$element.attr('data-url'); 
+                return $.get($url, { query: query }, function (data) {
+                    //console.log(data);
+                    //data = $.parseJSON(data);
+                    return process(data);
+                });
+            }
+        });
     });
     
 </script>

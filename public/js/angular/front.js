@@ -185,8 +185,8 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
                 });
             }
         }
-        
-         $scope.submitChangePassword = function (isValid) {
+
+        $scope.submitChangePassword = function (isValid) {
             if (isValid) {
                 $http({
                     method: 'POST',
@@ -224,12 +224,12 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
         }
 
         //   ajax request send for subscription 
-        $scope.submitSubscriptionAjax = function ($Url, $Id,$method) {
+        $scope.submitSubscriptionAjax = function ($Url, $Id, $method) {
             $scope.loading = true;
             $http({
                 method: $method,
                 url: $Url,
-                data: {id:$Id},
+                data: {id: $Id},
                 headers: {'Content-Type': 'application/json'}
             }).then(function (data, status, headers, config) {
                 $scope.loading = false;
@@ -258,14 +258,40 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
             });
 
         }
-        
-         $scope.choosePlan = function ($Id) {
-             $scope.paymentForm = true;
-             $scope.planForm = false;
+
+        $scope.submitZipRegion = function ($zipCode) {
+            $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address=' + $zipCode + '&sensor=true', function (data) {
+                //console.log(data.results[0]);
+                if (data.status != "ZERO_RESULTS") {
+                    for (var i = 0; i < data.results[0].address_components.length; i++) {
+                        var addr = data.results[0].address_components[i];
+                        if (addr.types[0] == ['administrative_area_level_1']) {
+                            $("#state").val(addr.short_name);
+                        }
+                        if (addr.types[0] == ['administrative_area_level_2']) {
+                            $("#city").val(addr.short_name);
+                        }
+                        if (addr.types[0] == ['locality']) {
+                            $("#address").val(addr.long_name);
+                        }
+                        if (addr.types[0] == ['country']) {
+                            var countryId = $('#country_id option').filter(function () {
+                                return $(this).html() == addr.long_name;
+                            }).val();
+                         $('#country_id').val(countryId);
+                        }
+                    }
+                }
+            });
+        }
+
+        $scope.choosePlan = function ($Id) {
+            $scope.paymentForm = true;
+            $scope.planForm = false;
 //             $("#plan").val($Id);
-             $("#plan option[value='"+$Id+"']").prop('selected', true);
-            
-         }
+            $("#plan option[value='" + $Id + "']").prop('selected', true);
+
+        }
 
 
 

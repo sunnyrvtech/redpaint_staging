@@ -15,7 +15,7 @@
             <li><a href="{{ route('account-subscription') }}" class="@if(Request::path() == 'account/subscription')active @endif">Ads Plan Settings</a></li>
             <!--<li><a href="#" class="">Reviews</a></li>-->
             @if(Auth::user()->subscribed('ads_subscription'))
-            <li><a href="javascript:void(0);">Add Ads</a></li>
+            <li><a href="{{ route('ads.index') }}" class="@if(Request::path() == 'account/ads')active @endif">Add Ads</a></li>
             @endif
             <li><a href="{{ route('events.index') }}" class="@if(Request::path() == 'account/events')active @endif">Events</a></li>
             <!--<li><a href="{{ route('events.index') }}" class="">Order History</a></li>-->

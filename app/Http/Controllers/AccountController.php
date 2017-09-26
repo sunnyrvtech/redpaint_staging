@@ -19,10 +19,11 @@ class AccountController extends Controller {
      * @return Response
      */
     public function index(Request $request) {
+
         if (Auth::check()) {
             $users = User::where('id', Auth::id())->first();
             $countries = Country::get();
-            return View::make('accounts.profile', compact('users','countries'));
+            return View::make('accounts.profile', compact('users', 'countries'));
         }
         return redirect('/login');
     }
@@ -53,6 +54,7 @@ class AccountController extends Controller {
             if ($type == 'image/png' || $type == 'image/jpg' || $type == 'image/jpeg') {
                 $filename = time() . '.' . $image->getClientOriginalExtension();
                 $path = base_path('public/user_images/');
+                @unlink($path . Auth::user()->user_image);
                 $image->move($path, $filename);
                 $data['user_image'] = $filename;
             }
@@ -91,7 +93,7 @@ class AccountController extends Controller {
             return Redirect::to('/my-account')->with('success-message', 'Your account has been activated and successfully logged in!');
         }
     }
-    
+
     /**
      * Change password function.
      *

@@ -34,7 +34,7 @@ class EventImageController extends Controller {
      * @return Response
      */
     public function show(Request $request, $slug) {
-        $events = Event::Where('event_slug', 'like', $slug . '%')->first();
+        $events = Event::Where('event_slug',$slug)->first();
         if ($events) {
             $event_images = array();
             //if ($events->user_id == Auth::id()) {  // this is used to check if event is related to owner
@@ -66,7 +66,7 @@ class EventImageController extends Controller {
             'event_images' => 'required'
         ]);
 
-        $events = Event::Where('event_slug', 'like', $slug . '%')->first();
+        $events = Event::Where('event_slug',$slug)->first();
 
         if ($events) {
             if ($request->file('event_images')) {

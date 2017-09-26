@@ -5,7 +5,7 @@
                 <div class="col-md-2 col-sm-2 col-xs-8">
                     <div class="logo"><a href="{{ url('/') }}"><img src="{{ URL::asset('images/logo.png') }}"></a></div>
                 </div>
-                <div class="col-md-9 col-sm-9 col-xs-12">
+                <div class="col-md-8 col-sm-8 col-xs-12">
                     <div class="search_form">
                         <div class="form_main">
                             <form class="seacrg_city">
@@ -21,14 +21,14 @@
                                         <input type="text" class="form-control" placeholder="address, neighborhood, city, state or zip">
                                     </div>
                                 </div>
-                                <div class="col-md-1 col-sm-1 col-xs-12 custom_column">
+                                <div class="col-md-2 col-sm-1 col-xs-12 custom_column">
                                     <button type="submit" class="btn btn-primary search_city_btn"><i class="icofont icofont-search-alt-1"></i></button>
                                 </div>
                             </form>
                         </div>	
                     </div>
                 </div>
-                <div class="col-sm-1 pull-right">
+                <div class="col-sm-2 pull-right">
                     <div class="notification_wrp">
                         @if(Auth::check())
                         <div class="drop-menu">
@@ -67,6 +67,13 @@
                                     </ul>
                                 </div>
                             </div>
+                        </div>
+                        @else
+                        <div class="header_menu">
+                            <ul>
+                                <li><a href="{{ route('login') }}">Login</a></li>
+                                <li><a href="{{ route('register') }}">Register</a></li>
+                            </ul>
                         </div>
                         @endif
                     </div>

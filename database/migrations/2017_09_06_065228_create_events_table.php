@@ -23,7 +23,11 @@ class CreateEventsTable extends Migration
             $table->string('city');
             $table->string('state');
             $table->string('zip');
-            $table->timestamp('date');
+            $table->integer('country_id');
+            $table->string('formatted_address');
+            $table->text('operation_hour')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->string('website_url')->nullable();
             $table->decimal('price_to', 5, 2)->nullable();
             $table->decimal('price_from', 5, 2)->nullable();

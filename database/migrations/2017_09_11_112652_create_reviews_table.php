@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEventImagesTable extends Migration
+class CreateReviewsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateEventImagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('event_images', function ($table) {
+         Schema::create('reviews', function ($table) {
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('event_id')->unsigned();
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
-            $table->text('event_images');
+            $table->text('comment');
+            $table->integer('rate')->nullable();
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ class CreateEventImagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('event_images');
+        Schema::dropIfExists('reviews');
     }
 }

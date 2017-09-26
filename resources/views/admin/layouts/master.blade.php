@@ -77,7 +77,10 @@
                             <a href="{{ route('categories.index')}}"><i class="fa fa-fw fa-tags"></i> Categories</a>
                         </li>
                         <li class="@if(Request::segment(2) == 'packages')active @endif">
-                            <a href="{{ route('packages.index')}}"><i class="fa fa-fw fa-credit-card"></i>Ad Package</a>
+                            <a href="{{ route('packages.index')}}"><i class="fa fa-fw fa-credit-card"></i>Packages</a>
+                        </li>
+                        <li class="@if(Request::segment(2) == 'ads_list')active @endif">
+                            <a href="{{ route('ads_list.index')}}"><i class="fa fa-fw fa-credit-card"></i>Ads</a>
                         </li>
                         <!--                        <li class="">
                                                     <a href=""><i class="fa fa-fw fa-files-o"></i>Pages</a>
@@ -199,6 +202,24 @@
                                         $(window).scrollTop(0);
                                     });
                                 });
+                                $(document).on('click', '.browse', function () {
+                                    var file = $("#file_type");
+                                    file.trigger('click');
+                                });
+                                $(".file").change(function () {
+                                    readURL(this);
+                                });
+
+                                function readURL(input) {
+                                    if (input.files && input.files[0]) {
+                                        var reader = new FileReader();
+                                        reader.onload = function (event) {
+                                            $('#blah').show();
+                                            $('#blah').attr('src', event.target.result);
+                                        }
+                                        reader.readAsDataURL(input.files[0]);
+                                    }
+                                }
                             });
         </script>
         <!-- App scripts -->
