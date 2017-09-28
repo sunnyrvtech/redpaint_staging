@@ -146,7 +146,7 @@
                                                         <img src="{{ URL::asset('/event_images').'/'.$val }}">
                                                     </a>
                                                     @if ($i%3 == 0 || $val == end($event_images_array))
-                                                    <a class="view-more" href="#">
+                                                    <a class="view-more" href="{{ route('photo.view', $events->event_slug) }}">
                                                         <span><i class="fa fa-th-large" aria-hidden="true"></i></span>
                                                         <p> See all {{ count($event_images_array) }} photos </p>
                                                     </a>
@@ -207,7 +207,15 @@
                             <div class="review-inner">
                                 <div class="person-detail">
                                     <div class="img-side">
-                                        <img src="http://192.168.1.72/redpaint_staging/public/images/60s.jpg">
+                                        <?php
+                                        if ($value->getUserDetails->user_image) {
+                                            $user_image = $value->getUserDetails->user_image;
+                                        } else {
+                                            $user_image = 'default.png';
+                                        }
+                                        ?>
+                                        
+                                        <img width="60" height="60" src="{{ URL::asset('/user_images').'/'.$user_image }}">
                                     </div>	
                                     <div class="user-name">
                                         <h5>{{ ucfirst($value->getUserDetails->first_name).' '.str_limit(ucfirst($value->getUserDetails->last_name), $limit = 1, $end = '.') }}</h5>

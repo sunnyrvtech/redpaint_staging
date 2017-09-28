@@ -4,35 +4,13 @@
     <div class="row">
         <div class="profile-inner-content">
             <div class="titled-nav-header_content">
-                <h3>{{ ucfirst($events->name) }}:-</h3>
+                <h3>{{ ucfirst($events->name) }}'s images: -</h3>
             </div>
-            <form method="POST" id="imageForm" action="{{ route('photo.update',$events->event_slug) }}" enctype="multipart/form-data">
-                <input name="_method" value="PUT" type="hidden">
-                {{ csrf_field()}}
-                <div class="row">
-                    <div class="form-group text-center{{ $errors->has('event_images') ? ' has-error' : '' }}">
-                        <span style="font-size: 0">
-                            <button class="btn btn-primary browse" type="button">Browse Files</button>
-                        </span>
-                        <input style="display: none;" id="file_type" name="event_images[]" class="photo_file" multiple="" type="file">
-                        @if($errors->has('event_images'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('event_images') }}</strong>
-                        </span>
-                        @endif
-<!--                        <span style="font-size: 0">
-                            <button class="btn btn-default" type="submit">Add Photo</button>
-                        </span>-->
-                    </div>
-                </div>
                 <div class="row">
                     <div class="renderPreviewImage clearfix">
                         <?php $i=1; ?>
-                        @foreach($event_images as $key=>$value)
+                        @foreach($events->getEventImages as $key=>$value)
                         <?php $photos = json_decode($value->event_images); ?>
-                        @if($key == 0)
-                        <h3>{{ ucfirst($events->name) }}'s images :-</h3>
-                        @endif
                         @foreach($photos as $val)
                         <div class="col-md-3">
                             <div class="thumbnail">
@@ -53,7 +31,6 @@
                         @endforeach
                     </div>
                 </div>
-            </form>
         </div>
     </div>
 </div>

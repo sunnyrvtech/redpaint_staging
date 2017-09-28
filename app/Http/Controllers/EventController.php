@@ -20,7 +20,7 @@ class EventController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
-        $events = Event::Where('user_id', Auth::id())->get();
+        $events = Event::Where('user_id', Auth::id())->paginate(20);
         $view = View::make('events.index', compact('events'));
         if ($request->wantsJson()) {
             $sections = $view->renderSections();

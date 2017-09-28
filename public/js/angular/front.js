@@ -260,7 +260,7 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
         }
 
         $scope.submitZipRegion = function ($zipCode) {
-            $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address=' + $zipCode + '&sensor=true', function (data) {
+            $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyD9isc9BsZygavRSJSQqKGldA0ANTqbzRU&address=' + $zipCode + '&sensor=true', function (data) {
                 //console.log(data.results[0]);
                 if (data.status != "ZERO_RESULTS") {
                     for (var i = 0; i < data.results[0].address_components.length; i++) {

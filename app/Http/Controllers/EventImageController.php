@@ -27,6 +27,17 @@ class EventImageController extends Controller {
     public function store(Request $request) {
         
     }
+    
+    
+    /**
+     * function to get all event images based on event id.
+     *
+     * @return Response
+     */
+    public function getAllEventImages(Request $request,$slug) {
+        $events = Event::Where('event_slug',$slug)->first();
+        return View::make('events.all_images', compact('events'));
+    }
 
     /**
      * show function.
@@ -38,12 +49,12 @@ class EventImageController extends Controller {
         if ($events) {
             $event_images = array();
             //if ($events->user_id == Auth::id()) {  // this is used to check if event is related to owner
-            $event_images = EventImage::Where(['event_id' => $events->id])->get();
+            $event_images = EventImage::Where(['user_id' => Auth::id(),'event_id' => $events->id])->get();
             //}
 //            else {
 //                $event_images = EventImage::Where(['user_id' => Auth::id(), 'event_id' => $events->id])->get();
 //            }
-            $view = View::make('events.photo', compact('events', 'event_images'));
+            $view = View::make('events.upload', compact('events', 'event_images'));
             if ($request->wantsJson()) {
                 $sections = $view->renderSections();
                 return $sections['content'];

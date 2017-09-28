@@ -44,8 +44,8 @@ Route::get('account/activate/{code}', array(
     'as' => 'account.activate',
     'uses' => 'AccountController@getActivate'
 ));
-Route::get('category/autosearch','EventController@categoryAutosearch')->name('category-autosearch');
-Route::get('address/autosearch','EventController@addressAutosearch')->name('address-autosearch');
+Route::get('category/autosearch', 'EventController@categoryAutosearch')->name('category-autosearch');
+Route::get('address/autosearch', 'EventController@addressAutosearch')->name('address-autosearch');
 Route::group(['prefix' => 'account', 'middleware' => 'CheckLoginStatus'], function () {
     Route::get('profile', 'AccountController@index')->name('account-profile');
     Route::post('profile/update', 'AccountController@updateProfile')->name('profile-update');
@@ -59,6 +59,7 @@ Route::group(['prefix' => 'account', 'middleware' => 'CheckLoginStatus'], functi
     Route::resource('ads', 'AdController');
     Route::group(['prefix' => 'events'], function () {
         Route::resource('photo', 'EventImageController');
+        Route::get('photo/view/{slug}', 'EventImageController@getAllEventImages')->name('photo.view');
     });
     Route::post('events/review/{id}', 'EventController@addReview')->name('events-review');
     Route::post('events/status/{status}', 'EventController@eventStatus')->name('events-status');

@@ -1212,53 +1212,32 @@ color: rgb(208, 38, 0);
   margin: 0 auto;
   max-width: 950px;
 }
-.search-wrap .thumbnail a, .search-wrap .thumbnail a img {
-  height: 200px;
-  object-fit: cover;
-  width: 100%;
-}
-.search-wrap .biz-rating ul li {
-  font-size: 14px;
-  vertical-align: middle;
-}
-.search-wrap .thumbnail .caption span a {
-  display: inline-block;
-  font-size: 16px;
-  font-weight: bold;
-  height: auto;
-  margin-bottom: 10px;
-}
-.search-wrap .thumbnail{
-    min-height: 350px;
-}
-.business-date-opened {
-  color: hsl(23, 100%, 47%);
-  margin: 0;
-}
-.description-search {
-  display: inline-block;
-  width: 100%;
-}
-.business-date-opened{
-  margin-top: 10px;
-}
-.business-date-opened i {
-  margin-right: 10px;
-}
-.search-wrap .biz-rating {
-  margin-bottom: 10px;
-}
-.business-event-wrap .thumbnail {
-  margin: 0;
-}
-.business-event-wrap {
-  background: hsl(0, 0%, 100%) none repeat scroll 0 0;
-  border: medium none;
-  box-shadow: 0 0 8px hsla(0, 0%, 0%, 0.1);
-  cursor: pointer;
-  display: inline-block;
-  border: 1px solid hsl(0, 0%, 93%);
-  padding: 20px;
-  width: 100%;
-}
+.search-wrap .thumbnail a, .search-wrap .thumbnail a img { height: 200px;object-fit: cover;width: 100%; }
+.search-wrap .biz-rating ul li { font-size: 14px;vertical-align: middle; }
+.search-wrap .thumbnail .caption span a { display: inline-block;font-size: 16px;font-weight: bold;height: auto;margin-bottom: 10px; }
+.search-wrap .thumbnail{ min-height: 350px; }
+.business-date-opened { color: hsl(23, 100%, 47%);margin: 0; }
+.description-search { display: inline-block;width: 100%; }
+.business-date-opened{ margin-top: 10px; }
+.business-date-opened i { margin-right: 10px;}
+.search-wrap .biz-rating { margin-bottom: 10px; }
+.business-event-wrap .thumbnail { margin: 0; }
+.business-event-wrap { background: hsl(0, 0%, 100%) none repeat scroll 0 0;border: medium none;box-shadow: 0 0 8px hsla(0, 0%, 0%, 0.1);display: inline-block;border: 1px solid hsl(0, 0%, 93%);padding: 20px;width: 100%; }
 .profile-outer-main .timepicker button.btn.btn-primary, .profile-outer-main .timepicker a.btn.btn-primary{ min-width:auto; }
+.business-event-wrap .fa {
+    display: block;
+    margin-bottom: 10px;
+}
+.tooltip.top{
+    padding: 0px !important;
+}
+.tooltip.top .tooltip-arrow {
+    margin-left: 0 !important;
+}
+.profile-outer-main input[type=checkbox]{
+    height:20px;
+  min-height: inherit;
+}
+.business-event-wrap a {
+    margin-right: 3px;
+}

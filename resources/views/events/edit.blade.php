@@ -47,6 +47,15 @@
                             @endif
                         </div>
                     </div>
+                    <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
+                        <label for="description" class="col-form-label">What & Why</label>
+                        <textarea class="form-control" name="description">{{ $events->description }}</textarea>
+                        @if ($errors->has('description'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('description') }}</strong>
+                        </span>
+                        @endif
+                    </div>
                     <div class="form-row">
                         <div class="form-group col-md-6{{ $errors->has('website_url') ? ' has-error' : '' }}">
                             <label for="website_url" class="col-form-label">Website Url</label>
@@ -57,21 +66,8 @@
                             </span>
                             @endif
                         </div>
-                        <div class="form-group col-md-6{{ $errors->has('date') ? ' has-error' : '' }}">
-                            <label for="date" class="col-form-label">Date</label>
-                            <span class="help-block"></span>
-                            <input type="text" required="" class="form-control" name="date" value="{{ $events->date }}" placeholder="Date">
-                            @if ($errors->has('date'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('date') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="form-row">
-                         <div class="form-group col-md-6{{ $errors->has('zip') ? ' has-error' : '' }}">
+                        <div class="form-group col-md-6{{ $errors->has('zip') ? ' has-error' : '' }}">
                             <label for="zip" class="col-form-label">Zip</label>
-                            <span class="help-block"></span>
                             <input type="text" required="" class="form-control zipCode" name="zip" value="{{ $events->zip }}" placeholder="Zip">
                             @if ($errors->has('zip'))
                             <span class="help-block">
@@ -79,9 +75,10 @@
                             </span>
                             @endif
                         </div>
+                    </div>
+                    <div class="form-row">
                         <div class="form-group col-md-6{{ $errors->has('address') ? ' has-error' : '' }}">
                             <label for="address" class="col-form-label">Address</label>
-                            <span class="help-block"></span>
                             <input type="text" required="" class="form-control" id="address" name="address" value="{{ $events->address }}" placeholder="Address">
                             @if ($errors->has('address'))
                             <span class="help-block">
@@ -89,11 +86,8 @@
                             </span>
                             @endif
                         </div>
-                    </div>
-                    <div class="form-row">
                         <div class="form-group col-md-6{{ $errors->has('city') ? ' has-error' : '' }}">
                             <label for="city" class="col-form-label">City</label>
-                            <span class="help-block"></span>
                             <input type="text" required="" class="form-control" id="city" name="city" value="{{ $events->city }}" placeholder="City">
                             @if ($errors->has('city'))
                             <span class="help-block">
@@ -101,9 +95,10 @@
                             </span>
                             @endif
                         </div>
+                    </div>
+                    <div class="form-row">
                         <div class="form-group col-md-6{{ $errors->has('state') ? ' has-error' : '' }}">
                             <label for="state" class="col-form-label">State</label>
-                            <span class="help-block"></span>
                             <input type="text" required="" class="form-control" id="state" name="state" value="{{ $events->state }}" placeholder="State">
                             @if ($errors->has('state'))
                             <span class="help-block">
@@ -111,36 +106,24 @@
                             </span>
                             @endif
                         </div>
-                    </div>
-                    
-                    <div class="form-group {{ $errors->has('country_id') ? ' has-error' : '' }}">
-                        <label for="country" class="col-form-label">Country</label>
-                        <select name="country_id" id="country_id" required="" class="form-control">
-                            <option value="">Select Country</option>
-                            @foreach($countries as $val)
-                            <option @if($events->country_id == $val->id) selected @endif value="{{ $val->id }}">{{ $val->name }}</option>
-                            @endforeach
-                        </select>
-                        @if($errors->has('country_id'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('country_id') }}</strong>
-                        </span>
-                        @endif
-                    </div>
-                    <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                        <label for="description" class="col-form-label">What & Why</label>
-                        <span class="help-block"></span>
-                        <textarea class="form-control" name="description">{{ $events->description }}</textarea>
-                        @if ($errors->has('description'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('description') }}</strong>
-                        </span>
-                        @endif
+                        <div class="form-group col-md-6{{ $errors->has('country_id') ? ' has-error' : '' }}">
+                            <label for="country" class="col-form-label">Country</label>
+                            <select name="country_id" id="country_id" required="" class="form-control">
+                                <option value="">Select Country</option>
+                                @foreach($countries as $val)
+                                <option @if($events->country_id == $val->id) selected @endif value="{{ $val->id }}">{{ $val->name }}</option>
+                                @endforeach
+                            </select>
+                            @if($errors->has('country_id'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('country_id') }}</strong>
+                            </span>
+                            @endif
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6{{ $errors->has('price_to') ? ' has-error' : '' }}">
                             <label for="price_to" class="col-form-label">Price To</label>
-                            <span class="help-block"></span>
                             <input type="text" class="form-control" required="" name="price_to" value="{{ $events->price_to }}" placeholder="Price To">
                             @if ($errors->has('price_to'))
                             <span class="help-block">
@@ -150,7 +133,6 @@
                         </div>
                         <div class="form-group col-md-6{{ $errors->has('price_from') ? ' has-error' : '' }}">
                             <label for="price_from" class="col-form-label">Price From</label>
-                            <span class="help-block"></span>
                             <input type="text" class="form-control" required="" name="price_from" value="{{ $events->price_from }}" placeholder="Price From">
                             @if ($errors->has('price_from'))
                             <span class="help-block">

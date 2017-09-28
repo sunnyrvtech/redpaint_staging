@@ -11,8 +11,8 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Website font -->
-    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Josefin+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
 
     <!-- Styles -->
     <!-- bootstrap css -->
@@ -58,7 +58,7 @@
             @endif
         </div>
         <div class="container">
-            @if(Auth::check() && !Request::is('/'))
+            @if(Auth::check() && !Request::is('/') && Request::path()!='home')
                 @if(Auth::user()->subscribed('ads_subscription'))
                 <div class="notice notice-success">
                     <strong>Notice:-</strong> Hi {{ Auth::user()->first_name }}! Your currently active plan is <strong>{{ Auth::user()->get_active_plan->stripe_plan }}</strong>.If you want to cancel,upgrade or downgrade plan ,please visit here <strong><a href="{{ route('account-subscription') }}">Change plan</a></strong>
