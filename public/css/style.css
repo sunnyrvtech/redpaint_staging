@@ -75,7 +75,7 @@ header.header{position:relative;min-height:633px}
 .New_arrival .heading_m .find_cities .city_list{position:absolute;right:0;top:37px;width:0;min-height:0;background:#fff;z-index:9;padding:0;box-shadow:0 5px 7px 0 rgba(0,0,0,0.11);border-radius:500px;overflow:hidden;opacity:0;visibility:hidden;-webkit-transition:all .4s;-moz-transition:all .4s;-ms-transition:all .4s;transition:all .4s}
 .New_arrival .heading_m .find_cities.open .city_list{width:100%;min-height:500px;opacity:1;visibility:visible;border-radius:0;padding:15px}
 .New_arrival .heading_m .find_cities.open{cursor:default}
-.ca-container{position:relative;margin:25px auto 20px;width:100%;height:450px}
+.ca-container{position:relative;margin:25px auto 20px;width:100%;height:350px}
 .ca-wrapper{width:100%;height:100%;position:relative}
 .ca-item{position:relative;float:left;width:33.3333%;height:100%;text-align:center}
 .ca-item .item_l{padding:0 15px}
@@ -110,7 +110,7 @@ span.ca-nav-next:before{content:"\f105";left:inherit;right:0}
 .Review_of_the_Day_main .ROTD .review_footer .ratting_star span i{height:30px;display:inline-block;color:#e0e0e0;position:relative;top:-4px}
 .Review_of_the_Day_main .ROTD .Continue-reading{float:right}
 .Review_of_the_Day_main .ROTD .Continue-reading a{background:#d03310;display:block;color:#fff;padding:9px;border-radius:5px}
-.RecentLists{margin-top:40px;background:#fff;padding:10px;border-radius:5px;box-shadow:0 13px 40px rgba(0,0,0,0.14)}
+.RecentLists{margin-top:40px;background:#fff;padding:10px;border-radius:5px;box-shadow:0 13px 40px rgba(0,0,0,0.14); }
 .RecentLists ul li a .image_r{width:70px;height:70px;overflow:hidden;position:relative;border-radius:5px;display:inline-block;vertical-align:top}
 .RecentLists ul li a .image_r img{position:absolute;width:100%;height:100%;background-color:#ccc;-ms-object-fit:cover;-moz-object-fit:cover;-o-object-fit:cover;-webkit-object-fit:cover;object-fit:cover;overflow:hidden;left:0;top:0}
 .RecentLists ul li a .RecentL_contant{width:calc(100% - 74px);display:inline-block;vertical-align:top;padding-left:10px}
@@ -320,7 +320,8 @@ button.menu_mobile{display: none;}
   color: rgb(255, 255, 255);
 }
 .account-header .top_header {
-  background: #d03c1b url("../images/header_stars.png") no-repeat scroll center center;
+/*  background: #d03c1b url("../images/header_stars.png") no-repeat scroll center center;*/
+background: #331008 url("../images/header_stars.png") no-repeat scroll center center;
   padding: 12px 0;
   position: relative;
 }
@@ -1217,7 +1218,8 @@ color: rgb(208, 38, 0);
 .search-wrap .thumbnail .caption span a { display: inline-block;font-size: 16px;font-weight: bold;height: auto;margin-bottom: 10px; }
 .search-wrap .thumbnail{ min-height: 350px; }
 .business-date-opened { color: hsl(23, 100%, 47%);margin: 0; }
-.description-search { display: inline-block;width: 100%; }
+/*.description-search { display: inline-block;width: 100%; }*/
+.search-wrap span { display: inline-block; }
 .business-date-opened{ margin-top: 10px; }
 .business-date-opened i { margin-right: 10px;}
 .search-wrap .biz-rating { margin-bottom: 10px; }
@@ -1240,4 +1242,149 @@ color: rgb(208, 38, 0);
 }
 .business-event-wrap a {
     margin-right: 3px;
+}
+.more_category { display: none; }
+.more_category .cat_child { margin-top:10px; }
+.more_category .cat_child > a { color: #3a3a3a;font-size: 19px;font-weight: 100; }
+.table-responsive .table > tbody > tr > th { border-top: medium none; }
+
+/*25oct2k17 css added*/
+.review-main .biz-page-actions a:hover {
+    background: #353433;
+}
+
+input, select, button, textarea{outline: none;}
+
+header.header .drop-menus-2 {
+    border-bottom: none;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+div#maximage{width: 100% !important;}
+.review-main {
+    margin-top: 30px;
+}
+
+.map-box-address a:hover,.map-box-address a:focus {
+    color: #D02600;
+}
+
+.review-main .slick-prev:before, .review-main .slick-next:before{color: #d02600 !important;}
+
+/*media query css*/
+
+@media(max-width:1024px){
+.row{margin-left: 0px; margin-right: 0px;}
+
+.New_arrival .ca-nav {
+ display: block;}
+
+.review-main .lightbox-media-parent{width: 100%;}
+
+}
+
+
+@media(max-width: 767px){
+
+
+.biz-page-actions .review-btn{margin-bottom: 10px;}
+
+.biz-page-header-right .lightbox-media-parent{margin-bottom: 0px;}
+
+.review-main .biz-page-header-right {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.review-main .biz-page-header-right  .biz-page-actions{float:left;}
+
+
+
+.review-main .lightbox-media-parent{margin-top: 20px;}
+.review-by-people { 
+    width: 100%; margin-top: 15px;
+}
+header.header .header_menu.open {
+    padding-right: 0px;
+    background: rgb(31, 30, 29);
+}
+
+.header_menu ul li a {
+    padding: 10px 14px;
+    border-bottom: 1px solid #313130;
+    font-size: 13px;
+}
+.header_menu.open ul li:last-child .drop-menu {
+   display: block;
+     width: auto;
+     margin-right: 30px;
+    margin-top: 10px;
+}
+
+
+.header_menu.open ul li:last-child .drop-menu .user-account_avatar{float: none;}
+.header_menu.open .dropdown-menu ul li a {
+    border: none;
+}
+
+.New_arrival span.ca-nav-prev:before{ left: 10px;}
+.New_arrival span.ca-nav-next:before{ right: 10px;}
+.New_arrival  .ca-container {
+    height: 440px;
+}
+
+.search_form .form_main ul.search_Category li {
+    margin: 0 8px;
+}
+.news_letter {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    min-height: 10px;
+}
+.news_letter h2{margin-top:0px;}
+.Review_of_the_Day_main,.New_arrival{padding-top: 0px;}
+.instagram_gallery ul li {
+    width: 23%;}
+
+
+header.header.account-header .col-md-2.col-sm-2.col-xs-8 {
+    width: 100%;
+}
+header.header.account-header .logo {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+}
+header.header.account-header .search_form .form_main .col-md-2.col-sm-1.col-xs-12.custom_column {
+    width: auto;
+    float: left;
+}
+header.header.account-header   .col-sm-2.pull-right {
+    margin-top: -55px;
+    margin-right: 35px;
+}
+.profile-outer-main .business-event-wrap{margin-bottom: 15px;}
+}
+
+
+@media(max-width: 480px){
+
+.search_form .form_main ul.search_Category {
+    width: 150px;
+    margin: 0 auto !important;
+    text-align: left;
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+}
+.search_form .form_main ul.search_Category li{margin-bottom: 6px;}
+.search_form .form_main ul.search_Category li i.icofont.icofont-fast-delivery {
+    font-size: 25px !important;
+    margin-left: -8px;
+}
+
+.profile-outer-main .pricing-grid {
+    width: 100%;
+}
+
+
 }

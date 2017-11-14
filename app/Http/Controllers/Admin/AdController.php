@@ -73,7 +73,7 @@ class AdController extends Controller {
             'name' => 'required|max:100',
             'link' => 'required',
             'banner' => 'dimensions:max_width=780,max_height=90,min_width=500,min_height=60'
-        ]);
+        ], ['banner.dimensions' => 'Banner dimention should be following max_width=780,max_height=90,min_width=500,min_height=60']);
 
         $ads = Ad::Where('id', $id)->first();
 

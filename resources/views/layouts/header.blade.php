@@ -8,17 +8,17 @@
                 <div class="col-md-8 col-sm-8 col-xs-12">
                     <div class="search_form">
                         <div class="form_main">
-                            <form class="seacrg_city">
+                            <form class="seacrg_city" action="{{ route('search') }}">
                                 <div class="col-md-5 col-sm-5 col-xs-12 custom_column">
                                     <div class="input-group">
                                         <div class="input-group-addon">Find</div>
-                                        <input type="text" class="form-control" placeholder="dinner, Max’s">
+                                        <input type="text" class="form-control typeahead" autocomplete="off" data-url="{{ route('events-autosearch') }}" name="keyword" placeholder="dinner, Max’s">
                                     </div>
                                 </div>
                                 <div class="col-md-5 col-sm-5 col-xs-12 custom_column">
                                     <div class="input-group">
                                         <div class="input-group-addon">Near</div>
-                                        <input type="text" class="form-control" placeholder="address, neighborhood, city, state or zip">
+                                        <input type="text" class="form-control typeahead" autocomplete="off" data-url="{{ route('address-autosearch') }}" name="address" placeholder="address, city, state or zip">
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-sm-1 col-xs-12 custom_column">

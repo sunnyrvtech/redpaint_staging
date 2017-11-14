@@ -72,6 +72,9 @@ ul.alert-dropdown { width: 200px; }
 }
 .tabs-left > li > a { border-radius: 4px 0 0 4px;display: block;margin-right: 0; }
 .form-group .control-label .comps { color: red; }
+#content .not_active {
+  display: none;
+}
 
 @media(min-width:768px) {
     body { margin-top: 50px; }

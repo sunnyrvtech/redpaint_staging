@@ -49,7 +49,7 @@ class SocialAuthController extends Controller {
                 'social_type' => $provider,
             ]);
             Auth::login($users);
-            return Redirect::to('/my-account')->with('success-message', 'login successfully !');
+            return Redirect::to('/')->with('success-message', 'login successfully !');
         } else {
             // check user social type
             $user_social_log = DB::table('social_logs')->where('user_id', '=', $users->id)->where('social_type', '=', $provider)->first();
@@ -67,7 +67,7 @@ class SocialAuthController extends Controller {
                 $users->user_image = $this->saveSocialImage(file_get_contents($providerUser->avatar_original), $users->id);
                 $users->save();
                 Auth::login($users);
-                return Redirect::to('/my-account');
+                return Redirect::to('/');
            
         }
     }

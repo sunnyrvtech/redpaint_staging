@@ -82,13 +82,13 @@
                         <div class="col-md-5 col-sm-5 col-xs-12 custom_column">
                             <div class="input-group">
                                 <div class="input-group-addon">Find</div>
-                                <input type="text" class="form-control typeahead" data-url="{{ route('category-autosearch') }}" name="category" placeholder="dinner, Max’s">
+                                <input type="text" class="form-control typeahead" autocomplete="off" data-url="{{ route('events-autosearch') }}" name="keyword" placeholder="dinner, Max’s">
                             </div>
                         </div>
                         <div class="col-md-5 col-sm-5 col-xs-12 custom_column">
                             <div class="input-group">
                                 <div class="input-group-addon">Near</div>
-                                <input type="text" class="form-control typeahead" data-url="{{ route('address-autosearch') }}" name="address" placeholder="address, city, state or zip">
+                                <input type="text" class="form-control typeahead" autocomplete="off" data-url="{{ route('address-autosearch') }}" name="address" placeholder="address, city, state or zip">
                             </div>
                         </div>
                         <div class="col-md-1 col-sm-1 col-xs-12 custom_column">

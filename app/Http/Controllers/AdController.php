@@ -51,7 +51,7 @@ class AdController extends Controller {
             'name' => 'required|max:100',
             'link' => 'required',
             'banner' => 'required|dimensions:max_width=780,max_height=90,min_width=500,min_height=60'
-        ]);
+        ], ['banner.dimensions' => 'Banner should meet the following dimention max_width=780,max_height=90,min_width=500,min_height=60']);
 
         if ($request->hasFile('banner')) {
             $image = $request->file('banner');

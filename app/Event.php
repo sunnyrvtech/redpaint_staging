@@ -16,6 +16,15 @@ class Event extends Model {
         'user_id', 'event_slug', 'name', 'description', 'address', 'city', 'state', 'zip','country_id','formatted_address','operation_hour','latitude','longitude', 'website_url', 'price_to', 'price_from', 'category_id', 'status',
     ];
     
+    /**
+     * function to get use details based on user id
+     *
+     * @return Response
+     */
+    public function getUserDetails() {
+        return $this->belongsTo('App\User', 'user_id', 'id');
+    }
+    
     
      /**
      * function to get category

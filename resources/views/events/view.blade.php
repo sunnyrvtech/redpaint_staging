@@ -318,18 +318,20 @@
                     <div class="heading"><h2>You may also consider</h2></div>
                     <div class="RecentLists">
                         <ul>
+                            @forelse($event_by_cat as $key=>$value)
                             <?php
-                            for ($i = 1; $i <= 3; $i++) {
-                                ?>
-                                <li><a href="#">
-                                        <div class="image_r"><img src="http://localhost/redpaint_staging/public/images/image-1.png"></div>
-                                        <div class="RecentL_contant">
-                                            <h5>2017 100+ Yelp Challenge</h5>
-                                            <p>The best place to get a lot of food on a tight budget. The first time I came here...</p>
-                                        </div>
-                                    </a>
-                                </li>
-                            <?php } ?>
+                            $event_images = isset($value->getOwnerEventImages->event_images) ? json_decode($value->getOwnerEventImages->event_images) : array('default.jpg');
+                            ?>
+                            <li><a href="{{ route('events',$value->event_slug) }}">
+                                    <div class="image_r"><img src="{{ URL::asset('/event_images').'/'.$event_images[0] }}"></div>
+                                    <div class="RecentL_contant">
+                                        <h5>{{ $value->name }}</h5>
+                                        <p>{{ $value->description }}</p>
+                                    </div>
+                                </a></li>
+                            @empty
+                            <li><span>No related events found !</span></li>
+                            @endforelse
                         </ul>
                     </div>
                 </div>

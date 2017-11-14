@@ -70,6 +70,9 @@
                         <li class="@if(Request::segment(2) == 'admin')active @endif">
                             <a href="{{ url('admin')}}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                         </li>
+                        <li class="@if(Request::segment(2) == 'static_page')active @endif">
+                            <a href="{{ route('static_page.index')}}"><i class="fa fa-fw fa-files-o"></i>Pages</a>
+                        </li>
                         <li class="@if(Request::segment(2) == 'users')active @endif">
                             <a href="{{ route('users.index')}}"><i class="fa fa-fw fa-user "></i> Users</a>
                         </li>
@@ -79,8 +82,14 @@
                         <li class="@if(Request::segment(2) == 'packages')active @endif">
                             <a href="{{ route('packages.index')}}"><i class="fa fa-fw fa-credit-card"></i>Packages</a>
                         </li>
+                        <li class="@if(Request::segment(2) == 'business')active @endif">
+                            <a href="{{ route('business.index')}}"><i class="fa fa-fw fa-building-o"></i>Business Event</a>
+                        </li>
+                        <li class="@if(Request::segment(2) == 'reviews')active @endif">
+                            <a href="{{ route('reviews.index')}}"><i class="fa fa-fw fa-star"></i>Recent Reviews</a>
+                        </li>
                         <li class="@if(Request::segment(2) == 'ads_list')active @endif">
-                            <a href="{{ route('ads_list.index')}}"><i class="fa fa-fw fa-credit-card"></i>Ads</a>
+                            <a href="{{ route('ads_list.index')}}"><i class="fa fa-fw fa-buysellads"></i>Ads</a>
                         </li>
                         <!--                        <li class="">
                                                     <a href=""><i class="fa fa-fw fa-files-o"></i>Pages</a>

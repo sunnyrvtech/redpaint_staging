@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\User;
 use App\Country;
+use App\Payment;
 use Auth;
 use Redirect;
 use View;
@@ -132,6 +133,17 @@ class AccountController extends Controller {
             return response()->json(array('error' => 'The current password is invalid. Please enter correct current password!'), 401);
         }
         return response()->json(array('error' => 'Your password could not be changed.Please try again later!'), 401);
+    }
+    
+    /**
+     * get order history function.
+     *
+     * @return Response
+     */
+    
+    public function getPaymentHistory(Request $request){
+        $history = Payment::Where('user_id',Auth::id())->paginate(15);
+        return View::make('payments.index',compact('history'));
     }
 
     /**

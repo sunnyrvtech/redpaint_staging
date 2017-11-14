@@ -65,14 +65,14 @@ class EventController extends Controller {
         $data['formatted_address'] = $data['address'] . ',' . $data['city'] . ',' . $data['state'];
         $data['latitude'] = $lat_long['latitude'];
         $data['longitude'] = $lat_long['longitude'];
-        
+
         $operation_hour = array();
         foreach ($data['day'] as $key => $val) {
             $hour_array = array(
                 'day' => $val,
                 'time_from' => $data['time_from'][$key],
                 'time_to' => $data['time_to'][$key],
-                'status' => $data['status'][$key]
+                'status' => isset($data['status'.$key])?$data['status'.$key]:1
             );
             $operation_hour[$key] = $hour_array;
         }
@@ -84,7 +84,7 @@ class EventController extends Controller {
         unset($data['status']);
         $data['user_id'] = Auth::id();
         $data['event_slug'] = $this->createSlug($data['name']);
-        
+
         Event::create($data);
         return redirect()->route('events.index')
                         ->with('success-message', 'Event created successfully!');
@@ -117,7 +117,7 @@ class EventController extends Controller {
         $this->validate($request, [
             'name' => 'required|max:100',
             'category_id' => 'required',
-            'date' => 'required',
+//            'date' => 'required',
             'address' => 'required',
             'city' => 'required',
             'state' => 'required',
@@ -132,14 +132,14 @@ class EventController extends Controller {
         $data['formatted_address'] = $data['address'] . ',' . $data['city'] . ',' . $data['state'];
         $data['latitude'] = $lat_long['latitude'];
         $data['longitude'] = $lat_long['longitude'];
-        
+
         $operation_hour = array();
         foreach ($data['day'] as $key => $val) {
             $hour_array = array(
                 'day' => $val,
                 'time_from' => $data['time_from'][$key],
                 'time_to' => $data['time_to'][$key],
-                'status' => $data['status'][$key]
+                'status' => isset($data['status'.$key])?$data['status'.$key]:1
             );
             $operation_hour[$key] = $hour_array;
         }
@@ -197,12 +197,13 @@ class EventController extends Controller {
      */
     public function getEventByslug(Request $request, $slug) {
         $events = Event::Where('event_slug', $slug)->first();
+        $event_by_cat = Event::Where(['status'=>1,'category_id'=>$events->category_id])->Where('id','!=',$events->id)->orderby('created_at','DESC')->take(5)->get();
         $ads = Ad::get();
         $checkUserReviewStatus = 0; //set as false
         if ($events) {
             $checkUserReviewStatus = Review::Where(['user_id' => Auth::id(), 'event_id' => $events->id])->first(array('status'));
         }
-        return View::make('events.view', compact('events', 'checkUserReviewStatus','ads'));
+        return View::make('events.view', compact('events', 'checkUserReviewStatus', 'ads','event_by_cat'));
     }
 
     /**
@@ -264,14 +265,33 @@ class EventController extends Controller {
      * @return Response
      */
     public function searchEvent(Request $request) {
-        $category = $request->get('category');
+        $keyword = $request->get('keyword');
         $address = $request->get('address');
 
-        $events = Event::Where('events.formatted_address', 'LIKE', '%' . $address . '%')
-                        ->whereHas('getCategory', function($query) use($category) {
-                            $query->Where('categories.name', 'LIKE', '%' . $category . '%');
-                        })->get();
-
+        if ($keyword != null && $keyword != 'recent_events') {
+            $events = Event::Where('status', 1)->Where(function($query) use ($keyword, $address) {
+                        if ($address != null) {
+                            $query->Where('events.name', 'LIKE', '%' . $keyword . '%')
+                                    ->orWhere('events.formatted_address', 'LIKE', '%' . $address . '%');
+                        } else {
+                            $query->Where('events.name', 'LIKE', '%' . $keyword . '%');
+                        }
+                    })->orwhereHas('getCategory', function($query) use($keyword) {
+                        if ($keyword != null) {
+                            $query->Where('categories.name', 'LIKE', '%' . $keyword . '%');
+                        }
+                    })->paginate(20);
+        } elseif ($address != null) {
+            $events = Event::Where('status', 1)->Where(function($query) use ($address) {
+                        if ($address != null) {
+                            $query->Where('events.formatted_address', 'LIKE', '%' . $address . '%');
+                        }
+                    })->paginate(20);
+        } elseif ($keyword == 'recent_events') {
+            $events = Event::Where('status', 1)->orderby('created_at', 'DESC')->take(20)->paginate();
+        } else {
+            $events = array();
+        }
         return View::make('events.search', compact('events'));
     }
 
@@ -287,6 +307,13 @@ class EventController extends Controller {
         if (!$events) {
             return response()->json(array('error' => 'Something went wrong .Please try again later!'), 401);
         } else {
+            $event_images = EventImage::Where('event_id', $id)->first();
+            if ($event_images) {
+                $eventimageArray = json_decode($event_images->event_images);
+                foreach ($eventimageArray as $val) {
+                    @unlink(base_path('public/event_images/') . $val);
+                }
+            }
             $events->delete();
             return response()->json(['success' => true, 'html' => $this->index($request), 'messages' => "Event deleted successfully !"]);
         }
@@ -324,8 +351,9 @@ class EventController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function categoryAutosearch(Request $request) {
-        $categories = Category::Where('name', 'LIKE', '%' . $request->get('query') . '%')->pluck('name');
-        return $categories;
+        $categories = Category::Where('name', 'LIKE', '%' . $request->get('query') . '%')->Where('status', 1)->pluck('name')->toArray();
+        $events = Event::Where('name', 'LIKE', '%' . $request->get('query') . '%')->Where('status', 1)->pluck('name')->toArray();
+        return array_merge($categories, $events);
     }
 
     /**
@@ -335,11 +363,11 @@ class EventController extends Controller {
      */
     public function addressAutosearch(Request $request) {
         $address = $request->get('query');
-        $events = Event::Where(function($query) use ($address) {
+        return $events = Event::Where(function($query) use ($address) {
                     $query->Where('address', 'LIKE', '%' . $address . '%')
                             ->orWhere('city', 'LIKE', '%' . $address . '%')
                             ->orWhere('state', 'LIKE', '%' . $address . '%');
-                })->get();
+                })->pluck('formatted_address');
     }
 
 }

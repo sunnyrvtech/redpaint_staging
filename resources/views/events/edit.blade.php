@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@push('stylesheet')
+<link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+@endpush
 @section('content')
 <div class="profile-outer-main">
     <div class="row">
@@ -169,8 +172,7 @@
                             @if($key == 0)
                             <label for="hour_status" class="col-form-label">Status</label>
                             @endif
-                            <input type="hidden" name="status[]" value="1" />
-                            <input type="checkbox" class="form-control" name="status[]" @if(isset($operation_hour[$key]->status) && $operation_hour[$key]->status == 0) checked @endif value="o">
+                            <input type="checkbox" class="form-control" name="status{{ $key }}" @if(isset($operation_hour[$key]->status) && $operation_hour[$key]->status == 0) checked @endif value="0">
                         </div>
                         @endforeach
                     </div>
@@ -181,3 +183,22 @@
     </div>
 </div>
 @endsection
+@push('scripts')
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+    $('.datetimepicker').datetimepicker({
+        format: 'LT'
+    });
+
+    $('#lock_hour').click(function () {
+        if ($(this).is(':checked')) {
+            $('.lock_hour_html').show();
+        } else {
+            $('.lock_hour_html').hide();
+        }
+    })
+});
+</script>
+@endpush

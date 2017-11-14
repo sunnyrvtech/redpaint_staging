@@ -11,9 +11,7 @@
   |
  */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 //routes for admin section start here
 Route::group(['prefix' => 'admin', 'middleware' => 'IsAdmin'], function () {
@@ -21,7 +19,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'IsAdmin'], function () {
     Route::resource('packages', 'Admin\PackageController');
     Route::resource('ads_list', 'Admin\AdController');
     Route::resource('categories', 'Admin\CategoryController');
+    Route::resource('business', 'Admin\EventController');
+    Route::get('business/images/{id}', 'Admin\EventController@getEventImages')->name('business-images');
+    Route::post('business/status', 'Admin\EventController@eventStatus')->name('business-status');
+    Route::post('business/image/delete/{id}', 'Admin\EventController@deleteEventImage')->name('business.image.delete');
     Route::resource('reviews', 'Admin\ReviewController');
+    Route::resource('static_page', 'Admin\StaticPageController');
     Route::post('reviews/status', 'Admin\ReviewController@reviewStatus')->name('reviews-status');
     Route::post('categories/status', 'Admin\CategoryController@categoryStatus')->name('categories-status');
     Route::resource('users', 'Admin\UserController');
@@ -44,7 +47,7 @@ Route::get('account/activate/{code}', array(
     'as' => 'account.activate',
     'uses' => 'AccountController@getActivate'
 ));
-Route::get('category/autosearch', 'EventController@categoryAutosearch')->name('category-autosearch');
+Route::get('events/autosearch', 'EventController@categoryAutosearch')->name('events-autosearch');
 Route::get('address/autosearch', 'EventController@addressAutosearch')->name('address-autosearch');
 Route::group(['prefix' => 'account', 'middleware' => 'CheckLoginStatus'], function () {
     Route::get('profile', 'AccountController@index')->name('account-profile');
@@ -57,6 +60,7 @@ Route::group(['prefix' => 'account', 'middleware' => 'CheckLoginStatus'], functi
 
     Route::resource('events', 'EventController');
     Route::resource('ads', 'AdController');
+    Route::get('payments', 'AccountController@getPaymentHistory')->name('payments');
     Route::group(['prefix' => 'events'], function () {
         Route::resource('photo', 'EventImageController');
         Route::get('photo/view/{slug}', 'EventImageController@getAllEventImages')->name('photo.view');

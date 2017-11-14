@@ -177,8 +177,7 @@
                             @if($key == 0)
                             <label for="hour_status" class="col-form-label">Status</label>
                             @endif
-                            <input type="hidden" name="status[]" value="1" />
-                            <input type="checkbox" class="form-control" name="status[]" value="0">
+                            <input type="checkbox" class="form-control" name="status{{ $key }}" value="0">
                         </div>
                         @endforeach
                     </div>

@@ -16,15 +16,17 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <table class="ui celled table" id="review-table">
+            <table class="ui celled table" id="event-table">
                 <thead>
                     <tr>
                         <th>Id</th>
                         <th>Event Name</th>
                         <th>Submit By</th>
                         <th>Comment</th>
-                        <th>Rating</th>
+                        <th>Average Rating</th>
                         <th>Status</th>
+                        <th>View Review</th>
+                        <th>View Event Images</th>
                         <th>Created At</th>
                         <th>Action</th>
                     </tr>
@@ -37,18 +39,20 @@
 @push('scripts')
 <script>
     $(function () {
-        $('#review-table').DataTable({
+        $('#event-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('reviews.index') }}?event_id={{ $event_id }}",
-            order: [[ 6, "desc" ]],
+            ajax: "{{ route('business.index') }}",
+//            order: [[ 1, "asc" ]],
             columns: [
                 {data: 'id', name: 'id'},
-                {data: 'event_name', name: 'event_name'},
+                {data: 'name', name: 'name'},
                 {data: 'user_name', name: 'user_name'},
                 {data: 'comment', name: 'comment'},
                 {data: 'rate', name: 'rate'},
-                {data: 'status', name: 'status'},
+                {data: 'status', name: 'status',"width": "20%"},
+                {data: 'view_review', name: 'view_review',"width": "2%"},
+                {data: 'view_photo', name: 'view_photo',"width": "2%"},
                 {data: 'created_at', name: 'created_at'},
                 {data: 'Action', orderable: false, searchable: false, render: function (data, type, row) {
                         //console.log(row.id);
@@ -57,7 +61,7 @@
 
                 }
             ]
-        });  
+        });
     });
 </script>
 @endpush

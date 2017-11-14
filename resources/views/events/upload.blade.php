@@ -36,7 +36,7 @@
                         @foreach($photos as $val)
                         <div class="col-md-3">
                             <div class="thumbnail">
-                                <img style="min-height: 248px;" src="{{ URL::asset('/event_images').'/'.$val }}">
+                                <img style="min-height: 248px;max-height: 110px;" src="{{ URL::asset('/event_images').'/'.$val }}">
                                 <div class="caption">
                                     <p><span>Submitted By:-</span> {{ $value->getUserByEventImageUserId->first_name.' '.$value->getUserByEventImageUserId->last_name }}</p>
                                     @if($events->user_id == Auth::id()) 

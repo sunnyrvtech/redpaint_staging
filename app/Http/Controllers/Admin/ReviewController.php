@@ -19,8 +19,15 @@ class ReviewController extends Controller {
      */
     public function index(Request $request) {
         $title = 'Reviews';
-        if ($request->ajax()) {
+        if ($request->get('event_id') != null) {
+            $event_id = $request->get('event_id');
+            $reviews = Review::with(['getUserDetails', 'getEventDetails'])->Where('event_id', $request->get('event_id'))->get();
+        } else {
+            $event_id = '';
             $reviews = Review::with(['getUserDetails', 'getEventDetails'])->get();
+        }
+        if ($request->ajax()) {
+
             foreach ($reviews as $key => $value) {
                 $reviews[$key]['comment'] = str_limit($value->comment, $limit = 15, $end = '....');
                 $reviews[$key]['user_name'] = $value->getUserDetails->first_name . ' ' . $value->getUserDetails->last_name;
@@ -34,7 +41,9 @@ class ReviewController extends Controller {
             }
             return Datatables::of($reviews)->make(true);
         }
-        return View::make('admin.reviews.index', compact('title'));
+
+
+        return View::make('admin.reviews.index', compact('title', 'event_id'));
     }
 
     /**
