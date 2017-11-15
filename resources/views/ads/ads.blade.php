@@ -170,5 +170,8 @@
 @endsection
 @push('scripts')
 <script src="https://js.stripe.com/v2"></script>
+<script type="text/javascript">
+    var publish_key = "{{ env('STRIPE_KEY') }}";
+</script>
 <script src="{{ URL::asset('js/stripe.js') }}"></script>
 @endpush

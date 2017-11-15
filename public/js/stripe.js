@@ -1,5 +1,5 @@
 jQuery(function ($) {
-    Stripe.setPublishableKey("pk_test_d3ObrGKby4X9MxxwIfXaiJw7");
+    Stripe.setPublishableKey(publish_key);
     $('#subscription-form').submit(function (event) {
         var form = $(this);
         // Disable the submit button to prevent repeated clicks
