@@ -342,7 +342,7 @@
 @endsection
 @push('scripts')
 <script src="{{ URL::asset('/slick/slick.js') }}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9isc9BsZygavRSJSQqKGldA0ANTqbzRU&callback=initMap"
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZGTC412EEKYBmKXxH9VFnE97fKNsu0zQ&callback=initMap"
 async defer></script>
 <script type="text/javascript">
 $(document).ready(function () {
