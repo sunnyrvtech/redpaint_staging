@@ -17,7 +17,7 @@
                 @forelse($ads as $val)
                 <div class="col-md-6">
                     <div class="item">
-                        <a target="_blank" href="{{ $val->link }}"><img src ="{{ URL::asset('/ads_images').'/'.$val->banner }}">
+                        <a target="_blank" href="{{ $val->link }}"><img src ="{{ URL::asset('/ads_images').'/'.$val->banner }}"></a>
                     </div>
                 </div>
                 @empty
