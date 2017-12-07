@@ -51,14 +51,17 @@
                                 </div>
                             </div>
                             <div class="price-category">
+                                @if($events->getSubCategory)
                                 <span class="bullet-after">
                                     <span class="price-range">$$</span>
                                 </span>
                                 <span class="category-str-list">
-                                    {{ $events->description }}
+
+                                    <a href="{{ route('subcategory.search',$events->getSubCategory->id) }}">{{ $events->getSubCategory->name }}</a>
                                     <!--                                <a href="#">Korean</a>,
                                                                     <a href="#">American (New)</a>-->
                                 </span>
+                                @endif
                                 <div class="rating-details">
                                     <!--<a href="#"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</a>-->
                                 </div>

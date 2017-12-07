@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Category;
+use App\SubCategory;
 use App\Event;
 use App\Ad;
 use App\Review;
 use App\Country;
 use App\EventImage;
+use App\Http\Controllers\Admin\SubCategoryController;
 use Auth;
 use View;
+use Carbon\Carbon;
 
 class EventController extends Controller {
 
@@ -45,8 +48,11 @@ class EventController extends Controller {
      *
      * @return Response
      */
-    public function store(Request $request) {
+    public function store(Request $request, SubCategoryController $sub_cat_controller) {
         $data = $request->all();
+        $data['start_date'] = $data['start_date'] != null ? Carbon::parse($data['start_date'])->format('Y-m-d H:i:s') : null;
+        $data['end_date'] = $data['end_date'] != null ? Carbon::parse($data['end_date'])->format('Y-m-d H:i:s') : null;
+
         $this->validate($request, [
             'name' => 'required|max:100',
             'category_id' => 'required',
@@ -58,8 +64,15 @@ class EventController extends Controller {
             'price_to' => 'required',
             'price_from' => 'required',
         ]);
-
-
+        if ($request->get('sub_category') != null) {
+            if (!$sub_category = SubCategory::Where('name', 'like', trim($request->get('sub_category')))->first()) {
+                $data['slug'] = $sub_cat_controller->createSlug($data['sub_category']);
+                $sub_data = $data;
+                $sub_data['name'] = $sub_data['sub_category'];
+                $sub_category = SubCategory::create($sub_data);
+            }
+            $data['sub_category_id'] = $sub_category->id;
+        }
         $lat_long = $this->getLatLong($data['country_id'], $data['state'], $data['city'], $data['address'], $data['zip']);
 
         $data['formatted_address'] = $data['address'] . ',' . $data['city'] . ',' . $data['state'];
@@ -72,11 +85,10 @@ class EventController extends Controller {
                 'day' => $val,
                 'time_from' => $data['time_from'][$key],
                 'time_to' => $data['time_to'][$key],
-                'status' => isset($data['status'.$key])?$data['status'.$key]:1
+                'status' => isset($data['status' . $key]) ? $data['status' . $key] : 1
             );
             $operation_hour[$key] = $hour_array;
         }
-
         $data['operation_hour'] = json_encode($operation_hour);
         unset($data['day']);
         unset($data['time_from']);
@@ -99,11 +111,16 @@ class EventController extends Controller {
         $events = Event::where(['id' => $id, 'user_id' => Auth::id()])->first();
         $categories = Category::Where('status', 1)->get();
         $countries = Country::get();
+
+        $data['events'] = $events;
+        $data['categories'] = $categories;
+        $data['countries'] = $countries;
+
         if (!$events) {
             return redirect()->route('events.index')
                             ->with('error-message', 'Event not found!');
         }
-        return View::make('events.edit', compact('events', 'categories', 'countries'));
+        return View::make('events.edit', $data);
     }
 
     /**
@@ -112,8 +129,11 @@ class EventController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id, SubCategoryController $sub_cat_controller) {
         $data = $request->all();
+        $data['start_date'] = $data['start_date'] != null ? Carbon::parse($data['start_date'])->format('Y-m-d H:i:s') : null;
+        $data['end_date'] = $data['end_date'] != null ? Carbon::parse($data['end_date'])->format('Y-m-d H:i:s') : null;
+
         $this->validate($request, [
             'name' => 'required|max:100',
             'category_id' => 'required',
@@ -127,6 +147,16 @@ class EventController extends Controller {
             'price_from' => 'required',
         ]);
 
+        if ($request->get('sub_category') != null) {
+            if (!$sub_category = SubCategory::Where('name', 'like', trim($request->get('sub_category')))->first()) {
+                $data['slug'] = $sub_cat_controller->createSlug($data['sub_category']);
+                $sub_data = $data;
+                $sub_data['name'] = $sub_data['sub_category'];
+                $sub_category = SubCategory::create($sub_data);
+            }
+            $data['sub_category_id'] = $sub_category->id;
+        }
+
         $lat_long = $this->getLatLong($data['country_id'], $data['state'], $data['city'], $data['address'], $data['zip']);
 
         $data['formatted_address'] = $data['address'] . ',' . $data['city'] . ',' . $data['state'];
@@ -139,7 +169,7 @@ class EventController extends Controller {
                 'day' => $val,
                 'time_from' => $data['time_from'][$key],
                 'time_to' => $data['time_to'][$key],
-                'status' => isset($data['status'.$key])?$data['status'.$key]:1
+                'status' => isset($data['status' . $key]) ? $data['status' . $key] : 1
             );
             $operation_hour[$key] = $hour_array;
         }
@@ -197,13 +227,13 @@ class EventController extends Controller {
      */
     public function getEventByslug(Request $request, $slug) {
         $events = Event::Where('event_slug', $slug)->first();
-        $event_by_cat = Event::Where(['status'=>1,'category_id'=>$events->category_id])->Where('id','!=',$events->id)->orderby('created_at','DESC')->take(5)->get();
+        $event_by_cat = Event::Where(['status' => 1, 'category_id' => $events->category_id])->Where('id', '!=', $events->id)->orderby('created_at', 'DESC')->take(5)->get();
         $ads = Ad::get();
         $checkUserReviewStatus = 0; //set as false
         if ($events) {
             $checkUserReviewStatus = Review::Where(['user_id' => Auth::id(), 'event_id' => $events->id])->first(array('status'));
         }
-        return View::make('events.view', compact('events', 'checkUserReviewStatus', 'ads','event_by_cat'));
+        return View::make('events.view', compact('events', 'checkUserReviewStatus', 'ads', 'event_by_cat'));
     }
 
     /**
@@ -318,6 +348,21 @@ class EventController extends Controller {
             return response()->json(['success' => true, 'html' => $this->index($request), 'messages' => "Event deleted successfully !"]);
         }
         return 'true';
+    }
+
+    /**
+     * functon to get sub category using ajax.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function getSubCategory(Request $request) {
+        $id = $request->get('id');
+        if ($id) {
+            return SubCategory::Where('category_id', $id)->pluck('name')->toArray();
+        } else {
+            return array();
+        }
     }
 
     public function createSlug($title) {

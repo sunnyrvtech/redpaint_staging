@@ -10,8 +10,8 @@
                     <div class="header_menu">
                         <ul>
                             <li><a href="#">Write a Review</a></li>
-                            <li><a href="#">Events</a></li>
-                            <li><a href="#">Talk</a></li>
+                            <li><a href="{{ route('events.index') }}">Events</a></li>
+                            <li><a href="{{ route('ads') }}">Ads</a></li>
                             @if(!Auth::check())
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li class="Register"><a href="{{ route('register') }}">Register</a></li>
@@ -73,10 +73,25 @@
                 <div class="form_main">
                     <div class="Logo_f"><img src="{{ URL::asset('images/black-logo.png') }}"></div>
                     <ul class="search_Category">
-                        <li><a href="#"><i class="icofont icofont-fork-and-knife"></i> Restaurants</a></li>
-                        <li><a href="#"><i class="fa fa-glass" aria-hidden="true"></i> Nightlife</a></li>
-                        <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i> Home Services</a></li>
-                        <li><a href="#"><i class="icofont icofont-fast-delivery"></i> Delivery</a></li>
+                        @foreach($categories as $value)
+                        <li class="@if(!empty($value->getSubCategory->toArray())) dropdown @endif">
+                            <a href="{{ route('search') }}?keyword={{ urlencode($value->name) }}"  @if(!empty($value->getSubCategory->toArray())) class="dropdown-toggle" data-toggle="dropdown" @endif><i class="{{ $value->class_name }}"></i> {{ $value->name }}
+                                @if(!empty($value->getSubCategory->toArray())) 
+                                <b class="caret"></b>
+                                @endif
+                            </a>
+                            @if(!empty($value->getSubCategory->toArray()))
+                            <ul class="dropdown-menu">
+                                @foreach($value->getSubCategory->take(10) as $val)
+                                <li><a href="{{ route('subcategory.search',$val->id) }}">{{ $val->name }}</a></li>
+                                @endforeach
+                                @if(count($value->getSubCategory) > 10)
+                                <li><a href="{{ route('subcategory.all',$value->id) }}" class="more_sub_cat">More Sub Category</a></li>
+                                @endif
+                            </ul>
+                            @endif
+                        </li>
+                        @endforeach
                     </ul>
                     <form class="seacrg_city" action="{{ route('search') }}">
                         <div class="col-md-5 col-sm-5 col-xs-12 custom_column">

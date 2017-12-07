@@ -19,6 +19,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'IsAdmin'], function () {
     Route::resource('packages', 'Admin\PackageController');
     Route::resource('ads_list', 'Admin\AdController');
     Route::resource('categories', 'Admin\CategoryController');
+    Route::get('payments', 'Admin\PaymentController@index')->name('admin.payment');
+    Route::resource('subcategories', 'Admin\SubCategoryController');
+    Route::get('subcategories/show/{id}', 'Admin\SubCategoryController@showSubCategory')->name('subcategories-show');
     Route::resource('business', 'Admin\EventController');
     Route::get('business/images/{id}', 'Admin\EventController@getEventImages')->name('business-images');
     Route::post('business/status', 'Admin\EventController@eventStatus')->name('business-status');
@@ -34,11 +37,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'IsAdmin'], function () {
 //Auth::routes();
 //Auth routes start here
 Route::get('login', 'Auth\LoginController@index')->name('login');
-//Route::get('password/email', 'Auth\ForgotPasswordController@index');
-//Route::post('password/email', 'Auth\ForgotPasswordController@getEmail');
+Route::get('password/email', 'Auth\ForgotPasswordController@index')->name('password.email');
+Route::post('password/email', 'Auth\ForgotPasswordController@getEmail');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@index')->name('password-reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::post('login', 'Auth\LoginController@login');
+Route::get('ads', 'AdController@getAllAds')->name('ads');
 Route::get('register', 'Auth\RegisterController@index')->name('register');
 Route::post('register', 'Auth\RegisterController@create');
 Route::get('search', 'EventController@searchEvent')->name('search');
@@ -47,8 +51,12 @@ Route::get('account/activate/{code}', array(
     'as' => 'account.activate',
     'uses' => 'AccountController@getActivate'
 ));
+Route::post('newsletter', 'HomeController@subscribeNewsletter')->name('newsletter');
+Route::get('subcategory/all/{id}', 'CategoryController@getSubCategory')->name('subcategory.all');
+Route::get('subcategory/search/{keyword}', 'CategoryController@getEventBySubCategory')->name('subcategory.search');
 Route::get('events/autosearch', 'EventController@categoryAutosearch')->name('events-autosearch');
 Route::get('address/autosearch', 'EventController@addressAutosearch')->name('address-autosearch');
+Route::get('events/sub_cat', 'EventController@getSubCategory')->name('events-sub_cat');
 Route::group(['prefix' => 'account', 'middleware' => 'CheckLoginStatus'], function () {
     Route::get('profile', 'AccountController@index')->name('account-profile');
     Route::post('profile/update', 'AccountController@updateProfile')->name('profile-update');
@@ -57,7 +65,6 @@ Route::group(['prefix' => 'account', 'middleware' => 'CheckLoginStatus'], functi
     })->name('account-password');
     Route::post('change/password', 'AccountController@changePassword')->name('change-password');
     Route::get('profile/overview', 'AccountController@renderProfile')->name('account-profile-overview');
-
     Route::resource('events', 'EventController');
     Route::resource('ads', 'AdController');
     Route::get('payments', 'AccountController@getPaymentHistory')->name('payments');

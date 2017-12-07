@@ -12,13 +12,13 @@
                                 <div class="col-md-5 col-sm-5 col-xs-12 custom_column">
                                     <div class="input-group">
                                         <div class="input-group-addon">Find</div>
-                                        <input type="text" class="form-control typeahead" autocomplete="off" data-url="{{ route('events-autosearch') }}" name="keyword" placeholder="dinner, Max’s">
+                                        <input type="text" class="form-control typeahead" autocomplete="off" data-url="{{ route('events-autosearch') }}" name="keyword" value="{{ Request::get('keyword') }}" placeholder="dinner, Max’s">
                                     </div>
                                 </div>
                                 <div class="col-md-5 col-sm-5 col-xs-12 custom_column">
                                     <div class="input-group">
                                         <div class="input-group-addon">Near</div>
-                                        <input type="text" class="form-control typeahead" autocomplete="off" data-url="{{ route('address-autosearch') }}" name="address" placeholder="address, city, state or zip">
+                                        <input type="text" class="form-control typeahead" autocomplete="off" data-url="{{ route('address-autosearch') }}" name="address" value="{{ Request::get('address') }}" placeholder="address, city, state or zip">
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-sm-1 col-xs-12 custom_column">
@@ -86,10 +86,25 @@
             <div class="row">
                 <div class="form_main">
                     <ul class="search_Category">
-                        <li><a href="javascript:void(0);"><i class="icofont icofont-fork-and-knife"></i> Restaurants</a></li>
-                        <li><a href="javascript:void(0);"><i class="fa fa-glass" aria-hidden="true"></i> Nightlife</a></li>
-                        <li><a href="javascript:void(0);"><i class="fa fa-wrench" aria-hidden="true"></i> Home Services</a></li>
-                        <li><a href="javascript:void(0);"><i class="icofont icofont-fast-delivery"></i> Delivery</a></li>
+                        @foreach($categories as $value)
+                        <li class="@if(!empty($value->getSubCategory->toArray())) dropdown @endif">
+                            <a href="{{ route('search') }}?keyword={{ urlencode($value->name) }}"  @if(!empty($value->getSubCategory->toArray())) class="dropdown-toggle" data-toggle="dropdown" @endif><i class="{{ $value->class_name }}"></i> {{ $value->name }}
+                                @if(!empty($value->getSubCategory->toArray())) 
+                                <b class="caret"></b>
+                                @endif
+                            </a>
+                            @if(!empty($value->getSubCategory->toArray()))
+                            <ul class="dropdown-menu">
+                                @foreach($value->getSubCategory->take(10) as $val)
+                                <li><a href="{{ route('subcategory.search',$val->id) }}">{{ $val->name }}</a></li>
+                                @endforeach
+                                @if(count($value->getSubCategory) > 10)
+                                <li><a href="{{ route('subcategory.all',$value->id) }}" class="more_sub_cat">More Sub Category</a></li>
+                                @endif
+                            </ul>
+                            @endif
+                        </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>

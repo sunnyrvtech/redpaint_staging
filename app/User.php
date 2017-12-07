@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Cashier\Billable;
+use App\Notifications\ResetNotification;
 
 class User extends Authenticatable
 {
@@ -28,6 +29,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    public function sendPasswordResetNotification($token) {
+        $username = $this->first_name . ' ' . $this->last_name;
+        $this->notify(new ResetNotification($token, $username));
+    }
     
     
     /**

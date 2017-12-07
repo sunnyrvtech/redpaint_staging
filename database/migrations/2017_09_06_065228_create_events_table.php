@@ -4,15 +4,14 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEventsTable extends Migration
-{
+class CreateEventsTable extends Migration {
+
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('events', function ($table) {
             $table->increments('id');
             $table->integer('user_id');
@@ -32,6 +31,9 @@ class CreateEventsTable extends Migration
             $table->decimal('price_to', 5, 2)->nullable();
             $table->decimal('price_from', 5, 2)->nullable();
             $table->integer('category_id');
+            $table->integer('sub_category_id')->nullable();
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('end_date')->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();
         });
@@ -42,8 +44,8 @@ class CreateEventsTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-         Schema::dropIfExists('events');
+    public function down() {
+        Schema::dropIfExists('events');
     }
+
 }

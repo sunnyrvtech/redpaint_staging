@@ -22,7 +22,7 @@ class CategoryController extends Controller {
         if ($request->ajax()) {
             $categories = Category::get();
             foreach ($categories as $key => $value) {
-                $categories[$key]['action'] = '<a href="' . route('categories.show', $value->id) . '" data-toggle="tooltip" title="update" class="glyphicon glyphicon-edit"></a>&nbsp;&nbsp;<a href="' . route('categories.destroy', $value->id) . '" data-toggle="tooltip" title="delete" data-method="delete" class="glyphicon glyphicon-trash deleteRow"></a>';
+                $categories[$key]['action'] = '<a href="' . route('subcategories-show', $value->id) . '" data-toggle="tooltip" title="View Sub Category" class="glyphicon glyphicon-eye-open"></a>&nbsp;&nbsp;<a href="' . route('categories.show', $value->id) . '" data-toggle="tooltip" title="update" class="glyphicon glyphicon-edit"></a>&nbsp;&nbsp;<a href="' . route('categories.destroy', $value->id) . '" data-toggle="tooltip" title="delete" data-method="delete" class="glyphicon glyphicon-trash deleteRow"></a>';
                 if ($value->status == 1) {
                     $categories[$key]['status'] = '<div class="btn-group status-toggle" data-id="' . $value->id . '" data-url="' . route('categories-status') . '"><button class="btn active btn-primary" data-value="1">ON</button><button class="btn btn-default" data-value="0">OFF</button></div>';
                 } else {

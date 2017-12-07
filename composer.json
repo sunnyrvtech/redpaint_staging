@@ -10,6 +10,7 @@
         "laravel/framework": "5.4.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
+        "spatie/laravel-newsletter": "3.7.0",
         "unisharp/laravel-ckeditor": "^4.6",
         "yajra/laravel-datatables-oracle": "^6.2"
     },

@@ -8,22 +8,18 @@
         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. <br/>Lorem Ipsum has been the industry</p>
 
         <ul class="Category_listing">
-            @foreach($categories as $key=>$val)
-            @if($key < 7)
+            @foreach($categories->take(4) as $key=>$val)
+            <!--            @if($key < 7)-->
             <li><a href="{{ route('search') }}?keyword={{ urlencode($val->name) }}"><i class="{{ $val->class_name }}"></i> <span>{{ $val->name }}</span></a></li>
-            @endif
+            <!--@endif-->
             @endforeach
-            <li class="show_more_cat"><a href="javascript:void(0);"><div class="three_dots"><i class="fa fa-circle" aria-hidden="true"></i><i class="fa fa-circle" aria-hidden="true"></i><i class="fa fa-circle" aria-hidden="true"></i></div> <span>More Categories</span></a></li>
+            <!--<li class="show_more_cat"><a href="javascript:void(0);"><div class="three_dots"><i class="fa fa-circle" aria-hidden="true"></i><i class="fa fa-circle" aria-hidden="true"></i><i class="fa fa-circle" aria-hidden="true"></i></div> <span>More Categories</span></a></li>-->
         </ul>
-        <div class="more_category">
-            @foreach($categories as $key=>$val)
-            @if($key > 7)
-            <div class="col-md-3 cat_child">
-                <a href="{{ route('search') }}?keyword={{ urlencode($val->name) }}"><i class="{{ $val->class_name }}"></i> <span>{{ $val->name }}</span></a>
-            </div>
-            @endif
-            @endforeach
-        </div>
+        <!--        <div class="more_category">
+                    <div class="col-md-3 cat_child">
+                        <a href=""><i class=""></i> <span></span></a>
+                    </div>
+                </div>-->
 
     </div>
 </div><!-- end Browse-Category -->
@@ -61,7 +57,17 @@
                             <h3><a href="{{ route('events',$value->event_slug) }}">{{ $value->name }}</a></h3>
                             <h4><i class="fa fa-map-marker"></i> {{ $value->formatted_address }}</h4>
                             <p>{{ $value->description }}</p>
-                            <!--<span>Opened 2 weeks ago</span>-->
+                            <?php $current_date = date('Y-m-d H:i:s'); ?>
+                            @if(($current_date >= $value->start_date && $current_date <= $value->end_date) || empty($value->end_date))
+                            <span>Opened Today</span>
+                            @elseif($current_date < $value->end_date)
+                            <span>Opened {{ $value->start_date }}</span>
+                            @else
+                            <?php
+                            $dDiff = Carbon\Carbon::parse($value->end_date);
+                            ?>
+                            <span>Opened {{ $dDiff->diffForHumans() }}</span>
+                            @endif
                             <div class="ratting_star">
                                 <span>
                                     <i class="icofont icofont-star @if($average >= 1) yallow @endif"></i>
@@ -120,10 +126,7 @@
                         <strong>Notice:-</strong> No review found !
                     </div>
                     @endif    
-
                 </div>
-
-
             </div>
             <div class="col-md-4 col-sm-5 col-xs-12">
                 <div class="heading"><h2>Recent Lists</h2></div>
@@ -144,7 +147,7 @@
                         <li><span>No event found !</span></li>
                         @endforelse
                         @if($events->take(4)->count() > 3)
-                            <li><p class="text-center"><a href="{{ route('search') }}?keyword=recent_events">Browse more lists</a></p></li>
+                        <li><p class="text-center"><a href="{{ route('search') }}?keyword=recent_events">Browse more lists</a></p></li>
                         @endif  
                     </ul>
                 </div>
@@ -158,9 +161,11 @@
         <h2>SIGN UP FOR NEWSLETTER</h2>
         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry</p>
         <form>
+            <div class="news_letter_input" ng-bind-html="news_msg">
+            </div>
             <div class="news_letter_input">
-                <input type="text" name="" placeholder="Put your email address here">
-                <button class="Subscribe_btn">Subscribe</button>
+                <input type="text" name="email" ng-model="news" placeholder="Put your email address here">
+                <button class="Subscribe_btn" ng-disabled="isDisabled" ng-click="submitNewsletter()">Subscribe</button>
             </div>
         </form>
     </div>

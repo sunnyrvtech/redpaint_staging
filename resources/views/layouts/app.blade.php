@@ -58,7 +58,7 @@
             @endif
         </div>
         <div class="container">
-            @if(Auth::check() && !Request::is('/') && Request::path()!='home')
+            @if(Auth::check() && !Request::is('/') && Request::segment(1)=='account')
                 @if(Auth::user()->subscribed('ads_subscription'))
                 <div class="notice notice-success">
                     <strong>Notice:-</strong> Hi {{ Auth::user()->first_name }}! Your currently active plan is <strong>{{ Auth::user()->get_active_plan->stripe_plan }}</strong>.If you want to cancel,upgrade or downgrade plan ,please visit here <strong><a href="{{ route('account-subscription') }}">Change plan</a></strong>
@@ -229,6 +229,16 @@
                 });
             }
         });
+        
+         $(".dropdown").hover(function() {
+                $('.dropdown-menu', this).stop( true, true ).fadeIn("fast");
+                $(this).toggleClass('open');
+                $('b', this).toggleClass("caret caret-up");                
+            },function() {
+                $('.dropdown-menu', this).stop( true, true ).fadeOut("fast");
+                $(this).toggleClass('open');
+                $('b', this).toggleClass("caret caret-up");                
+            });
     });
     
 </script>

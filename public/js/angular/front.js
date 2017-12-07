@@ -112,15 +112,6 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
             }
         }
 
-        $scope.forgotPassword = function () {
-            $http.get(BaseUrl + '/password/email').
-                    then(function (data, status, headers, config) {
-                        var $e1 = $('#content').html(data.data);
-                        $compile($e1)($scope);
-
-                    });
-        }
-
         $scope.submitResetPasswordLink = function (isValid) {
             if (isValid) {
                 $scope.loading = true;
@@ -256,7 +247,27 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
                 $(window).scrollTop(0);
 
             });
+        }
 
+        $scope.submitNewsletter = function (isValid) {
+            $scope.loading = true;
+            $scope.isDisabled = true;
+            $http({
+                method: 'POST',
+                url: BaseUrl + '/newsletter',
+                data: 'email=' + $scope.news,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function (data, status, headers, config) {
+                $scope.loading = false;
+                $scope.news_msg = '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Success!</strong>' + data.data.success + '</div>';
+            }, function errorCallback(data) {
+                $scope.loading = false;
+                $scope.news_msg = '<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Danger!</strong> ' + data.data.error + '</div>';
+            });
+            $timeout(function () {
+                $scope.isDisabled = false;
+                $scope.news_msg = false;
+            }, 8000);
         }
 
         $scope.submitZipRegion = function ($zipCode) {
@@ -278,7 +289,7 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
                             var countryId = $('#country_id option').filter(function () {
                                 return $(this).html() == addr.long_name;
                             }).val();
-                         $('#country_id').val(countryId);
+                            $('#country_id').val(countryId);
                         }
                     }
                 }

@@ -70,6 +70,17 @@ class AdController extends Controller {
         return redirect()->route('ads.index')
                         ->with('success-message', 'Ad added successfully!');
     }
+    
+    /**
+     * function to get all ads space
+     *
+     * @return Response
+     */
+    public function getAllAds(Request $request){
+        $ads = Ad::paginate(20);
+        $data['ads'] = $ads;
+        return View::make('ads.all', $data);
+    }
 
     /**
      * show function.

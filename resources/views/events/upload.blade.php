@@ -3,8 +3,15 @@
 <div class="profile-outer-main">
     <div class="row">
         <div class="profile-inner-content">
-            <div class="titled-nav-header_content">
-                <h3>{{ ucfirst($events->name) }}:-</h3>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="titled-nav-header_content">
+                        <h3>{{ ucfirst($events->name) }}:-</h3>
+                    </div>
+                </div>
+                <div class="col-md-2 pull-right">
+                    <a href="{{ route('events.index') }}" class="btn btn-primary" type="button">Back To Listing</a>
+                </div>
             </div>
             <form method="POST" id="imageForm" action="{{ route('photo.update',$events->event_slug) }}" enctype="multipart/form-data">
                 <input name="_method" value="PUT" type="hidden">
@@ -27,7 +34,7 @@
                 </div>
                 <div class="row">
                     <div class="renderPreviewImage clearfix">
-                        <?php $i=1; ?>
+                        <?php $i = 1; ?>
                         @foreach($event_images as $key=>$value)
                         <?php $photos = json_decode($value->event_images); ?>
                         @if($key == 0)
@@ -62,7 +69,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $(document).on('change', '.photo_file', function (e) {
-            document.getElementById("imageForm").submit(); 
+            document.getElementById("imageForm").submit();
 //            $(".renderPreviewImage").html('');
 //            $.each(e.originalEvent.target.files, function (i, file) {
 //                var reader = new FileReader();

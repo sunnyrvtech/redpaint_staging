@@ -19,7 +19,7 @@
         <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">-->
         <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css" rel="stylesheet">   
         <link href="//cdn.datatables.net/1.10.13/css/dataTables.semanticui.min.css" rel="stylesheet">   
-
+        @stack('stylesheet')
     </head>
 
     <body>
@@ -147,6 +147,7 @@
         <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.13/js/dataTables.semanticui.min.js"></script>
         <!--<script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js "></script>-->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>  
         <script type="text/javascript">
                             $(document).ready(function () {
                                 $("body").tooltip({selector: '[data-toggle=tooltip]', trigger: 'hover'});
@@ -229,6 +230,16 @@
                                         reader.readAsDataURL(input.files[0]);
                                     }
                                 }
+                                $('input.typeahead').typeahead({
+                                    source: function (query, process) {
+                                        var $url = this.$element.attr('data-url');
+                                        return $.get($url, {query: query}, function (data) {
+                                            //console.log(data);
+                                            //data = $.parseJSON(data);
+                                            return process(data);
+                                        });
+                                    }
+                                });
                             });
         </script>
         <!-- App scripts -->

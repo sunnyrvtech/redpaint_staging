@@ -43,7 +43,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="forgot-password">
-                                                    <a href="javascript:void(0);" ng-click="forgotPassword()" class="forgot-link">Forgot password?</a>
+                                                    <a href="{{ route('password.email') }}" class="forgot-link">Forgot password?</a>
                                                 </div>
                                                 <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
                                             </form>

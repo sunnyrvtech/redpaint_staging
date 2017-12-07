@@ -44,8 +44,11 @@ header.header{position:relative;min-height:633px}
 .search_form{margin-top:210px}
 .search_form .form_main{float:left;width:100%;background:#fff;padding:30px;box-shadow:0 2px 6px rgba(0,0,0,0.1);text-align:center}
 .search_form .form_main ul.search_Category{list-style:none;margin:20px 0}
-.search_form .form_main ul.search_Category li{display:inline-block;margin:0 15px}
-.search_form .form_main ul.search_Category li a{color:#666;font-weight:600}
+.search_form .form_main ul.search_Category.search_Category .dropdown-menu li { display: block; }
+.search_form .form_main ul.search_Category.search_Category .dropdown-menu li:last-child a.more_sub_cat { color: #D02600 !important;text-decoration: underline !important; }
+/*.search_form .form_main ul.search_Category.search_Category .dropdown-menu { height: auto;max-height: 300px;overflow-x: hidden; }*/
+.search_form .form_main ul.search_Category li{ display:inline-block;margin:0 15px;padding: 5px; }
+.search_form .form_main ul.search_Category li a{ color:#666;font-weight:600; }
 .search_form .form_main ul.search_Category li a i{font-size:16px;display:inline-block;vertical-align:middle}
 .search_form .form_main ul.search_Category li a i.icofont.icofont-fork-and-knife{font-size:20px}
 .search_form .form_main ul.search_Category li a i.icofont.icofont-fast-delivery{font-size:30px}
@@ -126,6 +129,7 @@ span.ca-nav-next:before{content:"\f105";left:inherit;right:0}
 .news_letter form{margin-top:35px}
 .news_letter form .news_letter_input input[type="text"]{height:55px;width:100%;border:none;border-radius:7px;padding-left:20px;outline:none}
 .news_letter form .news_letter_input button.Subscribe_btn{position:absolute;right:10px;top:10px;height:35px;width:110px;background:#d03310;border:none;color:#fff;border-radius:5px;outline:none}
+.caret-up { border-left: 4px solid transparent;border-right: 4px solid transparent;border-bottom: 4px dashed;display: inline-block;height: 0;margin-left: 2px;vertical-align: middle;width: 0; }
 footer h2 {
     margin-top: 50px;
     text-transform: uppercase;
@@ -316,9 +320,8 @@ button.menu_mobile{display: none;}
 .search_form.menus-wrp {
   background: rgb(208, 38, 0) none repeat scroll 0 0;
 }
-.search_form.menus-wrp  .form_main ul.search_Category li a {
-  color: rgb(255, 255, 255);
-}
+.search_form.menus-wrp  .form_main ul.search_Category li a { color: rgb(255, 255, 255); }
+.search_form.menus-wrp  .form_main ul.search_Category .dropdown-menu a { color: #666; }
 .account-header .top_header {
 /*  background: #d03c1b url("../images/header_stars.png") no-repeat scroll center center;*/
 background: #331008 url("../images/header_stars.png") no-repeat scroll center center;
@@ -1247,30 +1250,18 @@ color: rgb(208, 38, 0);
 .more_category .cat_child { margin-top:10px; }
 .more_category .cat_child > a { color: #3a3a3a;font-size: 19px;font-weight: 100; }
 .table-responsive .table > tbody > tr > th { border-top: medium none; }
-
 /*25oct2k17 css added*/
-.review-main .biz-page-actions a:hover {
-    background: #353433;
-}
-
-input, select, button, textarea{outline: none;}
-
-header.header .drop-menus-2 {
-    border-bottom: none;
-    padding-bottom: 0px;
-    margin-bottom: 0px;
-}
-div#maximage{width: 100% !important;}
-.review-main {
-    margin-top: 30px;
-}
-
-.map-box-address a:hover,.map-box-address a:focus {
-    color: #D02600;
-}
-
-.review-main .slick-prev:before, .review-main .slick-next:before{color: #d02600 !important;}
-
+.review-main .biz-page-actions a:hover { background: #353433; }
+input, select, button, textarea{ outline: none;}
+header.header .drop-menus-2 { border-bottom: none;padding-bottom: 0px;margin-bottom: 0px; }
+div#maximage{ width: 100% !important;}
+.review-main { margin-top: 30px; }
+.map-box-address a:hover,.map-box-address a:focus { color: #D02600; }
+.review-main .slick-prev:before, .review-main .slick-next:before{ color: #d02600 !important;}
+.list_subcat .cols { padding: 4px; }
+.list_subcat .cols a:hover { text-decoration: underline !important; }
+.list_subcat .cols .glyphicon.glyphicon-menu-right { font-size: 10px; }
+#content .event-listing { padding-top: 20px; }
 /*media query css*/
 
 @media(max-width:1024px){

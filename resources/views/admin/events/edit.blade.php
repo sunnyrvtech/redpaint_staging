@@ -17,16 +17,36 @@
         <form action="{{ route('business.update',$events->id)}}" method="post">
             <input name="_method" value="PUT" type="hidden">
             {{ csrf_field()}}
+            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                <label for="event_name" class="col-form-label">Event Name</label>
+                <input type="text" required="" class="form-control" name="name" value="{{ $events->name }}" placeholder="Event Name">
+                @if ($errors->has('name'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('name') }}</strong>
+                </span>
+                @endif
+            </div>
             <div class="row">
-                <div class="form-group col-md-6{{ $errors->has('name') ? ' has-error' : '' }}">
-                    <label for="event_name" class="col-form-label">Event Name</label>
-                    <input type="text" required="" class="form-control" name="name" value="{{ $events->name }}" placeholder="Event Name">
-                    @if ($errors->has('name'))
+                <div class="form-group col-md-6{{ $errors->has('start_date') ? ' has-error' : '' }}">
+                    <label for="start_date" class="col-form-label">Start Date</label>
+                    <input type="text" class="form-control datetimepicker" name="start_date" value="{{ \Carbon\Carbon::parse($events->start_date)->format('m/d/Y H:i:s') }}" placeholder="Event Start Date">
+                    @if ($errors->has('start_date'))
                     <span class="help-block">
-                        <strong>{{ $errors->first('name') }}</strong>
+                        <strong>{{ $errors->first('start_date') }}</strong>
                     </span>
                     @endif
                 </div>
+                <div class="form-group col-md-6{{ $errors->has('end_date') ? ' has-error' : '' }}">
+                    <label for="end_date" class="col-form-label">End Date</label>
+                    <input type="text" class="form-control datetimepicker" value="{{ $events->end_date !=null ? \Carbon\Carbon::parse($events->end_date)->format('m/d/Y H:i:s'):'' }}" name="end_date" placeholder="Event End Date">
+                    @if ($errors->has('end_date'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('end_date') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
                 <div class="form-group col-md-6{{ $errors->has('category_id') ? ' has-error' : '' }}">
                     <label for="category_id" class="col-form-label">Category</label>
                     <select name="category_id" required="" class="form-control">
@@ -38,6 +58,15 @@
                     @if ($errors->has('category_id'))
                     <span class="help-block">
                         <strong>{{ $errors->first('category_id') }}</strong>
+                    </span>
+                    @endif
+                </div>
+                <div class="form-group col-md-6{{ $errors->has('sub_category') ? ' has-error' : '' }}">
+                    <label for="sub_category" class="col-form-label">Sub category</label>
+                    <input type="text" required="" class="form-control typeahead" name="sub_category" value="{{ @$events->getSubCategory->name }}" autocomplete="off" data-url="{{ route('events-sub_cat').'?id='.$events->category_id }}" placeholder="Sub Category">
+                    @if ($errors->has('sub_category'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('sub_category') }}</strong>
                     </span>
                     @endif
                 </div>
@@ -154,13 +183,13 @@
                     @if($key == 0)
                     <label for="time_from" class="col-form-label">Time From</label>
                     @endif
-                    <input type="text" class="form-control datetimepicker" name="time_from[]" value="{{ isset($operation_hour[$key]->time_from)?$operation_hour[$key]->time_from:'' }}">
+                    <input type="text" class="form-control timepicker" name="time_from[]" value="{{ isset($operation_hour[$key]->time_from)?$operation_hour[$key]->time_from:'' }}">
                 </div>
                 <div class="form-group col-md-3">
                     @if($key == 0)
                     <label for="time_to" class="col-form-label">Time To</label>
                     @endif
-                    <input type="text" class="form-control datetimepicker" name="time_to[]" value="{{ isset($operation_hour[$key]->time_to)?$operation_hour[$key]->time_to:'' }}">
+                    <input type="text" class="form-control timepicker" name="time_to[]" value="{{ isset($operation_hour[$key]->time_to)?$operation_hour[$key]->time_to:'' }}">
                 </div>
                 <div class="form-group col-md-2">
                     @if($key == 0)
@@ -182,7 +211,8 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function () {
-    $('.datetimepicker').datetimepicker({
+    $('.datetimepicker').datetimepicker();
+    $('.timepicker').datetimepicker({
         format: 'LT'
     });
 
@@ -192,7 +222,13 @@ $(document).ready(function () {
         } else {
             $('.lock_hour_html').hide();
         }
-    })
+    });
+    $(document).on("change", "select[name='category_id']", function () {
+        var $id = $(this).val();
+        var $url = "{{ route('events-sub_cat') }}";
+        $url = $url + '?id=' + $id;
+        $("input[name='sub_category']").attr('data-url', $url);
+    });
 });
 </script>
 @endpush

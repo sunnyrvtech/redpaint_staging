@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\SubCategoryController;
 use View;
 use App\Event;
 use App\EventImage;
 use App\Category;
+use App\SubCategory;
 use App\Country;
 use Session;
 use Redirect;
+use Carbon\Carbon;
 use Yajra\Datatables\Facades\Datatables;
 
 class EventController extends Controller {
@@ -83,8 +86,11 @@ class EventController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id, SubCategoryController $sub_cat_controller) {
         $data = $request->all();
+        $data['start_date'] = $data['start_date'] != null ? Carbon::parse($data['start_date'])->format('Y-m-d H:i:s') : null;
+        $data['end_date'] = $data['end_date'] != null ? Carbon::parse($data['end_date'])->format('Y-m-d H:i:s') : null;
+
         $this->validate($request, [
             'name' => 'required|max:100',
             'category_id' => 'required',
@@ -97,6 +103,15 @@ class EventController extends Controller {
             'price_to' => 'required',
             'price_from' => 'required',
         ]);
+        if ($request->get('sub_category') != null) {
+            if (!$sub_category = SubCategory::Where('name', 'like', trim($request->get('sub_category')))->first()) {
+                $data['slug'] = $sub_cat_controller->createSlug($data['sub_category']);
+                $sub_data = $data;
+                $sub_data['name'] = $sub_data['sub_category'];
+                $sub_category = SubCategory::create($sub_data);
+            }
+            $data['sub_category_id'] = $sub_category->id;
+        }
 
         $lat_long = $this->getLatLong($data['country_id'], $data['state'], $data['city'], $data['address'], $data['zip']);
 
@@ -120,8 +135,6 @@ class EventController extends Controller {
         unset($data['time_from']);
         unset($data['time_to']);
         unset($data['status']);
-
-
 
         $events = Event::Where(['id' => $id])->first();
 

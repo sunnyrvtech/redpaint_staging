@@ -166,6 +166,7 @@ return [
         Yajra\Datatables\DatatablesServiceProvider::class,
         Unisharp\Ckeditor\ServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Spatie\Newsletter\NewsletterServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -232,6 +233,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Newsletter' => Spatie\Newsletter\NewsletterFacade::class,
 
     ],
 
