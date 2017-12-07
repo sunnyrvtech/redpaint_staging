@@ -135,20 +135,12 @@ class SubscriptionController extends Controller {
      * @return Response
      */
     public function paymentStatus() {
-                            die('dfgdfgdfgdfg');
         $input = @file_get_contents("php://input");
         $event_json = json_decode($input);
         $user = User::where('stripe_id', $event_json->data->object->customer)->select('id', 'email', 'first_name', 'last_name')->first();
         $subscription = Subscription::Where('user_id', $user->id)->first();
         $last_invoice = last($event_json->data->object->lines->data);
-                    die('dfgdfgdfgdfg');
         if ($event_json->type == 'invoice.payment_succeeded') {
-            
-            
-            die('yes');
-            
-            
-            
             ///  insert user subscription data in the payment table
             $subscription->fill(array('ends_at'=> null))->save();
             
@@ -180,8 +172,6 @@ class SubscriptionController extends Controller {
             $end_at = date('Y-m-d H:i:s', $last_invoice->period->end);
             $subscription->fill(array('ends_at'=> $end_at))->save();
         }
-              
-            die('es');
     }
 
 }
