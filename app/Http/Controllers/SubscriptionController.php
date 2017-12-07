@@ -140,6 +140,7 @@ class SubscriptionController extends Controller {
         $user = User::where('stripe_id', $event_json->data->object->customer)->select('id', 'email', 'first_name', 'last_name')->first();
         $subscription = Subscription::Where('user_id', $user->id)->first();
         $last_invoice = last($event_json->data->object->lines->data);
+                    die('dfgdfgdfgdfg');
         if ($event_json->type == 'invoice.payment_succeeded') {
             
             
