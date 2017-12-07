@@ -135,6 +135,7 @@ class SubscriptionController extends Controller {
      * @return Response
      */
     public function paymentStatus() {
+                            die('dfgdfgdfgdfg');
         $input = @file_get_contents("php://input");
         $event_json = json_decode($input);
         $user = User::where('stripe_id', $event_json->data->object->customer)->select('id', 'email', 'first_name', 'last_name')->first();
