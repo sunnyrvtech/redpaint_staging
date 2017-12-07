@@ -13,16 +13,18 @@
 
                 </div>
             </div>
-            <div class="row">
-                @forelse($ads as $val)
-                <div class="col-md-6">
-                    <div class="item">
-                        <a target="_blank" href="{{ $val->link }}"><img src ="{{ URL::asset('/ads_images').'/'.$val->banner }}"></a>
+            <div class="ads-content">
+                <div class="row">
+                    @forelse($ads as $val)
+                    <div class="col-md-6">
+                        <div class="item">
+                            <a target="_blank" href="{{ $val->link }}"><img src ="{{ URL::asset('/ads_images').'/'.$val->banner }}"></a>
+                        </div>
                     </div>
+                    @empty
+                    <div class="row">No ads Founds!</div>
+                    @endforelse
                 </div>
-                @empty
-                <div class="row">No ads Founds!</div>
-                @endforelse
             </div>
         </div>
     </div>

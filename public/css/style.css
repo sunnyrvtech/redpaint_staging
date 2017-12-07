@@ -131,6 +131,7 @@ span.ca-nav-next:before{content:"\f105";left:inherit;right:0}
 .news_letter form .news_letter_input button.Subscribe_btn{position:absolute;right:10px;top:10px;height:35px;width:110px;background:#d03310;border:none;color:#fff;border-radius:5px;outline:none}
 .caret-up { border-left: 4px solid transparent;border-right: 4px solid transparent;border-bottom: 4px dashed;display: inline-block;height: 0;margin-left: 2px;vertical-align: middle;width: 0; }
 .ads-container .item.slick-slide img{ margin: 0 auto; }
+.ads-content .item{ padding: 5px; }
 footer h2 {
     margin-top: 50px;
     text-transform: uppercase;
