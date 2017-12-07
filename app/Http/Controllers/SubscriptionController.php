@@ -141,6 +141,12 @@ class SubscriptionController extends Controller {
         $subscription = Subscription::Where('user_id', $user->id)->first();
         $last_invoice = last($event_json->data->object->lines->data);
         if ($event_json->type == 'invoice.payment_succeeded') {
+            
+            
+            die('yes');
+            
+            
+            
             ///  insert user subscription data in the payment table
             $subscription->fill(array('ends_at'=> null))->save();
             
@@ -172,6 +178,8 @@ class SubscriptionController extends Controller {
             $end_at = date('Y-m-d H:i:s', $last_invoice->period->end);
             $subscription->fill(array('ends_at'=> $end_at))->save();
         }
+              
+            die('es');
     }
 
 }

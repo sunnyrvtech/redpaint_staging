@@ -91,6 +91,9 @@
                         <li class="@if(Request::segment(2) == 'ads_list')active @endif">
                             <a href="{{ route('ads_list.index')}}"><i class="fa fa-fw fa-buysellads"></i>Ads</a>
                         </li>
+                        <li class="@if(Request::segment(2) == 'payments')active @endif">
+                            <a href="{{ route('admin.payment')}}"><i class="fa fa-fw fa-history"></i>Payment History</a>
+                        </li>
                         <!--                        <li class="">
                                                     <a href=""><i class="fa fa-fw fa-files-o"></i>Pages</a>
                                                 </li>-->
