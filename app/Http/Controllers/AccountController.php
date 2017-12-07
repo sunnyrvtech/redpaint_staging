@@ -81,7 +81,7 @@ class AccountController extends Controller {
             $user->verify_token = null;
             if ($user->save()) {
                 Auth::login($user);
-                return Redirect::to('/my-account')->with('success-message', 'Your account has been activated and successfully logged in!');
+                return Redirect::to('/')->with('success-message', 'Your account has been activated and successfully logged in!');
             } else {
                 return Redirect::to('/')
                                 ->with('error-message', 'We could not activate your account, please try again later.');
