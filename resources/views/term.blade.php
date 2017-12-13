@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
-        {!! $content->content or '' !!}
+<div class="static_page">
+{!! $content->content or '' !!}
 </div>
 @endsection
 
