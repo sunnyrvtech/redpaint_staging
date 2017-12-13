@@ -81,6 +81,13 @@ Route::group(['prefix' => 'account', 'middleware' => 'CheckLoginStatus'], functi
     Route::post('subscription/resume', 'SubscriptionController@subscriptionResume')->name('account-subscription-resume');
     Route::post('subscription/card', 'SubscriptionController@updateCard')->name('account-subscription-card');
 });
+Route::get('/about-us', 'HomeController@getAboutUs')->name('about-us');
+Route::get('/advertise', 'HomeController@getAdvertise')->name('advertise');
+Route::get('/join-team', 'HomeController@getJoinTeam')->name('join-team');
+Route::get('/merchandise', 'HomeController@getMerchandise')->name('merchandise');
+Route::get('/promotional-packages', 'HomeController@getPromotionalPackage')->name('promotional-packages');
+Route::get('/business-support', 'HomeController@getBusinessSupport')->name('business-support');
+Route::get('/terms-and-agreement', 'HomeController@getTermCondition')->name('terms-and-agreement');
 
 Route::get('events/{slug}', 'EventController@getEventByslug')->name('events');
 

@@ -46,6 +46,7 @@ class PackageController extends Controller {
             'day' => 'Day',
             'week' => 'Week',
             'month' => 'Month',
+            'every 6 months' => 'Every 6 months',
             'year' => 'Year',
         );
         return View::make('admin.packages.add', compact('title', 'interval'));

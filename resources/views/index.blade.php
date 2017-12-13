@@ -55,8 +55,8 @@
                         <div class="image"><a href="{{ route('events',$value->event_slug) }}"><img src="{{ URL::asset('/event_images').'/'.$event_images[0] }}"></a></div>
                         <div class="item_content">
                             <h3><a href="{{ route('events',$value->event_slug) }}">{{ $value->name }}</a></h3>
-                            <h4><i class="fa fa-map-marker"></i> {{ $value->formatted_address }}</h4>
-                            <p>{{ $value->description }}</p>
+                            <h4><i class="fa fa-map-marker"></i> {{ str_limit($value->formatted_address, $limit = 37, $end = '...') }}</h4>
+                            <p>{{ str_limit($value->description, $limit = 37, $end = '...') }}</p>
                             <?php $current_date = date('Y-m-d H:i:s'); ?>
                             @if(($current_date >= $value->start_date && $current_date <= $value->end_date) || empty($value->end_date))
                             <span>Opened Today</span>
@@ -106,7 +106,7 @@
                         <h5>Write a review for <span><a href="{{ route('events',$review_of_day->getEventDetails->event_slug) }}">{{ $review_of_day->getEventDetails->name }}</a></span></h5>
                     </div>
                     <div class="content">
-                        <p>{{ $review_of_day->comment }}</p>
+                        <p>{{ str_limit($review_of_day->comment, $limit = 150, $end = '...') }}</p>
                     </div>
                     <div class="review_footer">
                         <div class="ratting_star">
@@ -140,7 +140,7 @@
                                 <div class="image_r"><img src="{{ URL::asset('/event_images').'/'.$event_images[0] }}"></div>
                                 <div class="RecentL_contant">
                                     <h5>{{ $value->name }}</h5>
-                                    <p>{{ $value->description }}</p>
+                                    <p>{{ str_limit($value->description, $limit = 15, $end = '...') }}</p>
                                 </div>
                             </a></li>
                         @empty

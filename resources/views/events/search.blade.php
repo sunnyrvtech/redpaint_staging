@@ -76,8 +76,8 @@
                                         <li class="cou-rate"><span>{{ $value->getReviews->count() }} reviews</span></li>
                                     </ul>
                                 </div>
-                                <span><i class="fa fa-map-marker"></i> {{ $value->formatted_address }}</span>
-                                <span class="description-search">{{ $value->description }}</span>
+                                <span><i class="fa fa-map-marker"></i> {{ str_limit($value->formatted_address, $limit = 32, $end = '...') }}</span>
+                                <span class="description-search">{{ str_limit($value->description, $limit = 32, $end = '...') }}</span>
                                 <!--<p class="business-date-opened"><i class="fa fa-hourglass" aria-hidden="true"></i>Opened 3 weeks ago </p>-->
                             </div>
                         </div>

@@ -52,6 +52,7 @@
                             </div>
                             <div class="price-category">
                                 @if($events->getSubCategory)
+                                <p><span>{{ $events->description }}</span></p>
                                 <span class="bullet-after">
                                     <span class="price-range">$$</span>
                                 </span>
@@ -87,7 +88,7 @@
                                         </li>
                                         <li class="direction">
                                             <div class="map-box-address">
-                                                <a href="#">Get Direction</a>
+                                                <!--<a href="#">Get Direction</a>-->
                                             </div>
                                         </li>
 <!--                                                                            <li class="ph-call">
@@ -368,7 +369,7 @@
                                     <div class="image_r"><img src="{{ URL::asset('/event_images').'/'.$event_images[0] }}"></div>
                                     <div class="RecentL_contant">
                                         <h5>{{ $value->name }}</h5>
-                                        <p>{{ $value->description }}</p>
+                                        <p>{{ str_limit($value->description, $limit = 15, $end = '...') }}</p>
                                     </div>
                                 </a></li>
                             @empty

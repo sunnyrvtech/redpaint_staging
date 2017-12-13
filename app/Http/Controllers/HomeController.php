@@ -7,6 +7,8 @@ use App\Category;
 use App\Review;
 use App\Event;
 use Newsletter;
+use App\StaticPage;
+use View;
 
 class HomeController extends Controller {
 
@@ -51,6 +53,34 @@ class HomeController extends Controller {
         } else {
             return response()->json(['error' => "Please enter email address"], 401);
         }
+    }
+    public function getAboutUs() {
+        $data['content'] = StaticPage::where('slug', 'about-us')->first();
+        return View::make('about-us', $data);
+    }
+    public function getAdvertise() {
+        $data['content'] = StaticPage::where('slug', 'advertise')->first();
+        return View::make('advertise', $data);
+    }
+    public function getJoinTeam() {
+        $data['content'] = StaticPage::where('slug', 'join-team')->first();
+        return View::make('team', $data);
+    }
+    public function getMerchandise() {
+        $data['content'] = StaticPage::where('slug', 'merchandise')->first();
+        return View::make('merchandise', $data);
+    }
+    public function getPromotionalPackage() {
+        $data['content'] = StaticPage::where('slug', 'promotional-packages')->first();
+        return View::make('package', $data);
+    }
+    public function getBusinessSupport() {
+        $data['content'] = StaticPage::where('slug', 'business-support')->first();
+        return View::make('support', $data);
+    }
+    public function getTermCondition() {
+        $data['content'] = StaticPage::where('slug', 'terms-and-agreement')->first();
+        return View::make('term', $data);
     }
 
 }

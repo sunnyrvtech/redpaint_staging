@@ -118,15 +118,13 @@
         <div class="col-md-3 col-sm-3 col-xs-12 info-Link">
             <h2>info Link</h2>
             <ul>
-                <li><a href="javascript:void(0);">About Yelp</a></li>
-                <li><a href="javascript:void(0);">Order Food on Eat24</a></li>
-                <li><a href="javascript:void(0);">Careers</a></li>
-                <li><a href="javascript:void(0);">Press</a></li>
-                <li><a href="javascript:void(0);">Investor Relations</a></li>
-                <li><a href="javascript:void(0);">Content Guidelines</a></li>
-                <li><a href="javascript:void(0);">Terms of Service</a></li>
-                <li><a href="javascript:void(0);">Privacy Policy</a></li>
-                <li><a href="javascript:void(0);">Ad Choices</a></li>
+                <li><a href="{{ route('about-us') }}">About us</a></li>
+                <li><a href="{{ route('advertise') }}">Advertise on Red Paint</a></li>
+                <li><a href="{{ route('join-team') }}">Join Red Paint team</a></li>
+                <li><a href="{{ route('merchandise') }}">Merchandise</a></li>
+                <li><a href="{{ route('promotional-packages') }}">Promotional packages</a></li>
+                <li><a href="{{ route('business-support') }}">Business support</a></li>
+                <li><a href="{{ route('terms-and-agreement') }}">Terms and agreement</a></li>
             </ul>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12 instagram_gallery">
