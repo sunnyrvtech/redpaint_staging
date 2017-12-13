@@ -3,24 +3,45 @@
 <div class="profile-outer-main">
     <div class="row text-center">
         <h3>Your First Review Awaits</h3>
-        <p><b>Review your favorite businesses and share your experiences with our community. Need a little help getting started? <a href="javascript:void(0);">Check out these tips.</a></b></p>
-        <form class="seacrg_city" action="{{ route('search') }}">
-            <div class="col-md-5 col-sm-5 col-xs-12 custom_column">
-                <div class="input-group">
-                    <div class="input-group-addon">Find</div>
-                    <input type="text" class="form-control typeahead" autocomplete="off" data-url="{{ route('events-autosearch') }}" name="keyword" value="{{ Request::get('keyword') }}" placeholder="dinner, Max’s">
+        <div class="col-md-10">
+            <p><b>Review your favorite businesses and share your experiences with our community. Need a little help getting started?</b></p>
+            <form class="seacrg_city" action="{{ route('search') }}">
+                <div class="col-md-5 col-sm-5 col-xs-12 custom_column">
+                    <div class="input-group">
+                        <div class="input-group-addon">Find</div>
+                        <input type="text" class="form-control typeahead" autocomplete="off" data-url="{{ route('events-autosearch') }}" name="keyword" value="{{ Request::get('keyword') }}" placeholder="dinner, Max’s">
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-5 col-sm-5 col-xs-12 custom_column">
-                <div class="input-group">
-                    <div class="input-group-addon">Near</div>
-                    <input type="text" class="form-control typeahead" autocomplete="off" data-url="{{ route('address-autosearch') }}" name="address" value="{{ Request::get('address') }}" placeholder="address, city, state or zip">
+                <div class="col-md-5 col-sm-5 col-xs-12 custom_column">
+                    <div class="input-group">
+                        <div class="input-group-addon">Near</div>
+                        <input type="text" class="form-control typeahead" autocomplete="off" data-url="{{ route('address-autosearch') }}" name="address" value="{{ Request::get('address') }}" placeholder="address, city, state or zip">
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-1 col-sm-1 col-xs-12 custom_column">
-                <button type="submit" class="btn btn-primary search_city_btn"><i class="icofont icofont-search-alt-1"></i></button>
-            </div>
-        </form>
+                <div class="col-md-1 col-sm-1 col-xs-12 custom_column">
+                    <button type="submit" class="btn btn-primary search_city_btn"><i class="icofont icofont-search-alt-1"></i></button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <p><b>Filter by day:-</b></p>
+            <?php
+            $days = array(
+                1 => 'Monday',
+                2 => 'Tuesday',
+                3 => 'Wednesday',
+                4 => 'Thursday',
+                5 => 'Friday',
+                6 => 'Saturday',
+                7 => 'Sunday');
+            ?>
+            <select ng-model="day" ng-change="filterByDay()">
+                <option value="">Choose...</option>
+                @foreach($days as $key=>$val)
+                <option value="{{ $val }}">{{ $val }}</option>
+                @endforeach
+            </select>
+        </div>
     </div>
     <div class="event-listing">
         <div class="col-sm-12" style="border-top: 1px solid #e6e6e6;">

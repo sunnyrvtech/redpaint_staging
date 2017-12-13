@@ -269,6 +269,30 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
                 $scope.news_msg = false;
             }, 8000);
         }
+        $scope.filterByDay = function (isValid) {
+            if ($scope.day) {
+                $scope.loading = true;
+                $http({
+                    method: 'GET',
+                    url: BaseUrl + '/search',
+                    params: {keyword: 'daily_deals', day: $scope.day},
+                    headers: {'Content-Type': 'application/json'}
+                }).then(function (data, status, headers, config) {
+                    $scope.loading = false;
+                    var $e1 = $('#content').html(data.data.html);
+                    $compile($e1)($scope);
+                }, function errorCallback(data) {
+                    $scope.loading = false;
+                    $scope.alert_loading = true;
+                    $scope.alertClass = 'alert-danger';
+                    $scope.alertLabel = 'Error!';
+                    $scope.alert_messages = data.data.error;
+                    $scope.alertHide();
+                    $(window).scrollTop(0);
+
+                });
+            }
+        }
 
         $scope.submitZipRegion = function ($zipCode) {
             $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyDZGTC412EEKYBmKXxH9VFnE97fKNsu0zQ&address=' + $zipCode + '&sensor=true', function (data) {

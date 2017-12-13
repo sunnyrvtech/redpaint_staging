@@ -56,6 +56,8 @@ class EventController extends Controller {
         $this->validate($request, [
             'name' => 'required|max:100',
             'category_id' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
             'address' => 'required',
             'city' => 'required',
             'state' => 'required',
@@ -137,7 +139,8 @@ class EventController extends Controller {
         $this->validate($request, [
             'name' => 'required|max:100',
             'category_id' => 'required',
-//            'date' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
             'address' => 'required',
             'city' => 'required',
             'state' => 'required',
@@ -297,8 +300,9 @@ class EventController extends Controller {
     public function searchEvent(Request $request) {
         $keyword = $request->get('keyword');
         $address = $request->get('address');
+        $days = $request->get('day');
 
-        if ($keyword != null && $keyword != 'recent_events') {
+        if ($keyword != null && $keyword != 'recent_events' && $keyword != 'daily_deals') {
             $events = Event::Where('status', 1)->Where(function($query) use ($keyword, $address) {
                         if ($address != null) {
                             $query->Where('events.name', 'LIKE', '%' . $keyword . '%')
@@ -318,11 +322,24 @@ class EventController extends Controller {
                         }
                     })->paginate(20);
         } elseif ($keyword == 'recent_events') {
-            $events = Event::Where('status', 1)->orderby('created_at', 'DESC')->take(20)->paginate();
+            $events = Event::Where('status', 1)->orderby('created_at', 'DESC')->paginate(20);
+        } elseif ($keyword == 'daily_deals') {
+            $current_date = Carbon::now();
+            if ($days != null) {
+               $day_date =  Carbon::parse('this '.$days)->toDateString();
+               $events = Event::Where('status', 1)->Where([['end_date', '>', $current_date],['start_date', '<=', $day_date],['end_date', '>=', $day_date]])->paginate(20);                
+            } else {
+                $events = Event::Where('status', 1)->Where('end_date', '>', $current_date)->paginate(20);
+            }
         } else {
             $events = array();
         }
-        return View::make('events.search', compact('events'));
+        $view = View::make('events.search', compact('events'));
+        if ($request->wantsJson()) {
+            $sections = $view->renderSections();
+            return response()->json(['success' => true, 'html' => $sections['content']]);
+        }
+        return $view;
     }
 
     /**

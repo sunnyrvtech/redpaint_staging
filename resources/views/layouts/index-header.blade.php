@@ -10,8 +10,9 @@
                     <div class="header_menu">
                         <ul>
                             <li><a href="#">Write a Review</a></li>
-                            <li><a href="{{ route('events.index') }}">Events</a></li>
+                            <!--<li><a href="">Events</a></li>-->
                             <li><a href="{{ route('ads') }}">Ads</a></li>
+                            <li><a href="{{ route('search') }}?keyword=daily_deals">Daily Deals</a></li>
                             @if(!Auth::check())
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li class="Register"><a href="{{ route('register') }}">Register</a></li>

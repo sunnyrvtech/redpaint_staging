@@ -37,7 +37,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-6{{ $errors->has('start_date') ? ' has-error' : '' }}">
                             <label for="start_date" class="col-form-label">Start Date</label>
-                            <input type="text" class="form-control datetimepicker" name="start_date" value="{{ \Carbon\Carbon::parse($events->start_date)->format('m/d/Y H:i:s') }}" placeholder="Event Start Date">
+                            <input type="text" required="" class="form-control datetimepicker" name="start_date" value="{{ \Carbon\Carbon::parse($events->start_date)->format('m/d/Y H:i:s') }}" placeholder="Event Start Date">
                             @if ($errors->has('start_date'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('start_date') }}</strong>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="form-group col-md-6{{ $errors->has('end_date') ? ' has-error' : '' }}">
                             <label for="end_date" class="col-form-label">End Date</label>
-                            <input type="text" class="form-control datetimepicker" value="{{ $events->end_date !=null ? \Carbon\Carbon::parse($events->end_date)->format('m/d/Y H:i:s'):'' }}" name="end_date" placeholder="Event End Date">
+                            <input type="text" required="" class="form-control datetimepicker" value="{{ $events->end_date !=null ? \Carbon\Carbon::parse($events->end_date)->format('m/d/Y H:i:s'):'' }}" name="end_date" placeholder="Event End Date">
                             @if ($errors->has('end_date'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('end_date') }}</strong>

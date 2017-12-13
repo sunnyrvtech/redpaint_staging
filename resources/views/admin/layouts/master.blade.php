@@ -147,6 +147,8 @@
         <!-- jQuery -->
         <script src="{{ URL::asset('js/jquery.js') }}"></script>
         <script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
+        <script src="{{ url('/vendor/unisharp/laravel-ckeditor/ckeditor.js')}}"></script>
+        <script src="{{ url('/vendor/unisharp/laravel-ckeditor/adapters/jquery.js')}}"></script>
         <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.13/js/dataTables.semanticui.min.js"></script>
         <!--<script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js "></script>-->
@@ -164,6 +166,12 @@
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                     }
                                 });
+                                
+                                $('textarea').ckeditor({
+                                    enterMode: CKEDITOR.ENTER_DIV,
+                                    allowedContent: true
+                                });
+                                
                                 $(document).on('click', '.deleteRow', function (e) {
                                     e.preventDefault(); // does not go through with the link.
                                     var $this = $(this);
