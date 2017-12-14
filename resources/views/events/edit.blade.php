@@ -70,7 +70,7 @@
                             @endif
                         </div>
                         <div class="form-group col-md-6{{ $errors->has('sub_category') ? ' has-error' : '' }}">
-                            <label for="sub_category" class="col-form-label">Sub category</label>
+                            <label for="sub_category" required="" class="col-form-label">Sub category</label>
                             <input type="text" required="" class="form-control typeahead" name="sub_category" value="{{ @$events->getSubCategory->name }}" autocomplete="off" data-url="{{ route('events-sub_cat').'?id='.$events->category_id }}" placeholder="Sub Category">
                             @if ($errors->has('sub_category'))
                             <span class="help-block">
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                     <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                        <label for="description" class="col-form-label">What & Why</label>
+                        <label for="description" class="col-form-label">Description</label>
                         <textarea class="form-control" name="description">{{ $events->description }}</textarea>
                         @if ($errors->has('description'))
                         <span class="help-block">

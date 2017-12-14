@@ -56,6 +56,7 @@ class EventController extends Controller {
         $this->validate($request, [
             'name' => 'required|max:100',
             'category_id' => 'required',
+            'sub_category' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
             'address' => 'required',
@@ -139,6 +140,7 @@ class EventController extends Controller {
         $this->validate($request, [
             'name' => 'required|max:100',
             'category_id' => 'required',
+            'sub_category' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
             'address' => 'required',
