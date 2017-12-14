@@ -38,7 +38,7 @@
             <select ng-model="day" ng-change="filterByDay()">
                 <option value="">Choose...</option>
                 @foreach($days as $key=>$val)
-                <option value="{{ $val }}">{{ $val }}</option>
+                <option @if(Request::get('day') == $val) selected @endif value="{{ $val }}">{{ $val }}</option>
                 @endforeach
             </select>
         </div>
@@ -100,3 +100,41 @@
     </div>
 </div>
 @endsection
+@push('scripts')
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on('click', '.pagination a', function (e) {
+            e.preventDefault();
+            var qs = getQueryStrings();
+            var URL = $(this).attr('href');
+            if (qs['keyword'] != undefined) {
+                URL = URL + '&keyword=' + qs['keyword'];
+            }
+            if (qs['address'] != undefined) {
+                URL = URL + '&address=' + qs['address'];
+            }
+            if (qs['day'] != undefined) {
+                URL = URL + '&day=' + qs['day'];
+            }
+            window.location.href = URL;
+        });
+
+        function getQueryStrings() {
+            var assoc = {};
+            var decode = function (s) {
+                return decodeURIComponent(s.replace(/\+/g, " "));
+            };
+            var queryString = location.search.substring(1);
+            var keyValues = queryString.split('&');
+
+            for (var i in keyValues) {
+                var key = keyValues[i].split('=');
+                if (key.length > 1) {
+                    assoc[decode(key[0])] = decode(key[1]);
+                }
+            }
+            return assoc;
+        }
+    });
+</script>
+@endpush

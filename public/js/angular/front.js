@@ -271,6 +271,7 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
         }
         $scope.filterByDay = function (isValid) {
             if ($scope.day) {
+                window.history.pushState("", "", BaseUrl + '/search?keyword=daily_deals&day='+$scope.day);
                 $scope.loading = true;
                 $http({
                     method: 'GET',
