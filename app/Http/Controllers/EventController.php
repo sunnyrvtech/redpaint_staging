@@ -329,9 +329,9 @@ class EventController extends Controller {
             $current_date = Carbon::now();
             if ($days != null) {
                $day_date =  Carbon::parse('this '.$days)->toDateString();
-               $events = Event::Where('status', 1)->Where([['end_date', '>', $current_date],['start_date', '<=', $day_date],['end_date', '>=', $day_date]])->paginate(20);                
+               $events = Event::Where('status', 1)->Where([['end_date', '>=', $current_date],['start_date', '<=', $day_date],['end_date', '>=', $day_date]])->paginate(20);                
             } else {
-                $events = Event::Where('status', 1)->Where('end_date', '>', $current_date)->paginate(20);
+                $events = Event::Where('status', 1)->Where('end_date', '>=', $current_date)->paginate(20);
             }
         } else {
             $events = array();
