@@ -105,6 +105,7 @@
                             @endif
                         </li>
                         @endforeach
+                        <li><a href="{{ route('search') }}?keyword=daily_deals">Daily Deals</a></li>
                     </ul>
                 </div>
             </div>

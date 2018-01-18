@@ -35,10 +35,10 @@
                 6 => 'Saturday',
                 7 => 'Sunday');
             ?>
-            <select ng-model="day" ng-change="filterByDay()">
+                <select ng-model="day" ng-init="day='{{ Request::get('day') }}'" ng-change="filterByDay()">
                 <option value="">Choose...</option>
                 @foreach($days as $key=>$val)
-                <option @if(Request::get('day') == $val) selected @endif value="{{ $val }}">{{ $val }}</option>
+                <option value="{{ $val }}">{{ $val }}</option>
                 @endforeach
             </select>
         </div>
@@ -46,6 +46,7 @@
     <div class="event-listing">
         <div class="col-sm-12" style="border-top: 1px solid #e6e6e6;">
             <div class="content-middle search-wrap">
+                <?php $i=0; ?>
                 @forelse($events as $key=>$value)
                 <?php
                 $event_images = isset($value->getOwnerEventImages->event_images) ? json_decode($value->getOwnerEventImages->event_images) : array('default.jpg');
@@ -58,7 +59,7 @@
                     $average = 0;
                 }
                 ?>
-                @if($key%3 == 0)
+                @if($i%3 == 0)
                 <div class="row">
                     @endif
                     <div class="col-xs-12 col-sm-6 col-md-4">
@@ -82,8 +83,11 @@
                             </div>
                         </div>
                     </div>
-                    @if($key%2 == 0 && $key !=0)
+                    @if($i%2 == 0 && $i !=0)
+                    <?php $i = 0; ?>
                 </div>
+                @else
+                <?php $i++; ?>
                 @endif
                 @empty
                 <div class="notice notice-warning">

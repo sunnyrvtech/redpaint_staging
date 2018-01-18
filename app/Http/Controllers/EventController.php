@@ -13,6 +13,7 @@ use App\EventImage;
 use App\Http\Controllers\Admin\SubCategoryController;
 use Auth;
 use View;
+use DB;
 use Carbon\Carbon;
 
 class EventController extends Controller {
@@ -81,6 +82,24 @@ class EventController extends Controller {
         $data['formatted_address'] = $data['address'] . ',' . $data['city'] . ',' . $data['state'];
         $data['latitude'] = $lat_long['latitude'];
         $data['longitude'] = $lat_long['longitude'];
+
+        if ($request->get('happy_time_from') != null && $request->get('happy_time_to') != null) {
+            $happy_hour_array = array(
+                'happy_time_from' => $request->get('happy_time_from'),
+                'happy_time_to' => $request->get('happy_time_to')
+            );
+            $data['happy_hour'] = json_encode($happy_hour_array);
+        }
+        if ($request->get('brunch_time_from') != null && $request->get('brunch_time_to') != null) {
+            $brunch_hour_array = array(
+                'brunch_time_from' => $request->get('brunch_time_from'),
+                'brunch_time_to' => $request->get('brunch_time_to')
+            );
+            $data['brunch_hour'] = json_encode($brunch_hour_array);
+        }
+
+
+
 
         $operation_hour = array();
         foreach ($data['day'] as $key => $val) {
@@ -167,6 +186,22 @@ class EventController extends Controller {
         $data['formatted_address'] = $data['address'] . ',' . $data['city'] . ',' . $data['state'];
         $data['latitude'] = $lat_long['latitude'];
         $data['longitude'] = $lat_long['longitude'];
+
+        if ($request->get('happy_time_from') != null && $request->get('happy_time_to') != null) {
+            $happy_hour_array = array(
+                'happy_time_from' => $request->get('happy_time_from'),
+                'happy_time_to' => $request->get('happy_time_to')
+            );
+            $data['happy_hour'] = json_encode($happy_hour_array);
+        }
+        if ($request->get('brunch_time_from') != null && $request->get('brunch_time_to') != null) {
+            $brunch_hour_array = array(
+                'brunch_time_from' => $request->get('brunch_time_from'),
+                'brunch_time_to' => $request->get('brunch_time_to')
+            );
+            $data['brunch_hour'] = json_encode($brunch_hour_array);
+        }
+
 
         $operation_hour = array();
         foreach ($data['day'] as $key => $val) {
@@ -300,9 +335,35 @@ class EventController extends Controller {
      * @return Response
      */
     public function searchEvent(Request $request) {
+
+        $miles = 20;
+        $lat = $request->session()->get('latitude');
+        $lng = $request->session()->get('longitude');
+
+        $distant_array['lat_dist_minus'] = $lat - ($miles * 0.018);
+        $distant_array['lat_dist_plus'] = $lat + ($miles * 0.018);
+        $distant_array['lng_dist_minus'] = $lng - ($miles * 0.018);
+        $distant_array['lng_dist_plus'] = $lng + ($miles * 0.018);
+
         $keyword = $request->get('keyword');
         $address = $request->get('address');
         $days = $request->get('day');
+
+//        $events = Event::Where(function($query) use ($keyword, $address, $distant_array) {
+//                    $query->Where('events.name', 'LIKE', '%' . $keyword . '%');
+//                })->orwhereHas('getCategory', function($query) use($keyword) {
+//                    if ($keyword != null) {
+//                        $query->Where('categories.name', 'LIKE', '%' . $keyword . '%');
+//                    }
+//                })->Where(function($query) use ($keyword, $address, $distant_array) {
+//                    $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
+//                    ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
+//                })
+//                ->get();
+//
+//
+//
+//        dd($events);
 
         if ($keyword != null && $keyword != 'recent_events' && $keyword != 'daily_deals') {
             $events = Event::Where('status', 1)->Where(function($query) use ($keyword, $address) {
@@ -316,22 +377,37 @@ class EventController extends Controller {
                         if ($keyword != null) {
                             $query->Where('categories.name', 'LIKE', '%' . $keyword . '%');
                         }
+                    })->Where(function($query) use ($distant_array) {
+                        $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
+                                ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
                     })->paginate(20);
         } elseif ($address != null) {
             $events = Event::Where('status', 1)->Where(function($query) use ($address) {
                         if ($address != null) {
                             $query->Where('events.formatted_address', 'LIKE', '%' . $address . '%');
                         }
+                    })->orWhere(function($query) use ($distant_array) {
+                        $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
+                                ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
                     })->paginate(20);
         } elseif ($keyword == 'recent_events') {
-            $events = Event::Where('status', 1)->orderby('created_at', 'DESC')->paginate(20);
+            $events = Event::Where('status', 1)->Where(function($query) use ($distant_array) {
+                        $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
+                                ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
+                    })->orderby('created_at', 'DESC')->paginate(20);
         } elseif ($keyword == 'daily_deals') {
             $current_date = Carbon::now()->toDateString();
             if ($days != null) {
                 $day_date = Carbon::parse('this ' . $days)->toDateString();
-                $events = Event::Where('status', 1)->whereDate('end_date', '>=', $current_date)->whereDate('start_date', '<=', $day_date)->whereDate('end_date', '>=', $day_date)->paginate(20);
+                $events = Event::Where('status', 1)->whereDate('end_date', '>=', $current_date)->whereDate('start_date', '<=', $day_date)->whereDate('end_date', '>=', $day_date)->Where(function($query) use ($distant_array) {
+                        $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
+                                ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
+                    })->paginate(20);
             } else {
-                $events = Event::Where('status', 1)->whereDate('end_date', '>=', $current_date)->paginate(20);
+                $events = Event::Where('status', 1)->whereDate('end_date', '>=', $current_date)->Where(function($query) use ($distant_array) {
+                        $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
+                                ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
+                    })->paginate(20);
             }
         } else {
             $events = array();

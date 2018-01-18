@@ -82,5 +82,22 @@ class HomeController extends Controller {
         $data['content'] = StaticPage::where('slug', 'terms-and-agreement')->first();
         return View::make('term', $data);
     }
-
+    
+    public function saveUserLocation(Request $request){
+        $data = $request->all();
+        
+        if($data['latitude'] != null){
+            $request->session()->put('latitude', $data['latitude']);
+        }
+        
+        if($data['longitude'] != null){
+            $request->session()->put('longitude', $data['longitude']);
+        }
+        
+        if($data['user_location'] != null){
+            $request->session()->put('user_location', $data['user_location']);
+        }
+        
+        return redirect('/');
+    }
 }

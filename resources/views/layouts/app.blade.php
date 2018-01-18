@@ -145,16 +145,37 @@
             </ul>
         </div>
     </div>
-
-<div class="bottom_footer">
-    <div class="container">
-        <div class="copyright">Site name © 2017 All Rights Reserved <strong>Terms of Use</strong> and <strong>Privacy Policy</strong></div>
-
-        <p id="back-top">
-            <a href="#top"><i class="fa fa-angle-up" aria-hidden="true"></i></a>
-        </p>
+    @if(!Session::has('latitude') && !Session::has('longitude')) 
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title text-center"><b>Share your Location with Redpaint</b></h3>
+                </div>
+                <form action="{{ route('user_location') }}" method="post">
+                    {{ csrf_field()}}
+                    <div class="modal-body">
+                        <input type="text" name="user_location" id="txtPlaces" class="form-control" placeholder="Enter your address">
+                        <input type="hidden" name="latitude">
+                        <input type="hidden" name="longitude">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" disabled="" class="btn btn-primary">Share</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
+    @endif
+    <div class="bottom_footer">
+        <div class="container">
+            <div class="copyright">Site name © 2017 All Rights Reserved <strong>Terms of Use</strong> and <strong>Privacy Policy</strong></div>
+
+            <p id="back-top">
+                <a href="#top"><i class="fa fa-angle-up" aria-hidden="true"></i></a>
+            </p>
+        </div>
+    </div>
 </footer><!-- end footer -->
 <!-- Scripts -->
 <script src="{{ URL::asset('js/jquery.js') }}"></script>
@@ -163,6 +184,21 @@
 <script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>  
 @stack('scripts')
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZGTC412EEKYBmKXxH9VFnE97fKNsu0zQ&libraries=places"></script>
+@if(!Session::has('latitude') && !Session::has('longitude')) 
+<script type="text/javascript">
+     google.maps.event.addDomListener(window, 'load', function () {
+         var autocomplete = new google.maps.places.Autocomplete(document.getElementById('txtPlaces'));
+         autocomplete.addListener('place_changed', function() {
+            var place = autocomplete.getPlace();
+            console.log(place);
+            $("input[name='latitude']").val(place.geometry.location.lat());
+            $("input[name='longitude']").val(place.geometry.location.lng());
+            $("#myModal button").attr("disabled",false);
+         });
+     });
+ </script>
+@endif
 <script type="text/javascript">
      var BaseUrl = "<?php echo url('/') ?>";
      setTimeout(function () {
@@ -179,6 +215,7 @@
         file.trigger('click');
     });
     $(document).ready(function () {
+        $("#myModal").modal({ backdrop: 'static' });
         $(document).on('click', '.confirmationStatus', function (e) {
             e.preventDefault(); // does not go through with the link.
             var $this = $(this);

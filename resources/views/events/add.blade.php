@@ -172,6 +172,52 @@
                             @endif
                         </div>
                     </div>
+                    <div class="form-group text-center">
+                        <label for="happy" class="col-form-label">Happy Hours</label>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="happy_time_from" class="col-form-label">Time From</label>
+                            <input type="text" class="form-control timepicker" name="happy_time_from">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="happy_time_to" class="col-form-label">Time To</label>
+                            <input type="text" class="form-control timepicker" name="happy_time_to">
+                        </div>
+                    </div>
+                    <div class="form-group{{ $errors->has('happy_hour_note') ? ' has-error' : '' }}">
+                        <label for="happy_hour_note" class="col-form-label">Happy Hours Note</label>
+                        <textarea class="form-control" name="happy_hour_note"></textarea>
+                        @if ($errors->has('happy_hour_note'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('happy_hour_note') }}</strong>
+                        </span>
+                        @endif
+                    </div>
+                    <div class="form-group text-center">
+                        <label for="brunch" class="col-form-label">Brunch Hours</label>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="brunch_time_from" class="col-form-label">Time From</label>
+                            <input type="text" class="form-control timepicker" name="brunch_time_from">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="brunch_time_to" class="col-form-label">Time To</label>
+                            <input type="text" class="form-control timepicker" name="brunch_time_to">
+                        </div>
+                    </div>
+                    <div class="form-group{{ $errors->has('brunch_hour_note') ? ' has-error' : '' }}">
+                        <label for="brunch_hour_note" class="col-form-label">Brunch Hours Note</label>
+                        <textarea class="form-control" name="brunch_hour_note"></textarea>
+                        @if ($errors->has('brunch_hour_note'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('brunch_hour_note') }}</strong>
+                        </span>
+                        @endif
+                    </div>
+
+
                     <!--                    <div class="form-group">
                                             <label for="lock_hour" class="col-form-label">Lock Hour</label>
                                             <input type="checkbox" class="form-control lock_hour" id="lock_hour">

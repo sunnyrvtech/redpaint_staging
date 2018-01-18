@@ -318,16 +318,13 @@
                 </div>
             </div>
             <div class="col-md-4 col-sm-5 col-xs-12">
-                <div>
-                     <?php
-                    $time_array = array('Mon', "Tue", 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
+                    <?php
+                    $time_array = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
                     $operation_hour = json_decode($events->operation_hour);
                     ?>
                     @if(isset($operation_hour[0]->time_from) && $operation_hour[0]->time_from !=null)
                     <div>
-                        <h3>
-                            Hours
-                        </h3>
+                        <h4><b>Opening Hours</b></h4>
                         <table class="table table-simple hours-table">
                             <tbody>
                                 @foreach($time_array as $key=>$val)
@@ -346,7 +343,7 @@
                                         ?>
                                         @if(isset($operation_hour[$key]->status) && $operation_hour[$key]->status == 0)
                                         <span class="nowrap clse">Closed</span>
-                                        @elseif($current_time>=$time_from && $current_time<=$time_to)
+                                        @elseif($current_time>=$time_from && $current_time<=$time_to &&  date("D") == $val)
                                         <span class="nowrap">Open now</span>
                                         @endif
                                     </td>
@@ -356,9 +353,24 @@
                         </table>
                     </div>
                     @endif
-                </div>
+                    <?php
+                        $happy_hour = json_decode($events->happy_hour);
+                        $brunch_hour = json_decode($events->brunch_hour);
+                    ?>
+                    @if($happy_hour)
+                      <div>
+                          <h4><b>Happy Hours </b><span style="font-size: 14px;">{{ $happy_hour->happy_time_from.' - '.$happy_hour->happy_time_to }}</span></h4>
+                          <p>{{ $events->happy_hour_note }}</p>
+                      </div>
+                    @endif
+                    @if($brunch_hour)
+                      <div>
+                          <h4><b>Brunch Hours </b><span style="font-size: 14px;">{{ $brunch_hour->brunch_time_from.' - '.$brunch_hour->brunch_time_to }}</span></h4>
+                          <p>{{ $events->brunch_hour_note }}</p>
+                      </div>
+                    @endif
                 <div>
-                    <div class="heading"><h2>You may also consider</h2></div>
+                    <div class="heading"><h4><b>You may also consider</b></h4></div>
                     <div class="RecentLists">
                         <ul>
                             @forelse($event_by_cat as $key=>$value)

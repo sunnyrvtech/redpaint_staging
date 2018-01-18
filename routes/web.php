@@ -46,6 +46,7 @@ Route::get('ads', 'AdController@getAllAds')->name('ads');
 Route::get('register', 'Auth\RegisterController@index')->name('register');
 Route::post('register', 'Auth\RegisterController@create');
 Route::get('search', 'EventController@searchEvent')->name('search');
+Route::post('user_location', 'HomeController@saveUserLocation')->name('user_location');
 Route::get('logout', 'Auth\LoginController@logout');
 Route::get('account/activate/{code}', array(
     'as' => 'account.activate',
