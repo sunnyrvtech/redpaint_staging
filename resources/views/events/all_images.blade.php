@@ -10,7 +10,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 pull-right">
-                    <a href="{{ route('events.index') }}" class="btn btn-primary" type="button">Back To Listing</a>
+                    <a href="jaascript:void(0);" onclick="window.history.back();" class="btn btn-primary" type="button">Back</a>
                 </div>
             </div>
             <div class="row">

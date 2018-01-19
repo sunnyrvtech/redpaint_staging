@@ -58,6 +58,8 @@ Route::get('subcategory/search/{keyword}', 'CategoryController@getEventBySubCate
 Route::get('events/autosearch', 'EventController@categoryAutosearch')->name('events-autosearch');
 Route::get('address/autosearch', 'EventController@addressAutosearch')->name('address-autosearch');
 Route::get('events/sub_cat', 'EventController@getSubCategory')->name('events-sub_cat');
+Route::get('events/photo/view/{slug}', 'EventImageController@getAllEventImages')->name('photo.view');
+    
 Route::group(['prefix' => 'account', 'middleware' => 'CheckLoginStatus'], function () {
     Route::get('profile', 'AccountController@index')->name('account-profile');
     Route::post('profile/update', 'AccountController@updateProfile')->name('profile-update');
@@ -71,7 +73,6 @@ Route::group(['prefix' => 'account', 'middleware' => 'CheckLoginStatus'], functi
     Route::get('payments', 'AccountController@getPaymentHistory')->name('payments');
     Route::group(['prefix' => 'events'], function () {
         Route::resource('photo', 'EventImageController');
-        Route::get('photo/view/{slug}', 'EventImageController@getAllEventImages')->name('photo.view');
     });
     Route::post('events/review/{id}', 'EventController@addReview')->name('events-review');
     Route::post('events/status/{status}', 'EventController@eventStatus')->name('events-status');
