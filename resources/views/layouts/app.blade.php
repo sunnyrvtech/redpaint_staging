@@ -59,17 +59,21 @@
         </div>
         <div class="container">
             @if(Auth::check() && !Request::is('/') && Request::segment(1)=='account')
-                @if(Auth::user()->subscribed('ads_subscription'))
+                @if(Auth::user()->subscribed('ads_subscription') && Auth::user()->role_id != 3)
                 <div class="notice notice-success">
-                    <strong>Notice:-</strong> Hi {{ Auth::user()->first_name }}! Your currently active plan is <strong>{{ Auth::user()->get_active_plan->stripe_plan }}</strong>.If you want to cancel,upgrade or downgrade plan ,please visit here <strong><a href="{{ route('account-subscription') }}">Change plan</a></strong>
+                    <strong>Notice:-</strong> Hi {{ Auth::user()->first_name }}! Your currently active plan is <strong>{{ Auth::user()->get_active_plan->stripe_plan }}</strong>.If you want to cancel,upgrade or downgrade plan ,please visit here <strong><a href="{{ route('subscription') }}">Change plan</a></strong>
                 </div>
-                @elseif(Auth::user()->get_active_plan && Auth::user()->subscription('ads_subscription')->cancelled())
+                @elseif(Auth::user()->get_active_plan && Auth::user()->subscription('ads_subscription')->cancelled() && Auth::user()->role_id != 3)
                 <div class="notice notice-success">
-                <strong>Notice:-</strong> Hi {{ Auth::user()->first_name }}! You have cancelled your subscription,please visit here to resume your subscription <strong><a href="{{ route('account-subscription') }}">resume</a></strong>.
+                <strong>Notice:-</strong> Hi {{ Auth::user()->first_name }}! You have cancelled your subscription,please visit here to resume your subscription <strong><a href="{{ route('subscription') }}">resume</a></strong>.
+                </div>
+                @elseif(Auth::user()->role_id == 3)
+                <div class="notice notice-success">
+                    <strong>Notice:-</strong> Hi {{ Auth::user()->first_name }}! You are logged in as a normal user,if you want to upgrade your account as a business click here <strong><a href="{{ url('/')}}">upgrade as business</a></strong>.
                 </div>
                 @else
                 <div class="notice notice-success">
-                    <strong>Notice:-</strong> Hi {{ Auth::user()->first_name }}! You have not subscribed any ads plan yet,please subscribed ads plan to lists adspace.Please click here to <strong><a href="{{ route('account-subscription') }}">purchase</a></strong>
+                    <strong>Notice:-</strong> Hi {{ Auth::user()->first_name }}! You have not subscribed any ads plan yet,please subscribed ads plan to lists adspace.Please click here to <strong><a href="{{ route('subscription') }}">purchase</a></strong>
                 </div>
                 @endif
             @endif

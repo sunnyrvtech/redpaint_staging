@@ -34,8 +34,8 @@
                             <div role="tabpanel" class="tab-pane active" id="auto-renew">
                                 <h3>Auto Renew Subscription</h3>
                                 <div class="btn-group status-toggle">
-                                    <button class="btn @if(Auth::user()->subscription('ads_subscription')->cancelled())btn-default confirmationStatus @else active btn-primary @endif" data-id="resume" data-href="{{ route('account-subscription-resume') }}" data-title="Resume subscription Plan" data-msg="Are you sure you want to resume your subscription plan !" data-method="post">ON</button>
-                                    <button class="btn @if(Auth::user()->subscription('ads_subscription')->cancelled())active btn-primary @else btn-default confirmationStatus @endif" data-id="cancel" data-href="{{ route('account-subscription-cancel') }}" data-title="Cancel subscription Plan" data-msg="Are you sure you want to cancel your subscription plan !" data-method="post">OFF</button>
+                                    <button class="btn @if(Auth::user()->subscription('ads_subscription')->cancelled())btn-default confirmationStatus @else active btn-primary @endif" data-id="resume" data-href="{{ route('subscription-resume') }}" data-title="Resume subscription Plan" data-msg="Are you sure you want to resume your subscription plan !" data-method="post">ON</button>
+                                    <button class="btn @if(Auth::user()->subscription('ads_subscription')->cancelled())active btn-primary @else btn-default confirmationStatus @endif" data-id="cancel" data-href="{{ route('subscription-cancel') }}" data-title="Cancel subscription Plan" data-msg="Are you sure you want to cancel your subscription plan !" data-method="post">OFF</button>
                                 </div>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="change-plan">
@@ -46,7 +46,7 @@
                             </div>
                             <div role="tabpanel" class="tab-pane" id="update-card">
                                 <h3>Update Card Information</h3>
-                                <form id="subscription-form" action="{{ route('account-subscription-card') }}" method="post">
+                                <form id="subscription-form" action="{{ route('subscription-card') }}" method="post">
                                     {{ csrf_field()}}
                                     <div class="form-group">
                                         <label for="card_number" class="col-form-label">Card Number</label>
@@ -90,7 +90,7 @@
                 @else
                 <div class="row">
                     <div class="payment_form" ng-show="paymentForm">
-                        <form id="subscription-form" action="{{ route('account-subscription-join') }}" method="post">
+                        <form id="subscription-form" action="{{ route('subscription-join') }}" method="post">
                             {{ csrf_field()}}
                             <div class="form-row">
                                 <div class="form-group col-md-6">

@@ -66,11 +66,15 @@ use AuthenticatesUsers;
         if ($request->wantsJson()) {
             if (Auth::check() && Auth::user()->status == 0 && !empty(Auth::user()->verify_token)) {
                 Auth::logout();
-                return response()->json(['error' => "Your account is not activated yet! Please check activation email in your inbox and activate your account."], 401);
+                return response()->json(['error' => "Your account is not activated yet,please check activation email in your inbox and activate your account !"], 401);
             } else if (Auth::check() && Auth::user()->status == 0) {
                 Auth::logout();
-                return response()->json(['error' => "Your account is deactivated by admin! Please contact with administrator."], 401);
+                return response()->json(['error' => "Your account is deactivated by admin,please contact with administrator !"], 401);
+            } else if (request()->get('type') == 'business' && Auth::user()->role_id == 3) {
+                Auth::logout();
+                return response()->json(['error' => "You are trying to login as a business user ,please try to login in the normal user screen !."], 401);
             }
+            
             return response()->json(['intended' => Session::get('backUrl')]);
         }
     }

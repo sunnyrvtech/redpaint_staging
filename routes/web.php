@@ -37,6 +37,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'IsAdmin'], function () {
 //Auth::routes();
 //Auth routes start here
 Route::get('login', 'Auth\LoginController@index')->name('login');
+Route::get('login/business', 'Auth\LoginController@index')->name('business.login');
 Route::get('password/email', 'Auth\ForgotPasswordController@index')->name('password.email');
 Route::post('password/email', 'Auth\ForgotPasswordController@getEmail');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@index')->name('password-reset');
@@ -44,6 +45,7 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::post('login', 'Auth\LoginController@login');
 Route::get('ads', 'AdController@getAllAds')->name('ads');
 Route::get('register', 'Auth\RegisterController@index')->name('register');
+Route::get('register/business', 'Auth\RegisterController@index')->name('business.register');
 Route::post('register', 'Auth\RegisterController@create');
 Route::get('search', 'EventController@searchEvent')->name('search');
 Route::post('user_location', 'HomeController@saveUserLocation')->name('user_location');
@@ -59,7 +61,7 @@ Route::get('events/autosearch', 'EventController@categoryAutosearch')->name('eve
 Route::get('address/autosearch', 'EventController@addressAutosearch')->name('address-autosearch');
 Route::get('events/sub_cat', 'EventController@getSubCategory')->name('events-sub_cat');
 Route::get('events/photo/view/{slug}', 'EventImageController@getAllEventImages')->name('photo.view');
-    
+
 Route::group(['prefix' => 'account', 'middleware' => 'CheckLoginStatus'], function () {
     Route::get('profile', 'AccountController@index')->name('account-profile');
     Route::post('profile/update', 'AccountController@updateProfile')->name('profile-update');
@@ -67,7 +69,9 @@ Route::group(['prefix' => 'account', 'middleware' => 'CheckLoginStatus'], functi
         return view('accounts.password');
     })->name('account-password');
     Route::post('change/password', 'AccountController@changePassword')->name('change-password');
-    Route::get('profile/overview', 'AccountController@renderProfile')->name('account-profile-overview');
+});
+Route::group(['prefix' => 'business', 'middleware' => ['CheckLoginStatus','UserType']], function () {
+    Route::get('profile/overview', 'AccountController@renderProfile')->name('profile-overview');
     Route::resource('events', 'EventController');
     Route::resource('ads', 'AdController');
     Route::get('payments', 'AccountController@getPaymentHistory')->name('payments');
@@ -76,12 +80,12 @@ Route::group(['prefix' => 'account', 'middleware' => 'CheckLoginStatus'], functi
     });
     Route::post('events/review/{id}', 'EventController@addReview')->name('events-review');
     Route::post('events/status/{status}', 'EventController@eventStatus')->name('events-status');
-    Route::get('subscription', 'SubscriptionController@index')->name('account-subscription');
-    Route::post('subscription/join', 'SubscriptionController@subscriptionJoin')->name('account-subscription-join');
-    Route::post('subscription/change', 'SubscriptionController@subscriptionChange')->name('account-subscription-change');
-    Route::post('subscription/cancel', 'SubscriptionController@subscriptionCancel')->name('account-subscription-cancel');
-    Route::post('subscription/resume', 'SubscriptionController@subscriptionResume')->name('account-subscription-resume');
-    Route::post('subscription/card', 'SubscriptionController@updateCard')->name('account-subscription-card');
+    Route::get('subscription', 'SubscriptionController@index')->name('subscription');
+    Route::post('subscription/join', 'SubscriptionController@subscriptionJoin')->name('subscription-join');
+    Route::post('subscription/change', 'SubscriptionController@subscriptionChange')->name('subscription-change');
+    Route::post('subscription/cancel', 'SubscriptionController@subscriptionCancel')->name('subscription-cancel');
+    Route::post('subscription/resume', 'SubscriptionController@subscriptionResume')->name('subscription-resume');
+    Route::post('subscription/card', 'SubscriptionController@updateCard')->name('subscription-card');
 });
 Route::get('/about-us', 'HomeController@getAboutUs')->name('about-us');
 Route::get('/advertise', 'HomeController@getAdvertise')->name('advertise');

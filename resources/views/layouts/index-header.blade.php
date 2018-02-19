@@ -48,7 +48,7 @@
                                                 </li>
                                             </ul>
                                             <ul class="drop-menus-2">
-                                                <li><a href="{{ route('account-profile-overview') }}"><i class="fa fa-user" aria-hidden="true"></i><span>About Me</span></a></li>
+                                                <li><a href="{{ route('profile-overview') }}"><i class="fa fa-user" aria-hidden="true"></i><span>About Me</span></a></li>
                                                 <li><a href="{{ route('account-profile') }}"><i class="fa fa-cog" aria-hidden="true"></i><span>Account Setting</span></a></li>
                                                 <li><a href="{{ url('/logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Logout</span></a></li>
                                             </ul>

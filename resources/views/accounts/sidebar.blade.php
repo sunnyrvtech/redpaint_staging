@@ -11,8 +11,8 @@
             <li><a href="{{ route('account-profile') }}" class="@if(Request::path() == 'account/profile')active @endif">Profile</a></li>
             <li><a href="{{ route('account-password') }}" class="@if(Request::path() == 'account/password')active @endif">Change Password</a></li>
             @else
-            <li><a href="{{ route('account-profile-overview') }}" class="@if(Request::path() == 'account/profile/overview')active @endif">Profile Overview</a></li>
-            <li><a href="{{ route('account-subscription') }}" class="@if(Request::path() == 'account/subscription')active @endif">Ads Plan Settings</a></li>
+            <li><a href="{{ route('profile-overview') }}" class="@if(Request::path() == 'account/profile/overview')active @endif">Profile Overview</a></li>
+            <li><a href="{{ route('subscription') }}" class="@if(Request::path() == 'account/subscription')active @endif">Ads Plan Settings</a></li>
             <!--<li><a href="#" class="">Reviews</a></li>-->
             @if(Auth::user()->subscribed('ads_subscription'))
             <li><a href="{{ route('ads.index') }}" class="@if(Request::path() == 'account/ads')active @endif">Add Ads</a></li>

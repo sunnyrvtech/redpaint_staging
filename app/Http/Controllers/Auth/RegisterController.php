@@ -39,7 +39,7 @@ use RegistersUsers;
     public function __construct() {
         $this->middleware('guest');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -89,11 +89,18 @@ use RegistersUsers;
             return response()->json($errors, 401);
         }
         $code = str_random(10) . time();
+
+        if ($data['type'] == 'business') {
+            $role_id = 2;
+        } else {
+            $role_id = 3;
+        }
+
         User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
-            'role_id' => 2,
+            'role_id' => $role_id,
             'password' => bcrypt($data['password']),
             'verify_token' => $code,
         ]);

@@ -15,7 +15,7 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
                 $http({
                     method: 'POST',
                     url: BaseUrl + '/login',
-                    data: 'email=' + $scope.login.email + '&password=' + $scope.login.password,
+                    data: 'email=' + $scope.login.email + '&password=' + $scope.login.password + '&type=' + $scope.login.type,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function (data, status, headers, config) {
                     $scope.loading = false;
@@ -46,7 +46,7 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
                 $http({
                     method: 'POST',
                     url: BaseUrl + '/register',
-                    data: 'first_name=' + $scope.register.first_name + '&last_name=' + $scope.register.last_name + '&email=' + $scope.register.email + '&password=' + $scope.register.password + '&password_confirmation=' + $scope.register.password_confirmation,
+                    data: 'first_name=' + $scope.register.first_name + '&last_name=' + $scope.register.last_name + '&email=' + $scope.register.email + '&password=' + $scope.register.password + '&password_confirmation=' + $scope.register.password_confirmation + '&type=' + $scope.register.type,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function (data, status, headers, config) {
                     $scope.loading = false;

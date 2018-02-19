@@ -18,7 +18,7 @@
                     @if(!Auth::user()->get_active_plan)
                     <a ng-click="choosePlan('{{ $value->id}}')" href="javascript:void(0);">Purchase</a>
                     @elseif(Auth::user()->get_active_plan->stripe_plan != $value->name)
-                    <a href="javascript:void(0);" class="confirmationStatus" data-id="{{ $value->id }}" data-href="{{ route('account-subscription-change') }}" data-title="Change Subscription Plan" data-msg="Are you sure you want to change your subscription plan !" data-method="post">Change</a>
+                    <a href="javascript:void(0);" class="confirmationStatus" data-id="{{ $value->id }}" data-href="{{ route('subscription-change') }}" data-title="Change Subscription Plan" data-msg="Are you sure you want to change your subscription plan !" data-method="post">Change</a>
                     @else
                        <a href="javascript:void(0);">Activated</a>
                     @endif
