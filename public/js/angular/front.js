@@ -271,7 +271,7 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
         }
         $scope.filterByDay = function (isValid) {
             if ($scope.day) {
-                window.history.pushState("", "", BaseUrl + '/search?keyword=daily_deals&day='+$scope.day);
+                window.history.pushState("", "", BaseUrl + '/search?keyword=daily_deals&day=' + $scope.day);
                 $scope.loading = true;
                 $http({
                     method: 'GET',
@@ -320,6 +320,21 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
                 }
             });
         }
+
+        $scope.submitUserLocation = function ($Url,$latitude,$longitude) {
+            $http({
+                method: 'POST',
+                url: $Url,
+                data: 'latitude=' + $latitude + '&longitude=' + $longitude,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function (data, status, headers, config) {
+                window.location.reload();
+            }, function errorCallback(data) {
+                window.location.reload();
+            });
+        }
+
+
 
         $scope.choosePlan = function ($Id) {
             $scope.paymentForm = true;

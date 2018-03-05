@@ -180,7 +180,6 @@
             </p>
         </div>
     </div>
-    <button onclick="getLocation()">Try It</button>
 </footer><!-- end footer -->
 <!-- Scripts -->
 <script src="{{ URL::asset('js/jquery.js') }}"></script>
@@ -189,36 +188,6 @@
 <script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>  
 @stack('scripts')
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZGTC412EEKYBmKXxH9VFnE97fKNsu0zQ&libraries=places"></script>
-@if(!Session::has('latitude') && !Session::has('longitude')) 
-<script type="text/javascript">
-//     google.maps.event.addDomListener(window, 'load', function () {
-//         var autocomplete = new google.maps.places.Autocomplete(document.getElementById('txtPlaces'));
-//         autocomplete.addListener('place_changed', function() {
-//            var place = autocomplete.getPlace();
-//            console.log(place);
-//            $("input[name='latitude']").val(place.geometry.location.lat());
-//            $("input[name='longitude']").val(place.geometry.location.lng());
-//            $("#myModal button").attr("disabled",false);
-//         });
-//     });
-        var x = document.getElementById("demo");
-
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
-            } else { 
-                x.innerHTML = "Geolocation is not supported by this browser.";
-            }
-        }
-
-        function showPosition(position) {
-            alert(position.coords.latitude);
-            x.innerHTML = "Latitude: " + position.coords.latitude + 
-            "<br>Longitude: " + position.coords.longitude;
-        }
- </script>
-@endif
 <script type="text/javascript">
      var BaseUrl = "<?php echo url('/') ?>";
      setTimeout(function () {
@@ -294,6 +263,23 @@
                 $(this).toggleClass('open');
                 $('b', this).toggleClass("caret caret-up");                
             });
+        @if(!Session::has('latitude') && !Session::has('longitude'))    
+            getGeoLocation();
+            function getGeoLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition,error);
+                } else { 
+                    alert("Geolocation is not supported by this browser.");
+                }
+            }
+
+            function showPosition(position) {
+              angular.element(document.body).scope().submitUserLocation("{{ route('user_location') }}",position.coords.latitude,position.coords.longitude);
+            }
+            function error(msg) {
+                alert('Please follow this link to enable geolocation in your browser "https://support.mozilla.org/en-US/questions/1104359" ');
+            }
+        @endif
     });
     
 </script>
