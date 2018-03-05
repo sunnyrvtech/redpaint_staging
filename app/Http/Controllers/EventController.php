@@ -410,7 +410,16 @@ class EventController extends Controller {
                     })->paginate(20);
             }
         } else {
-            $events = array();
+            
+            $events = Event::Where('status', 1)->Where(function($query) use ($distant_array) {
+                        $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
+                                ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
+                    })->paginate(20);
+                    
+                    
+                    dd($events);
+                    
+                    
         }
         $view = View::make('events.search', compact('events'));
         if ($request->wantsJson()) {

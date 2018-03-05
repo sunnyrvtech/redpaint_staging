@@ -274,6 +274,8 @@
             }
 
             function showPosition(position) {
+                alert(position.coords.longitude);
+                return false;
               angular.element(document.body).scope().submitUserLocation("{{ route('user_location') }}",position.coords.latitude,position.coords.longitude);
             }
             function error(msg) {
