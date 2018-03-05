@@ -58,22 +58,22 @@
             @endif
         </div>
         <div class="container">
-            @if(Auth::check() && !Request::is('/') && Request::segment(1)=='account')
+            @if(Auth::check() && !Request::is('/') && (Request::segment(1)=='account' || Request::segment(1)=='business'))
                 @if(Auth::user()->subscribed('ads_subscription') && Auth::user()->role_id != 3)
                 <div class="notice notice-success">
-                    <strong>Notice:-</strong> Hi {{ Auth::user()->first_name }}! Your currently active plan is <strong>{{ Auth::user()->get_active_plan->stripe_plan }}</strong>.If you want to cancel,upgrade or downgrade plan ,please visit here <strong><a href="{{ route('subscription') }}">Change plan</a></strong>
+                    <strong>Notice:</strong> Hi {{ Auth::user()->first_name }}! Your currently active plan is <strong>{{ Auth::user()->get_active_plan->stripe_plan }}</strong>.If you want to cancel,upgrade or downgrade plan ,please visit here <strong><a href="{{ route('subscription') }}">Change plan</a></strong>
                 </div>
                 @elseif(Auth::user()->get_active_plan && Auth::user()->subscription('ads_subscription')->cancelled() && Auth::user()->role_id != 3)
                 <div class="notice notice-success">
-                <strong>Notice:-</strong> Hi {{ Auth::user()->first_name }}! You have cancelled your subscription,please visit here to resume your subscription <strong><a href="{{ route('subscription') }}">resume</a></strong>.
+                <strong>Notice:</strong> Hi {{ Auth::user()->first_name }}! You have cancelled your subscription,please visit here to resume your subscription <strong><a href="{{ route('subscription') }}">resume</a></strong>.
                 </div>
                 @elseif(Auth::user()->role_id == 3)
                 <div class="notice notice-success">
-                    <strong>Notice:-</strong> Hi {{ Auth::user()->first_name }}! You are logged in as a normal user,if you want to upgrade your account as a business click here <strong><a href="{{ url('/')}}">upgrade as business</a></strong>.
+                    <strong>Notice:</strong> Hi {{ Auth::user()->first_name }}! You are logged in as a normal user,if you want to upgrade your account as a business click here <strong><a href="{{ route('business.upgrade')}}">upgrade as business</a></strong>.
                 </div>
                 @else
                 <div class="notice notice-success">
-                    <strong>Notice:-</strong> Hi {{ Auth::user()->first_name }}! You have not subscribed any ads plan yet,please subscribed ads plan to lists adspace.Please click here to <strong><a href="{{ route('subscription') }}">purchase</a></strong>
+                    <strong>Notice:</strong> Hi {{ Auth::user()->first_name }}! You have not subscribed any ads plan yet,please subscribed ads plan to lists adspace.Please click here to <strong><a href="{{ route('subscription') }}">purchase</a></strong>
                 </div>
                 @endif
             @endif
@@ -150,7 +150,7 @@
         </div>
     </div>
     @if(!Session::has('latitude') && !Session::has('longitude')) 
-    <div class="modal fade" id="myModal">
+<!--    <div class="modal fade" id="myModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -169,7 +169,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div>-->
     @endif
     <div class="bottom_footer">
         <div class="container">
@@ -180,6 +180,7 @@
             </p>
         </div>
     </div>
+    <button onclick="getLocation()">Try It</button>
 </footer><!-- end footer -->
 <!-- Scripts -->
 <script src="{{ URL::asset('js/jquery.js') }}"></script>
@@ -191,16 +192,31 @@
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZGTC412EEKYBmKXxH9VFnE97fKNsu0zQ&libraries=places"></script>
 @if(!Session::has('latitude') && !Session::has('longitude')) 
 <script type="text/javascript">
-     google.maps.event.addDomListener(window, 'load', function () {
-         var autocomplete = new google.maps.places.Autocomplete(document.getElementById('txtPlaces'));
-         autocomplete.addListener('place_changed', function() {
-            var place = autocomplete.getPlace();
-            console.log(place);
-            $("input[name='latitude']").val(place.geometry.location.lat());
-            $("input[name='longitude']").val(place.geometry.location.lng());
-            $("#myModal button").attr("disabled",false);
-         });
-     });
+//     google.maps.event.addDomListener(window, 'load', function () {
+//         var autocomplete = new google.maps.places.Autocomplete(document.getElementById('txtPlaces'));
+//         autocomplete.addListener('place_changed', function() {
+//            var place = autocomplete.getPlace();
+//            console.log(place);
+//            $("input[name='latitude']").val(place.geometry.location.lat());
+//            $("input[name='longitude']").val(place.geometry.location.lng());
+//            $("#myModal button").attr("disabled",false);
+//         });
+//     });
+        var x = document.getElementById("demo");
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else { 
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            alert(position.coords.latitude);
+            x.innerHTML = "Latitude: " + position.coords.latitude + 
+            "<br>Longitude: " + position.coords.longitude;
+        }
  </script>
 @endif
 <script type="text/javascript">

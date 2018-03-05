@@ -134,16 +134,28 @@ class AccountController extends Controller {
         }
         return response()->json(array('error' => 'Your password could not be changed.Please try again later!'), 401);
     }
-    
+
     /**
      * get order history function.
      *
      * @return Response
      */
-    
-    public function getPaymentHistory(Request $request){
-        $history = Payment::Where('user_id',Auth::id())->paginate(15);
-        return View::make('payments.index',compact('history'));
+    public function getPaymentHistory(Request $request) {
+        $history = Payment::Where('user_id', Auth::id())->paginate(15);
+        return View::make('payments.index', compact('history'));
+    }
+
+    public function upgradeBusinessProfile() {
+        if (Auth::check()) {
+            $user = User::find(Auth::id());
+            if ($user->role_id != 2 && $user->role_id != 1) {
+                $user->role_id = 2;
+                $user->save();
+                return Redirect::back()->with('success-message', 'Your account has been upgraded successfully !');
+            }
+            return Redirect::to('/');
+        }
+        return Redirect::to('/');
     }
 
     /**

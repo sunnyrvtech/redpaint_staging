@@ -46,6 +46,7 @@ Route::post('login', 'Auth\LoginController@login');
 Route::get('ads', 'AdController@getAllAds')->name('ads');
 Route::get('register', 'Auth\RegisterController@index')->name('register');
 Route::get('register/business', 'Auth\RegisterController@index')->name('business.register');
+Route::get('business/upgrade', 'AccountController@upgradeBusinessProfile')->name('business.upgrade');
 Route::post('register', 'Auth\RegisterController@create');
 Route::get('search', 'EventController@searchEvent')->name('search');
 Route::post('user_location', 'HomeController@saveUserLocation')->name('user_location');
