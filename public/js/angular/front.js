@@ -321,7 +321,8 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
             });
         }
 
-        $scope.submitUserLocation = function ($Url,$latitude,$longitude) {
+        $scope.submitUserLocation = function ($Url, $latitude, $longitude) {
+            $scope.loading = true;
             $http({
                 method: 'POST',
                 url: $Url,

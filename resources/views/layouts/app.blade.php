@@ -274,12 +274,10 @@
             }
 
             function showPosition(position) {
-                alert(position.coords.longitude);
-                return false;
               angular.element(document.body).scope().submitUserLocation("{{ route('user_location') }}",position.coords.latitude,position.coords.longitude);
             }
             function error(msg) {
-                alert('Please follow this link to enable geolocation in your browser "https://support.mozilla.org/en-US/questions/1104359" ');
+//                alert('Please follow this link to enable geolocation in your browser "https://support.mozilla.org/en-US/questions/1104359" ');
             }
         @endif
     });

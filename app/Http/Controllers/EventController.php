@@ -377,7 +377,7 @@ class EventController extends Controller {
                         if ($keyword != null) {
                             $query->Where('categories.name', 'LIKE', '%' . $keyword . '%');
                         }
-                    })->Where(function($query) use ($distant_array) {
+                    })->orWhere(function($query) use ($distant_array) {
                         $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                 ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
                     })->paginate(20);
@@ -415,11 +415,6 @@ class EventController extends Controller {
                         $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                 ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
                     })->paginate(20);
-                    
-                    
-                    dd($events);
-                    
-                    
         }
         $view = View::make('events.search', compact('events'));
         if ($request->wantsJson()) {

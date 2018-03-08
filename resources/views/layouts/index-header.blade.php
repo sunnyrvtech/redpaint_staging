@@ -67,7 +67,7 @@
         </div>
     </div>
     <div class="slider_content">
-        <h1>Fresh, fast, Tasty</h1>
+        <h1>Paint The Town Red</h1>
     </div>
 
     <div class="search_form">

@@ -58,10 +58,10 @@ header.header{position:relative;min-height:633px}
 .search_form .form_main form.seacrg_city .input-group-addon{font-weight:600;font-size:18px;color:#333;background:#f4f4f4}
 .search_form .form_main form.seacrg_city button.search_city_btn{background:#d01e10;border:none;height:48px;width:64px;font-size:25px;outline:none}
 .search_form .form_main form.seacrg_city .custom_column{float:none;display:inline-block;margin:0 -2px;vertical-align:middle}
-.Browse-Category{text-align:center;margin-bottom:70px}
-.heading h2{text-transform:uppercase;font-size:21px;font-weight:600;color:#4c4c4c;margin:0;position:relative}
-.Browse-Category .heading h2{margin:55px 0 25px}
-.heading h2:after{content:'';height:1px;width:75px;position:absolute;bottom:-4px;background:#b8b8b8;margin:0 auto;left:0;right:0}
+.Browse-Category{ text-align:center;margin-bottom:70px }
+.heading h2{ text-transform:uppercase;font-size:21px;font-weight:600;color:#4c4c4c;margin:0;position:relative }
+.Browse-Category .heading h2{ margin:55px 0 25px}
+.heading h2:after{ height:1px;width:75px;position:absolute;bottom:-4px;background:#b8b8b8;margin:0 auto;left:0;right:0 }
 .Browse-Category p{color:#8c8c8c;font-size:17px;letter-spacing:.5px}
 .Browse-Category ul.Category_listing{text-align:left;float:left;width:100%;margin-top:35px}
 .Browse-Category ul.Category_listing li{width:100%;max-width:25%;float:left;padding:10px}
