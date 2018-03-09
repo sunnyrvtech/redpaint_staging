@@ -356,16 +356,17 @@
                     <?php
                         $happy_hour = json_decode($events->happy_hour);
                         $brunch_hour = json_decode($events->brunch_hour);
+                        $day_key = array_search(date("D"), $time_array); //   get the array key based on current day
                     ?>
-                    @if($happy_hour)
+                    @if($happy_hour[$day_key]->time_from && $happy_hour[$day_key]->time_to)
                       <div>
-                          <h4><b>Happy Hours </b><span style="font-size: 14px;">{{ $happy_hour->happy_time_from.' - '.$happy_hour->happy_time_to }}</span></h4>
+                          <h4><b>Happy Hours </b><span style="font-size: 14px;">{{ $happy_hour[$day_key]->time_from.' - '.$happy_hour[$day_key]->time_to }}</span></h4>
                           <p>{{ $events->happy_hour_note }}</p>
                       </div>
                     @endif
-                    @if($brunch_hour)
+                    @if($brunch_hour[$day_key]->time_from && $brunch_hour[$day_key]->time_to)
                       <div>
-                          <h4><b>Brunch Hours </b><span style="font-size: 14px;">{{ $brunch_hour->brunch_time_from.' - '.$brunch_hour->brunch_time_to }}</span></h4>
+                          <h4><b>Brunch Hours </b><span style="font-size: 14px;">{{ $brunch_hour[$day_key]->time_from.' - '.$brunch_hour[$day_key]->time_to }}</span></h4>
                           <p>{{ $events->brunch_hour_note }}</p>
                       </div>
                     @endif
