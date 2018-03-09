@@ -83,39 +83,34 @@ class EventController extends Controller {
         $data['latitude'] = $lat_long['latitude'];
         $data['longitude'] = $lat_long['longitude'];
 
-        if ($request->get('happy_time_from') != null && $request->get('happy_time_to') != null) {
-            $happy_hour_array = array(
-                'happy_time_from' => $request->get('happy_time_from'),
-                'happy_time_to' => $request->get('happy_time_to')
-            );
-            $data['happy_hour'] = json_encode($happy_hour_array);
-        }
-        if ($request->get('brunch_time_from') != null && $request->get('brunch_time_to') != null) {
-            $brunch_hour_array = array(
-                'brunch_time_from' => $request->get('brunch_time_from'),
-                'brunch_time_to' => $request->get('brunch_time_to')
-            );
-            $data['brunch_hour'] = json_encode($brunch_hour_array);
-        }
-
-
-
-
         $operation_hour = array();
+        $brunch_hour = array();
+        $happy_hour = array();
         foreach ($data['day'] as $key => $val) {
-            $hour_array = array(
+            $operation_hour[$key] = array(
                 'day' => $val,
                 'time_from' => $data['time_from'][$key],
                 'time_to' => $data['time_to'][$key],
                 'status' => isset($data['status' . $key]) ? $data['status' . $key] : 1
             );
-            $operation_hour[$key] = $hour_array;
+            $brunch_hour[$key] = array(
+                'day' => $val,
+                'time_from' => $data['brunch_time_from'][$key],
+                'time_to' => $data['brunch_time_to'][$key],
+            );
+            $happy_hour[$key] = array(
+                'day' => $val,
+                'time_from' => $data['happy_time_from'][$key],
+                'time_to' => $data['happy_time_to'][$key],
+            );
         }
         $data['operation_hour'] = json_encode($operation_hour);
-        unset($data['day']);
-        unset($data['time_from']);
-        unset($data['time_to']);
-        unset($data['status']);
+        $data['brunch_hour'] = json_encode($brunch_hour);
+        $data['happy_hour'] = json_encode($happy_hour);
+//        unset($data['day']);
+//        unset($data['time_from']);
+//        unset($data['time_to']);
+//        unset($data['status']);
         $data['user_id'] = Auth::id();
         $data['event_slug'] = $this->createSlug($data['name']);
 
@@ -187,38 +182,31 @@ class EventController extends Controller {
         $data['latitude'] = $lat_long['latitude'];
         $data['longitude'] = $lat_long['longitude'];
 
-        if ($request->get('happy_time_from') != null && $request->get('happy_time_to') != null) {
-            $happy_hour_array = array(
-                'happy_time_from' => $request->get('happy_time_from'),
-                'happy_time_to' => $request->get('happy_time_to')
-            );
-            $data['happy_hour'] = json_encode($happy_hour_array);
-        }
-        if ($request->get('brunch_time_from') != null && $request->get('brunch_time_to') != null) {
-            $brunch_hour_array = array(
-                'brunch_time_from' => $request->get('brunch_time_from'),
-                'brunch_time_to' => $request->get('brunch_time_to')
-            );
-            $data['brunch_hour'] = json_encode($brunch_hour_array);
-        }
-
-
         $operation_hour = array();
+        $brunch_hour = array();
+        $happy_hour = array();
         foreach ($data['day'] as $key => $val) {
-            $hour_array = array(
+             $operation_hour[$key] = array(
                 'day' => $val,
                 'time_from' => $data['time_from'][$key],
                 'time_to' => $data['time_to'][$key],
                 'status' => isset($data['status' . $key]) ? $data['status' . $key] : 1
             );
-            $operation_hour[$key] = $hour_array;
+            $brunch_hour[$key] = array(
+                'day' => $val,
+                'time_from' => $data['brunch_time_from'][$key],
+                'time_to' => $data['brunch_time_to'][$key],
+            );
+            $happy_hour[$key] = array(
+                'day' => $val,
+                'time_from' => $data['happy_time_from'][$key],
+                'time_to' => $data['happy_time_to'][$key],
+            );
         }
 
         $data['operation_hour'] = json_encode($operation_hour);
-        unset($data['day']);
-        unset($data['time_from']);
-        unset($data['time_to']);
-        unset($data['status']);
+        $data['brunch_hour'] = json_encode($brunch_hour);
+        $data['happy_hour'] = json_encode($happy_hour);
 
         $events = Event::Where(['id' => $id, 'user_id' => Auth::id()])->first();
 
@@ -239,7 +227,7 @@ class EventController extends Controller {
     public function getLatLong($country_id, $state, $city, $address, $zip) {
         $country = Country::where('id', $country_id)->first();
         $address = str_replace(" ", "+", $country->name) . "+" . str_replace(" ", "+", $state) . "+" . str_replace(" ", "+", $city) . "+" . str_replace(" ", "+", $address) . "+" . $zip;
-        $url = "http://maps.google.com/maps/api/geocode/json?address=$address&sensor=false&region=USA";
+        $url = "https://maps.google.com/maps/api/geocode/json?address=$address&sensor=false&region=USA";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -400,17 +388,17 @@ class EventController extends Controller {
             if ($days != null) {
                 $day_date = Carbon::parse('this ' . $days)->toDateString();
                 $events = Event::Where('status', 1)->whereDate('end_date', '>=', $current_date)->whereDate('start_date', '<=', $day_date)->whereDate('end_date', '>=', $day_date)->Where(function($query) use ($distant_array) {
-                        $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
-                                ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
-                    })->paginate(20);
+                            $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
+                                    ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
+                        })->paginate(20);
             } else {
                 $events = Event::Where('status', 1)->whereDate('end_date', '>=', $current_date)->Where(function($query) use ($distant_array) {
-                        $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
-                                ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
-                    })->paginate(20);
+                            $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
+                                    ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
+                        })->paginate(20);
             }
         } else {
-            
+
             $events = Event::Where('status', 1)->Where(function($query) use ($distant_array) {
                         $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                 ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);

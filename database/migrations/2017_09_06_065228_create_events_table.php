@@ -19,6 +19,7 @@ class CreateEventsTable extends Migration {
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('address');
+            $table->string('phone_number')->nullable();
             $table->string('city');
             $table->string('state');
             $table->string('zip');
