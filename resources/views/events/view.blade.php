@@ -138,18 +138,16 @@
                             <div class="lightbox-media-parent @if($event_images_array) slickSlider @endif">
                                 <?php $i = 1; ?>
                                 @forelse($event_images_array as $key=>$val)
-                                @if($i%4 == 0 || $i == 1)
-                                <?php $i = 1; ?>
-                                <div class="item">
-                                    @endif
-                                    <div class="js-photo photo{{$i}}">
+                            <div class="item">
+                                 
+                                    <div class="js-photo">
                                         <div class="showcase-photos">
                                             <div class="photo">
                                                 <div class="showcase-photo-box">
                                                     <a href="#">
                                                         <img src="{{ URL::asset('/event_images').'/'.$val }}">
                                                     </a>
-                                                    @if ($i%3 == 0 || $val == end($event_images_array))
+                                                    @if ($val == end($event_images_array))
                                                     <a class="view-more" href="{{ route('photo.view', $events->event_slug) }}">
                                                         <span><i class="fa fa-th-large" aria-hidden="true"></i></span>
                                                         <p> See all {{ count($event_images_array) }} photos </p>
@@ -178,9 +176,9 @@
                                                                                     </div>
                                                                                 </div>-->
                                     </div>
-                                    @if($i%3 == 0)
+                                
                                 </div>
-                                @endif
+                          
                                 <?php $i++; ?>
                                 @empty
                                 <div class="js-photo">
@@ -430,7 +428,7 @@ $(document).ready(function () {
     });
     $(".slickSlider").slick({
         autoplay: true,
-        slidesToShow: 1,
+        slidesToShow: 3,
         slidesToScroll: 1
     });
     $(".ads-container").slick({
