@@ -933,12 +933,12 @@ fieldset[disabled] .btn-google-plus.active{background-color:#dd4b39;border-color
     transform: translateZ(1px);
     z-index: 1001;
 }
-.lightbox-media-parent .photo2 {
+/*.lightbox-media-parent .photo2 {
     left: 220px;
 }
 .lightbox-media-parent  .photo3 {
     left: 440px;
-}
+}*/
 #content:not(:hover) .lightbox-media-parent .photo2 {
     transform: translateZ(0px);
 }

@@ -11,13 +11,13 @@
             <li><a href="{{ route('account-profile') }}" class="@if(Request::path() == 'account/profile')active @endif">Profile</a></li>
             <li><a href="{{ route('account-password') }}" class="@if(Request::path() == 'account/password')active @endif">Change Password</a></li>
             @else
-            <li><a href="{{ route('events.create') }}" class="@if(Request::segment(2) == 'events') @endif">Profile Overview</a></li>
+            <li><a href="{{ route('events.create') }}" class="@if(Request::path() == 'business/events/create')active @endif">Profile Overview</a></li>
             <li><a href="{{ route('subscription') }}" class="@if(Request::path() == 'business/subscription')active @endif">Ads Plan Settings</a></li>
             <!--<li><a href="#" class="">Reviews</a></li>-->
             @if(Auth::user()->subscribed('ads_subscription'))
             <li><a href="{{ route('ads.index') }}" class="@if(Request::segment(2) == 'ads')active @endif">Add Ads</a></li>
             @endif
-            <li><a href="{{ route('events.index') }}" class="@if(Request::segment(2) == 'events')active @endif">Events</a></li>
+            <li><a href="{{ route('events.index') }}" class="@if(Request::path() == 'business/events')active @endif">Events</a></li>
             <li><a href="{{ route('payments') }}" class="@if(Request::path() == 'business/payments')active @endif">Payment History</a></li>
 
             @endif

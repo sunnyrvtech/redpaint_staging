@@ -136,12 +136,13 @@
                             }
                             ?>
                             <div class="lightbox-media-parent @if($event_images_array) slickSlider @endif">
-                                <?php $i = 1; ?>
+                                 <?php $i = 1; ?>
                                 @forelse($event_images_array as $key=>$val)
-                                @if($i%4 == 0 || $i == 1)
-                                <?php $i = 1; ?>
+                                
+                                @if($i % 4 == 0)
+                                <?php $i=1; ?>
+                                @endif
                                 <div class="item">
-                                    @endif
                                     <div class="js-photo photo{{$i}}">
                                         <div class="showcase-photos">
                                             <div class="photo">
@@ -158,29 +159,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!--                                        <div class="photo-box-overlay">
-                                                                                    <div class="media-block">
-                                                                                        <div class="media-avatar">
-                                                                                            <div class="photo-box">
-                                                                                                <a href="#" class="js-analytics-click">
-                                                                                                    <img class="photo-box-img" src="http://192.168.1.72/redpaint_staging/public/images/30s.jpg" width="30" height="30"></a> 
-                                                                                            </div>
-                                                                                        </div>
-                                        
-                                                                                        <div class="media-story">
-                                                                                            <a class="photo-desc" href="#">
-                                                                                                Bibimbop. Tofu was absolutely delicious!
-                                                                                            </a>
-                                                                                            <span class="author">
-                                                                                                by <a class="user-display-name" href="#">Caro T.</a>
-                                                                                            </span>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>-->
                                     </div>
-                                    @if($i%3 == 0)
                                 </div>
-                                @endif
                                 <?php $i++; ?>
                                 @empty
                                 <div class="js-photo">
@@ -195,9 +175,8 @@
                                     </div>
                                 </div>
                                 @endforelse
-                            </div>
-
-                        </div>	
+                             </div>
+                            </div>	
                     </div>
                 </div>
             </div>
@@ -430,8 +409,8 @@ $(document).ready(function () {
     });
     $(".slickSlider").slick({
         autoplay: true,
-        slidesToShow: 1,
-        slidesToScroll: 1
+        slidesToShow: 3,
+        slidesToScroll: 3
     });
     $(".ads-container").slick({
         autoplay: true,
