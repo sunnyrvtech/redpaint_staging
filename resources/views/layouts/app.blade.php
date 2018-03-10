@@ -106,8 +106,7 @@
         <div class="col-md-3 col-sm-3 col-xs-12 address">
             <h2>Get in touch</h2>
             <address>
-                <span>ADDRESS:</span> 4578 Marmora Road,<br/> Glasgow D04 89GR
-                <br/>
+                <span>EMAIL:</span> redpaint@gmail.com
                 <br/>
                 <span>PHONE: </span>800-2345-6789
             </address>
@@ -149,7 +148,6 @@
             </ul>
         </div>
     </div>
-    @if(!Session::has('latitude') && !Session::has('longitude')) 
 <!--    <div class="modal fade" id="myModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -170,7 +168,6 @@
             </div>
         </div>
     </div>-->
-    @endif
     <div class="bottom_footer">
         <div class="container">
             <div class="copyright">Site name © 2017 All Rights Reserved <strong>Terms of Use</strong> and <strong>Privacy Policy</strong></div>

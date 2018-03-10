@@ -10,7 +10,7 @@ use View;
 class CategoryController extends Controller {
 
     public function getSubCategory(Request $request, $id) {
-        $data['sub_category'] = SubCategory::Where('category_id', $id)->get();
+        $data['sub_category'] = SubCategory::Where('category_id', $id)->orderBy('name')->get();
         return View::make('category.index', $data);
     }
 
