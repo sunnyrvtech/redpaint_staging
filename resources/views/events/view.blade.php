@@ -150,7 +150,7 @@
                                                     <a href="#">
                                                         <img src="{{ URL::asset('/event_images').'/'.$val }}">
                                                     </a>
-                                                    @if ($i%3 == 0 || $val == end($event_images_array))
+                                                    @if ($val == end($event_images_array))
                                                     <a class="view-more" href="{{ route('photo.view', $events->event_slug) }}">
                                                         <span><i class="fa fa-th-large" aria-hidden="true"></i></span>
                                                         <p> See all {{ count($event_images_array) }} photos </p>
@@ -381,6 +381,11 @@
 async defer></script>
 <script type="text/javascript">
 $(document).ready(function () {
+    
+    if($(window).width() <  900){
+        $('.js-photo ').removeClass('photo2');
+    }
+    
     $(".review-btn").click(function () {
         $('#review-text').focus();
         $('html, body').animate({
@@ -410,7 +415,24 @@ $(document).ready(function () {
     $(".slickSlider").slick({
         autoplay: true,
         slidesToShow: 3,
-        slidesToScroll: 3
+        infinite: false,
+        slidesToScroll: 3,
+        responsive: [
+            {
+                breakpoint: 700,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                }
+            },
+            {
+                breakpoint: 450,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                }
+            }
+        ]
     });
     $(".ads-container").slick({
         autoplay: true,
