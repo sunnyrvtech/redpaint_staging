@@ -1105,7 +1105,7 @@ fieldset[disabled] .btn-google-plus.active{background-color:#dd4b39;border-color
 .biz-page-header-right .slick-slider {
     overflow: hidden;display: inline-block;
 }
-.slick-list { overflow: hidden !important; }
+.slick-list { overflow: visible !important; }
 .slick-initialized .slick-slide{
     position: relative;
     display: inline-block !important; 
