@@ -365,6 +365,10 @@ class EventController extends Controller {
                         if ($keyword != null) {
                             $query->Where('categories.name', 'LIKE', '%' . $keyword . '%');
                         }
+                    })->orwhereHas('getSubCategory', function($query) use($keyword) {
+                        if ($keyword != null) {
+                            $query->Where('sub_categories.name', 'LIKE', '%' . $keyword . '%');
+                        }
                     })->orWhere(function($query) use ($distant_array) {
                         $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                 ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
@@ -484,8 +488,11 @@ class EventController extends Controller {
      */
     public function categoryAutosearch(Request $request) {
         $categories = Category::Where('name', 'LIKE', '%' . $request->get('query') . '%')->Where('status', 1)->pluck('name')->toArray();
+        $sub_categories = SubCategory::Where('name', 'LIKE', '%' . $request->get('query') . '%')->pluck('name')->toArray();
         $events = Event::Where('name', 'LIKE', '%' . $request->get('query') . '%')->Where('status', 1)->pluck('name')->toArray();
-        return array_merge($categories, $events);
+        
+        
+        return array_merge($categories, $events,$sub_categories);
     }
 
     /**
