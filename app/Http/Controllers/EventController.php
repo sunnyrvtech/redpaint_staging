@@ -227,7 +227,7 @@ class EventController extends Controller {
     public function getLatLong($country_id, $state, $city, $address, $zip) {
         $country = Country::where('id', $country_id)->first();
         $address = str_replace(" ", "+", $country->name) . "+" . str_replace(" ", "+", $state) . "+" . str_replace(" ", "+", $city) . "+" . str_replace(" ", "+", $address) . "+" . $zip;
-        $url = "https://maps.google.com/maps/api/geocode/json?address=$address&sensor=false&region=USA";
+        $url = "https://maps.google.com/maps/api/geocode/json?key=AIzaSyDZGTC412EEKYBmKXxH9VFnE97fKNsu0zQ&address=$address&sensor=false";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
