@@ -270,7 +270,7 @@
             }
 
             function showPosition(position) {
-              angular.element(document.body).scope().submitUserLocation("{{ route('user_location') }}",37.7548188,-122.4229605);
+              angular.element(document.body).scope().submitUserLocation("{{ route('user_location') }}",position.coords.latitude,position.coords.longitude);
             }
             function error(msg) {
 //                alert('Please follow this link to enable geolocation in your browser "https://support.mozilla.org/en-US/questions/1104359" ');
