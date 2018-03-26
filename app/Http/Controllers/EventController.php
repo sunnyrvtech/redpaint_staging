@@ -186,7 +186,7 @@ class EventController extends Controller {
         $brunch_hour = array();
         $happy_hour = array();
         foreach ($data['day'] as $key => $val) {
-             $operation_hour[$key] = array(
+            $operation_hour[$key] = array(
                 'day' => $val,
                 'time_from' => $data['time_from'][$key],
                 'time_to' => $data['time_to'][$key],
@@ -354,24 +354,29 @@ class EventController extends Controller {
 //        dd($events);
 
         if ($keyword != null && $keyword != 'recent_events' && $keyword != 'daily_deals') {
-            $events = Event::Where('status', 1)->Where(function($query) use ($keyword, $address) {
+            $events = Event::Where('status', 1)->Where(function($query) use ($keyword, $address,$distant_array) {
                         if ($address != null) {
                             $query->Where('events.name', 'LIKE', '%' . $keyword . '%')
-                                    ->orWhere('events.formatted_address', 'LIKE', '%' . $address . '%');
+                                    ->orWhere('events.formatted_address', 'LIKE', '%' . $address . '%')
+                                    ->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
+                                    ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
                         } else {
-                            $query->Where('events.name', 'LIKE', '%' . $keyword . '%');
+                            $query->Where('events.name', 'LIKE', '%' . $keyword . '%')
+                                    ->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
+                                    ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
                         }
-                    })->orwhereHas('getCategory', function($query) use($keyword) {
+                    })->orwhereHas('getCategory', function($query) use($keyword, $distant_array) {
                         if ($keyword != null) {
-                            $query->Where('categories.name', 'LIKE', '%' . $keyword . '%');
+                            $query->Where('categories.name', 'LIKE', '%' . $keyword . '%')
+                                    ->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
+                                    ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
                         }
-                    })->orwhereHas('getSubCategory', function($query) use($keyword) {
+                    })->orwhereHas('getSubCategory', function($query) use($keyword, $distant_array) {
                         if ($keyword != null) {
-                            $query->Where('sub_categories.name', 'LIKE', '%' . $keyword . '%');
+                            $query->Where('sub_categories.name', 'LIKE', '%' . $keyword . '%')
+                                    ->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
+                                    ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
                         }
-                    })->orWhere(function($query) use ($distant_array) {
-                        $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
-                                ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
                     })->paginate(20);
         } elseif ($address != null) {
             $events = Event::Where('status', 1)->Where(function($query) use ($address) {
@@ -490,9 +495,9 @@ class EventController extends Controller {
         $categories = Category::Where('name', 'LIKE', '%' . $request->get('query') . '%')->Where('status', 1)->pluck('name')->toArray();
         $sub_categories = SubCategory::Where('name', 'LIKE', '%' . $request->get('query') . '%')->pluck('name')->toArray();
         $events = Event::Where('name', 'LIKE', '%' . $request->get('query') . '%')->Where('status', 1)->pluck('name')->toArray();
-        
-        
-        return array_merge($categories, $events,$sub_categories);
+
+
+        return array_merge($categories, $events, $sub_categories);
     }
 
     /**
