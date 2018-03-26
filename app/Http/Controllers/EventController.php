@@ -361,9 +361,7 @@ class EventController extends Controller {
                                     ->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                     ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
                         } else {
-                            $query->Where('events.name', 'LIKE', '%' . $keyword . '%')
-                                    ->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
-                                    ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
+                            $query->Where('events.name', 'LIKE', '%' . $keyword . '%');
                         }
                     })->orwhereHas('getCategory', function($query) use($keyword, $distant_array) {
                         if ($keyword != null) {
