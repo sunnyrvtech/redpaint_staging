@@ -357,9 +357,13 @@ class EventController extends Controller {
             $events = Event::Where('status', 1)->Where(function($query) use ($keyword, $address,$distant_array) {
                         if ($address != null) {
                             $query->Where('events.name', 'LIKE', '%' . $keyword . '%')
-                                    ->orWhere('events.formatted_address', 'LIKE', '%' . $address . '%');
+                                    ->orWhere('events.formatted_address', 'LIKE', '%' . $address . '%')
+                                    ->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
+                                    ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
                         } else {
-                            $query->Where('events.name', 'LIKE', '%' . $keyword . '%');
+                            $query->Where('events.name', 'LIKE', '%' . $keyword . '%')
+                                    ->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
+                                    ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
                         }
                     })->orwhereHas('getCategory', function($query) use($keyword, $distant_array) {
                         if ($keyword != null) {
