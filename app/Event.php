@@ -13,7 +13,7 @@ class Event extends Model {
      * @var array
      */
     protected $fillable = [
-        'user_id', 'event_slug', 'name', 'description', 'address','phone_number', 'city', 'state', 'zip','country_id','formatted_address','happy_hour','happy_hour_note','brunch_hour','brunch_hour_note','operation_hour','latitude','longitude', 'website_url', 'price_to', 'price_from', 'category_id','sub_category_id', 'status','start_date','end_date',
+        'user_id', 'event_slug', 'name', 'description', 'address','phone_number', 'city', 'state', 'zip','country_id','formatted_address','happy_hour','happy_hour_note','brunch_hour','brunch_hour_note','operation_hour','vegan','vegetarian','gluten','parking','latitude','longitude', 'website_url', 'price_to', 'price_from', 'category_id','sub_category_id', 'status','start_date','end_date',
     ];
     
     /**

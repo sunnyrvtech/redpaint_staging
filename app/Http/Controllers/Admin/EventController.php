@@ -88,13 +88,13 @@ class EventController extends Controller {
      */
     public function update(Request $request, $id, SubCategoryController $sub_cat_controller) {
         $data = $request->all();
-        $data['start_date'] = $data['start_date'] != null ? Carbon::parse($data['start_date'])->format('Y-m-d H:i:s') : null;
-        $data['end_date'] = $data['end_date'] != null ? Carbon::parse($data['end_date'])->format('Y-m-d H:i:s') : null;
+        //$data['start_date'] = $data['start_date'] != null ? Carbon::parse($data['start_date'])->format('Y-m-d H:i:s') : null;
+        //$data['end_date'] = $data['end_date'] != null ? Carbon::parse($data['end_date'])->format('Y-m-d H:i:s') : null;
 
         $this->validate($request, [
             'name' => 'required|max:100',
             'category_id' => 'required',
-//            'date' => 'required',
+            'sub_category' => 'required',
             'address' => 'required',
             'city' => 'required',
             'state' => 'required',
@@ -120,22 +120,34 @@ class EventController extends Controller {
         $data['longitude'] = $lat_long['longitude'];
 
         $operation_hour = array();
+        $brunch_hour = array();
+        $happy_hour = array();
         foreach ($data['day'] as $key => $val) {
-            $hour_array = array(
+            $operation_hour[$key] = array(
                 'day' => $val,
                 'time_from' => $data['time_from'][$key],
                 'time_to' => $data['time_to'][$key],
                 'status' => isset($data['status' . $key]) ? $data['status' . $key] : 1
             );
-            $operation_hour[$key] = $hour_array;
+            $brunch_hour[$key] = array(
+                'day' => $val,
+                'time_from' => $data['brunch_time_from'][$key],
+                'time_to' => $data['brunch_time_to'][$key],
+            );
+            $happy_hour[$key] = array(
+                'day' => $val,
+                'time_from' => $data['happy_time_from'][$key],
+                'time_to' => $data['happy_time_to'][$key],
+            );
         }
 
         $data['operation_hour'] = json_encode($operation_hour);
-        unset($data['day']);
-        unset($data['time_from']);
-        unset($data['time_to']);
-        unset($data['status']);
-
+        $data['brunch_hour'] = json_encode($brunch_hour);
+        $data['happy_hour'] = json_encode($happy_hour);
+        if ($request->get('parking') != null) {
+            $data['parking'] = json_encode($data['parking']);
+        }
+       
         $events = Event::Where(['id' => $id])->first();
 
         if ($events) {

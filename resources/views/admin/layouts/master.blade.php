@@ -167,7 +167,7 @@
                                     }
                                 });
                                 
-                                $('textarea').ckeditor({
+                                $('.textarea').ckeditor({
                                     enterMode: CKEDITOR.ENTER_DIV,
                                     allowedContent: true
                                 });

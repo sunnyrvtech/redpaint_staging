@@ -24,53 +24,22 @@
             <div class="content-middle">
                 <form action="{{ route('events.store') }}" method="post">
                     {{ csrf_field()}}
-                    <div class="form-row">
-                        <div class="form-group col-md-6{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="event_name" class="col-form-label">Establishment Name</label>
-                            <input type="text" required="" class="form-control" name="name" placeholder="Event Name">
-                            @if ($errors->has('name'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('name') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                        <div class="form-group col-md-6{{ $errors->has('website_url') ? ' has-error' : '' }}">
-                            <label for="website_url" class="col-form-label">Web Address</label>
-                            <input type="text" class="form-control" name="website_url" placeholder="Web Address">
-                            @if ($errors->has('website_url'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('website_url') }}</strong>
-                            </span>
-                            @endif
-                        </div>
+                    <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
+                        <label for="event_name" class="col-form-label">Business Name</label>
+                        <input type="text" required="" class="form-control" name="name" placeholder="Event Name">
+                        @if ($errors->has('name'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('name') }}</strong>
+                        </span>
+                        @endif
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-6{{ $errors->has('zip') ? ' has-error' : '' }}">
-                            <label for="zip" class="col-form-label">Zip</label>
-                            <input type="text" required="" class="form-control zipCode" name="zip" placeholder="Zip">
-                            @if ($errors->has('zip'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('zip') }}</strong>
-                            </span>
-                            @endif
-                        </div>
                         <div class="form-group col-md-6{{ $errors->has('address') ? ' has-error' : '' }}">
                             <label for="address" class="col-form-label">Address</label>
                             <input type="text" required="" class="form-control" id="address" name="address" placeholder="Address">
                             @if ($errors->has('address'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('address') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6{{ $errors->has('phone_number') ? ' has-error' : '' }}">
-                            <label for="phone_number" class="col-form-label">Phone Number</label>
-                            <input type="text" class="form-control" id="phone_number" maxlength="12" name="phone_number" placeholder="Phone Number">
-                            @if ($errors->has('phone_number'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('phone_number') }}</strong>
                             </span>
                             @endif
                         </div>
@@ -94,6 +63,17 @@
                             </span>
                             @endif
                         </div>
+                        <div class="form-group col-md-6{{ $errors->has('zip') ? ' has-error' : '' }}">
+                            <label for="zip" class="col-form-label">Zip</label>
+                            <input type="text" required="" class="form-control" name="zip" placeholder="Zip">
+                            @if ($errors->has('zip'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('zip') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="form-row">
                         <div class="form-group col-md-6{{ $errors->has('country_id') ? ' has-error' : '' }}">
                             <label for="country" class="col-form-label">Country</label>
                             <select name="country_id" id="country_id" required="" class="form-control">
@@ -108,26 +88,24 @@
                             </span>
                             @endif
                         </div>
+                        <div class="form-group col-md-6{{ $errors->has('phone_number') ? ' has-error' : '' }}">
+                            <label for="phone_number" class="col-form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="phone_number" maxlength="12" name="phone_number" placeholder="Phone Number">
+                            @if ($errors->has('phone_number'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('phone_number') }}</strong>
+                            </span>
+                            @endif
+                        </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6{{ $errors->has('start_date') ? ' has-error' : '' }}">
-                            <label for="start_date" class="col-form-label">Start Date</label>
-                            <input type="text" required="" class="form-control datetimepicker" name="start_date" placeholder="Event Start Date">
-                            @if ($errors->has('start_date'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('start_date') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                        <div class="form-group col-md-6{{ $errors->has('end_date') ? ' has-error' : '' }}">
-                            <label for="end_date" class="col-form-label">End Date</label>
-                            <input type="text" required="" class="form-control datetimepicker" name="end_date" placeholder="Event End Date">
-                            @if ($errors->has('end_date'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('end_date') }}</strong>
-                            </span>
-                            @endif
-                        </div>
+                    <div class="form-group{{ $errors->has('website_url') ? ' has-error' : '' }}">
+                        <label for="website_url" class="col-form-label">Web Address</label>
+                        <input type="text" class="form-control" name="website_url" placeholder="Web Address">
+                        @if ($errors->has('website_url'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('website_url') }}</strong>
+                        </span>
+                        @endif
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6{{ $errors->has('category_id') ? ' has-error' : '' }}">
@@ -145,7 +123,7 @@
                             @endif
                         </div>
                         <div class="form-group col-md-6{{ $errors->has('sub_category') ? ' has-error' : '' }}">
-                            <label for="sub_category" class="col-form-label">Sub category</label>
+                            <label for="sub_category" class="col-form-label">Business Type</label>
                             <input type="text" required="" class="form-control typeahead" name="sub_category" autocomplete="off" data-url="{{ route('events-sub_cat') }}" placeholder="Sub Category">
                             @if ($errors->has('sub_category'))
                             <span class="help-block">
@@ -155,7 +133,7 @@
                         </div>
                     </div>
                     <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                        <label for="description" class="col-form-label">Description</label>
+                        <label for="description" class="col-form-label">Business Description</label>
                         <textarea class="form-control" name="description"></textarea>
                         @if ($errors->has('description'))
                         <span class="help-block">
@@ -187,7 +165,38 @@
                     $time_array = array('Mon', "Tue", 'Wed', 'Thu', 'Fri', 'Sat', 'Sun')
                     ?>
                     <div class="form-group">
-                        <label>Do you have happy hours </label><a class="btn btn-default lock_hour_btn">Click Here</a>
+                        <label>Do you have operating hours ?</label><a class="btn lock_hour_btn">Click Here</a>
+                    </div>
+                    <div class="form-row lock_hour_html" style="display: none;">
+                        @foreach($time_array as $key=>$val)
+                        <div class="form-group col-md-4">
+                            @if($key == 0)
+                            <label for="day" class="col-form-label">Week Day</label>
+                            @endif
+                            <input type="text" class="form-control" value="{{ $val }}" readonly="">
+                        </div>
+                        <div class="form-group col-md-3">
+                            @if($key == 0)
+                            <label for="time_from" class="col-form-label">Time From</label>
+                            @endif
+                            <input type="text" class="form-control timepicker" name="time_from[]">
+                        </div>
+                        <div class="form-group col-md-3">
+                            @if($key == 0)
+                            <label for="time_to" class="col-form-label">Time To</label>
+                            @endif
+                            <input type="text" class="form-control timepicker" name="time_to[]">
+                        </div>
+                        <div class="form-group col-md-2">
+                            @if($key == 0)
+                            <label for="hour_status" class="col-form-label">Status</label>
+                            @endif
+                            <input type="checkbox" class="form-control" name="status{{ $key }}" value="0">
+                        </div>
+                        @endforeach
+                    </div>
+                    <div class="form-group">
+                        <label>Do you have happy hours ?</label><a class="btn lock_hour_btn">Click Here</a>
                     </div>
                     <div class="lock_hour_html" style="display: none;">
                         <div class="form-row">
@@ -223,7 +232,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Do you have brunch hours </label><a class="btn btn-default lock_hour_btn">Click Here</a>
+                        <label>Do you have brunch hours ?</label><a class="btn lock_hour_btn">Click Here</a>
                     </div>
                     <div class="lock_hour_html" style="display: none;">
                         <div class="form-row">
@@ -258,42 +267,44 @@
                             @endif
                         </div>
                     </div>
-
-
-                    <!--                    <div class="form-group">
-                                            <label for="lock_hour" class="col-form-label">Lock Hour</label>
-                                            <input type="checkbox" class="form-control lock_hour" id="lock_hour">
-                                        </div>-->
                     <div class="form-group">
-                        <label>Do you have normal hours </label><a class="btn btn-default lock_hour_btn">Click Here</a>
+                        <label>Do you have vegan options ?</label>
+                        <label class="radio-inline">
+                            <input type="radio" name="vegan" value="1">Yes
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="vegan" value="0">No
+                        </label>
                     </div>
-                    <div class="form-row lock_hour_html" style="display: none;">
-                        @foreach($time_array as $key=>$val)
-                        <div class="form-group col-md-4">
-                            @if($key == 0)
-                            <label for="day" class="col-form-label">Week Day</label>
-                            @endif
-                            <input type="text" class="form-control" value="{{ $val }}" readonly="">
-                        </div>
-                        <div class="form-group col-md-3">
-                            @if($key == 0)
-                            <label for="time_from" class="col-form-label">Time From</label>
-                            @endif
-                            <input type="text" class="form-control timepicker" name="time_from[]">
-                        </div>
-                        <div class="form-group col-md-3">
-                            @if($key == 0)
-                            <label for="time_to" class="col-form-label">Time To</label>
-                            @endif
-                            <input type="text" class="form-control timepicker" name="time_to[]">
-                        </div>
-                        <div class="form-group col-md-2">
-                            @if($key == 0)
-                            <label for="hour_status" class="col-form-label">Status</label>
-                            @endif
-                            <input type="checkbox" class="form-control" name="status{{ $key }}" value="0">
-                        </div>
-                        @endforeach
+                    <div class="form-group">
+                        <label>Do you have vegetarian options ?</label>
+                        <label class="radio-inline">
+                            <input type="radio" name="vegetarian" value="1">Yes
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="vegetarian" value="0">No
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Do you have gluten free options ?</label>
+                        <label class="radio-inline">
+                            <input type="radio" name="gluten" value="1">Yes
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="gluten" value="0">No
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="parking" class="col-form-label">Parking</label> 
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="parking[]" value="street"><span>Street</span>
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="parking[]" value="lot"><span>Parking lot</span>
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="parking[]" value="valet"><span>Valet</span>
+                        </label>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
@@ -312,21 +323,14 @@ $(document).ready(function () {
         format: 'LT'
     });
 
-    $('#lock_hour').click(function () {
-        if ($(this).is(':checked')) {
-            $('.lock_hour_html').show();
-        } else {
-            $('.lock_hour_html').hide();
-        }
-    });
     $(document).on("change", "select[name='category_id']", function () {
         var $id = $(this).val();
         var $url = "{{ route('events-sub_cat') }}";
         $url = $url + '?id=' + $id;
         $("input[name='sub_category']").attr('data-url', $url);
     });
-    
-    $(document).on("click",".lock_hour_btn",function(){
+
+    $(document).on("click", ".lock_hour_btn", function () {
         $(this).parent().next().toggle();
     });
 });

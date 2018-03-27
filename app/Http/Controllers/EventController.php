@@ -51,15 +51,13 @@ class EventController extends Controller {
      */
     public function store(Request $request, SubCategoryController $sub_cat_controller) {
         $data = $request->all();
-        $data['start_date'] = $data['start_date'] != null ? Carbon::parse($data['start_date'])->format('Y-m-d H:i:s') : null;
-        $data['end_date'] = $data['end_date'] != null ? Carbon::parse($data['end_date'])->format('Y-m-d H:i:s') : null;
+        //$data['start_date'] = $data['start_date'] != null ? Carbon::parse($data['start_date'])->format('Y-m-d H:i:s') : null;
+        //$data['end_date'] = $data['end_date'] != null ? Carbon::parse($data['end_date'])->format('Y-m-d H:i:s') : null;
 
         $this->validate($request, [
             'name' => 'required|max:100',
             'category_id' => 'required',
             'sub_category' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
             'address' => 'required',
             'city' => 'required',
             'state' => 'required',
@@ -107,6 +105,9 @@ class EventController extends Controller {
         $data['operation_hour'] = json_encode($operation_hour);
         $data['brunch_hour'] = json_encode($brunch_hour);
         $data['happy_hour'] = json_encode($happy_hour);
+        if ($request->get('parking') != null) {
+            $data['parking'] = json_encode($data['parking']);
+        }
 //        unset($data['day']);
 //        unset($data['time_from']);
 //        unset($data['time_to']);
@@ -148,15 +149,13 @@ class EventController extends Controller {
      */
     public function update(Request $request, $id, SubCategoryController $sub_cat_controller) {
         $data = $request->all();
-        $data['start_date'] = $data['start_date'] != null ? Carbon::parse($data['start_date'])->format('Y-m-d H:i:s') : null;
-        $data['end_date'] = $data['end_date'] != null ? Carbon::parse($data['end_date'])->format('Y-m-d H:i:s') : null;
+        //$data['start_date'] = $data['start_date'] != null ? Carbon::parse($data['start_date'])->format('Y-m-d H:i:s') : null;
+        //$data['end_date'] = $data['end_date'] != null ? Carbon::parse($data['end_date'])->format('Y-m-d H:i:s') : null;
 
         $this->validate($request, [
             'name' => 'required|max:100',
             'category_id' => 'required',
             'sub_category' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
             'address' => 'required',
             'city' => 'required',
             'state' => 'required',
@@ -207,7 +206,9 @@ class EventController extends Controller {
         $data['operation_hour'] = json_encode($operation_hour);
         $data['brunch_hour'] = json_encode($brunch_hour);
         $data['happy_hour'] = json_encode($happy_hour);
-
+        if ($request->get('parking') != null) {
+            $data['parking'] = json_encode($data['parking']);
+        }
         $events = Event::Where(['id' => $id, 'user_id' => Auth::id()])->first();
 
         if ($events) {
@@ -354,7 +355,7 @@ class EventController extends Controller {
 //        dd($events);
 
         if ($keyword != null && $keyword != 'recent_events' && $keyword != 'daily_deals') {
-            $events = Event::Where('status', 1)->Where(function($query) use ($keyword, $address,$distant_array) {
+            $events = Event::Where('status', 1)->Where(function($query) use ($keyword, $address, $distant_array) {
                         if ($address != null) {
                             $query->Where('events.name', 'LIKE', '%' . $keyword . '%')
                                     ->orWhere('events.formatted_address', 'LIKE', '%' . $address . '%');

@@ -1175,6 +1175,13 @@ div#maximage{ width: 100% !important;}
 #content .static_page ul li._aok { line-height: 30px; position: relative; padding-left: 0;}
 #content .static_page h1.page_tital {text-align: center;margin-bottom: 35px;text-transform: uppercase;font-weight: 600;}
 .bsn-btn { padding-top: 40px; }
+
+.profile-outer-main input[type="radio"]{ min-height: 0;width: 0; }
+.profile-outer-main .checkbox-inline span{ padding-left: 22px; }
+
+
+
+
 /*media query css*/
 @media(max-width:1024px){
     .row{ margin-left: 0px; margin-right: 0px; }

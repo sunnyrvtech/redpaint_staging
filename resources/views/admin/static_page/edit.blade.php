@@ -30,7 +30,7 @@
                     <div class="form-group {{ $errors->has('content') ? ' has-error' : ''}}">
                         <label class="col-sm-3 col-md-3 control-label" for="content">Content:</label>
                         <div class="col-sm-9 col-md-9">
-                            <textarea class="form-control" name="content" cols="50" rows="10">{{ $static_pages->content }}</textarea>
+                            <textarea class="form-control textarea" name="content" cols="50" rows="10">{{ $static_pages->content }}</textarea>
                             @if ($errors->has('content'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('content')}}</strong>

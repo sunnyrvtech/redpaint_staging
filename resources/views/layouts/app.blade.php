@@ -236,9 +236,9 @@
             }
         }
         
-        $(document).on('blur', '.zipCode', function (e) {
-           angular.element(this).scope().submitZipRegion($(this).val());
-        });
+//        $(document).on('blur', '.zipCode', function (e) {
+//           angular.element(this).scope().submitZipRegion($(this).val());
+//        });
         $('input.typeahead').typeahead({
             source:  function (query, process) {
                 var $url=this.$element.attr('data-url'); 

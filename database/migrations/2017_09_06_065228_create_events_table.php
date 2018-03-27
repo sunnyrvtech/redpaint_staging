@@ -30,6 +30,10 @@ class CreateEventsTable extends Migration {
             $table->string('brunch_hour')->nullable();
             $table->text('brunch_hour_note')->nullable();
             $table->text('operation_hour')->nullable();
+            $table->string('vegan')->nullable();
+            $table->string('vegetarian')->nullable();
+            $table->string('gluten')->nullable();
+            $table->string('parking')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->string('website_url')->nullable();
