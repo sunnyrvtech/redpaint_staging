@@ -1173,13 +1173,15 @@ div#maximage{ width: 100% !important;}
 #content .static_page { margin: 50px 0 80px 0;}
 #content .static_page ul {margin-top: 20px;padding-left: 15px;list-style: circle;}
 #content .static_page ul li._aok { line-height: 30px; position: relative; padding-left: 0;}
-#content .static_page h1.page_tital {text-align: center;margin-bottom: 35px;text-transform: uppercase;font-weight: 600;}
+#content .static_page h1.page_tital {text-align: center;margin-bottom: 35px;text-transform: uppercase;font-weight: 600; }
 .bsn-btn { padding-top: 40px; }
 
 .profile-outer-main input[type="radio"]{ min-height: 0;width: 0; }
 .profile-outer-main .checkbox-inline span{ padding-left: 22px; }
-
-
+.amenities-list li { border-top: 1px solid #ddd;padding: 8px; }
+.amenities-list li::before { content: "\f00c";font: normal normal normal 14px/1 FontAwesome; color: #41a700;font-size: 15px; }
+.amenities-list li span.hour_collapse { float: right;font-size: 20px;cursor: pointer; }
+.amenities-list .hours_details { display:none; }
 
 
 /*media query css*/

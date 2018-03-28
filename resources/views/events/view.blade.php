@@ -337,18 +337,46 @@
                         $brunch_hour = json_decode($events->brunch_hour);
                         $day_key = array_search(date("D"), $time_array); //   get the array key based on current day
                     ?>
-                    @if($happy_hour[$day_key]->time_from && $happy_hour[$day_key]->time_to)
-                      <div>
-                          <h4><b>Happy Hours </b><span style="font-size: 14px;">{{ $happy_hour[$day_key]->time_from.' - '.$happy_hour[$day_key]->time_to }}</span></h4>
-                          <p>{{ $events->happy_hour_note }}</p>
+                    <div>
+                          <h4><b>Main Amenities </b></h4>
+                          <ul class="amenities-list">
+                               @if($happy_hour[$day_key]->time_from && $happy_hour[$day_key]->time_to)
+                                <li><strong>Happy hours</strong><span class="fa fa-plus-square hour_collapse"></span>
+                                  <div class="hours_details">
+                                      <h5>{{ $happy_hour[$day_key]->time_from.' - '.$happy_hour[$day_key]->time_to }}</h5>
+                                      <p>{{ $events->happy_hour_note }}</p>
+                                  </div>
+                                </li>
+                               @endif
+                               @if($brunch_hour[$day_key]->time_from && $brunch_hour[$day_key]->time_to)
+                                <li><strong>Brunch hours</strong><span class="fa fa-plus-square hour_collapse"></span>
+                                    <div class="hours_details">
+                                      <h5>{{ $brunch_hour[$day_key]->time_from.' - '.$brunch_hour[$day_key]->time_to }}</h5>
+                                      <p>{{ $events->brunch_hour_note }}</p>
+                                    </div>
+                                </li>
+                               @endif
+                               @if($events->vegan)
+                               <li><strong>Vegan options</strong></li>
+                               @endif
+                               @if($events->vegetarian)
+                               <li><strong>Vegetarian options</strong></li>
+                               @endif
+                               @if($events->gluten)
+                               <li><strong>Gluten free options</strong></li>
+                               @endif
+                               @if($events->parking)
+                               <?php $parking = json_decode($events->parking); ?>
+                               <li><strong>Parking-</strong>
+                                   @foreach($parking as $val)
+                                       <span>
+                                           {{ ucfirst($val) }}@if($val != end($parking)),@endif
+                                       </span>
+                                    @endforeach
+                               </li>
+                               @endif
+                          </ul>
                       </div>
-                    @endif
-                    @if($brunch_hour[$day_key]->time_from && $brunch_hour[$day_key]->time_to)
-                      <div>
-                          <h4><b>Brunch Hours </b><span style="font-size: 14px;">{{ $brunch_hour[$day_key]->time_from.' - '.$brunch_hour[$day_key]->time_to }}</span></h4>
-                          <p>{{ $events->brunch_hour_note }}</p>
-                      </div>
-                    @endif
                 <div>
                     <div class="heading"><h4><b>You may also consider</b></h4></div>
                     <div class="RecentLists">
@@ -381,6 +409,9 @@
 async defer></script>
 <script type="text/javascript">
 $(document).ready(function () {
+    if($("ul.amenities-list").has("li").length == 0){
+        $("ul.amenities-list").parent().remove();
+    }
     
     if($(window).width() <  900){
         $('.js-photo ').removeClass('photo2');
@@ -411,6 +442,16 @@ $(document).ready(function () {
         $('.star-selector').text(default_rating_msg);
         $(".rating-and-comment ul > li:lt(5)").removeClass().addClass('rating');
         $(".rating-and-comment ul > li:lt(" + rate + ")").addClass('rating' + default_rating);
+    });
+    $(document).on("click",".hour_collapse.fa-plus-square",function () {
+        $('.hours_details').hide();
+        $('.hour_collapse').removeClass('fa-minus-square').addClass('fa-plus-square');
+        $(this).parent().find('.hours_details').show();
+        $(this).removeClass('fa-plus-square').addClass('fa-minus-square');
+    });
+    $(document).on("click",".hour_collapse.fa-minus-square",function () {
+        $(this).parent().find('.hours_details').hide();
+        $(this).removeClass('fa-minus-square').addClass('fa-plus-square');
     });
     $(".slickSlider").slick({
         autoplay: true,

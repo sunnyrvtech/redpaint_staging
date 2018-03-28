@@ -208,6 +208,8 @@ class EventController extends Controller {
         $data['happy_hour'] = json_encode($happy_hour);
         if ($request->get('parking') != null) {
             $data['parking'] = json_encode($data['parking']);
+        }else {
+            $data['parking'] = null;
         }
         $events = Event::Where(['id' => $id, 'user_id' => Auth::id()])->first();
 
