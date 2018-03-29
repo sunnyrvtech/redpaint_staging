@@ -98,7 +98,7 @@ class EventImageController extends Controller {
             }
             $data['user_id'] = Auth::id();
             $data['event_id'] = $events->id;
-            $event_images = EventImage::Where(['id' => $events->id, 'user_id' => Auth::id()])->first();
+            $event_images = EventImage::Where(['event_id' => $events->id, 'user_id' => Auth::id()])->first();
             if ($event_images) {
                 $eventimageArray = array_merge(json_decode($event_images->event_images), $imageArray);
                 $event_images->fill(array('event_images' => json_encode($eventimageArray)))->save();

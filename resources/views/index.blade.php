@@ -48,7 +48,9 @@
                 } else {
                     $average = 0;
                 }
-                $event_images = isset($value->getOwnerEventImages->event_images) ? json_decode($value->getOwnerEventImages->event_images) : array('default.jpg');
+                $event_images = isset($value->getOwnerEventImages->event_images) ? json_decode($value->getOwnerEventImages->event_images) : array();
+                if (empty($event_images))
+                    $event_images[0] = 'default.jpg';
                 ?>
                 <div class="ca-item ca-item-{{ $key }}">
                     <div class="item_l">
@@ -134,7 +136,9 @@
                     <ul>
                         @forelse($events->take(3) as $key=>$value)
                         <?php
-                        $event_images = isset($value->getOwnerEventImages->event_images) ? json_decode($value->getOwnerEventImages->event_images) : array('default.jpg');
+                        $event_images = isset($value->getOwnerEventImages->event_images) ? json_decode($value->getOwnerEventImages->event_images) : array();
+                        if (empty($event_images))
+                            $event_images[0] = 'default.jpg';
                         ?>
                         <li><a href="{{ route('events',$value->event_slug) }}">
                                 <div class="image_r"><img src="{{ URL::asset('/event_images').'/'.$event_images[0] }}"></div>
