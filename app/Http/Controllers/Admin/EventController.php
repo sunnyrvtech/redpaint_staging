@@ -122,6 +122,7 @@ class EventController extends Controller {
         $operation_hour = array();
         $brunch_hour = array();
         $happy_hour = array();
+        $daily_deal = array();
         foreach ($data['day'] as $key => $val) {
             $operation_hour[$key] = array(
                 'day' => $val,
@@ -139,11 +140,13 @@ class EventController extends Controller {
                 'time_from' => $data['happy_time_from'][$key],
                 'time_to' => $data['happy_time_to'][$key],
             );
+            $daily_deal[$val] = $data['deal_name'][$key] != null ? $data['deal_name'][$key] : 'null';
         }
 
         $data['operation_hour'] = json_encode($operation_hour);
         $data['brunch_hour'] = json_encode($brunch_hour);
         $data['happy_hour'] = json_encode($happy_hour);
+        $data['daily_deal'] = json_encode($daily_deal);
         if ($request->get('parking') != null) {
             $data['parking'] = json_encode($data['parking']);
         }
