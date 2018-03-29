@@ -27,18 +27,18 @@
             <p><b>Filter by day:-</b></p>
             <?php
             $days = array(
-                1 => 'Monday',
-                2 => 'Tuesday',
-                3 => 'Wednesday',
-                4 => 'Thursday',
-                5 => 'Friday',
-                6 => 'Saturday',
-                7 => 'Sunday');
+               'Mon' => 'Monday',
+               'Tue' => 'Tuesday',
+               'Wed' => 'Wednesday',
+               'Thu' => 'Thursday',
+               'Fri' => 'Friday',
+               'Sat' => 'Saturday',
+               'Sun' => 'Sunday');
             ?>
                 <select ng-model="day" ng-init="day='{{ Request::get('day') }}'" ng-change="filterByDay()">
                 <option value="">Choose...</option>
                 @foreach($days as $key=>$val)
-                <option value="{{ $val }}">{{ $val }}</option>
+                <option value="{{ $key }}">{{ $val }}</option>
                 @endforeach
             </select>
         </div>
@@ -79,7 +79,18 @@
                                 </div>
                                 <span><i class="fa fa-map-marker"></i> {{ str_limit($value->formatted_address, $limit = 32, $end = '...') }}</span>
                                 <span class="description-search">{{ str_limit($value->description, $limit = 32, $end = '...') }}</span>
-                                <!--<p class="business-date-opened"><i class="fa fa-hourglass" aria-hidden="true"></i>Opened 3 weeks ago </p>-->
+                                <?php  
+                                $daily_deal = json_decode($value->daily_deal); 
+                                $day_key = date("D");
+                                ?>
+                                @if(isset($daily_deal->$day_key) && $daily_deal->$day_key !='null')
+                                <div class="day_deal">
+                                    <p><i class="fa fa-clock-o" aria-hidden="true"></i>Deal of the day </p>
+                                    <span>{{ $daily_deal->$day_key }}</span>
+                                </div>
+                                @endif
+                                    <!--<p class="business-date-opened"><i class="fa fa-hourglass" aria-hidden="true"></i>Opened 3 weeks ago </p>-->
+                            
                             </div>
                         </div>
                     </div>

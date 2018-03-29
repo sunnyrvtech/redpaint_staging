@@ -84,6 +84,7 @@ class EventController extends Controller {
         $operation_hour = array();
         $brunch_hour = array();
         $happy_hour = array();
+        $daily_deal = array();
         foreach ($data['day'] as $key => $val) {
             $operation_hour[$key] = array(
                 'day' => $val,
@@ -101,10 +102,13 @@ class EventController extends Controller {
                 'time_from' => $data['happy_time_from'][$key],
                 'time_to' => $data['happy_time_to'][$key],
             );
+            $daily_deal[$val] = $data['deal_name'][$key] != null ? $data['deal_name'][$key] : 'null';
         }
+
         $data['operation_hour'] = json_encode($operation_hour);
         $data['brunch_hour'] = json_encode($brunch_hour);
         $data['happy_hour'] = json_encode($happy_hour);
+        $data['daily_deal'] = json_encode($daily_deal);
         if ($request->get('parking') != null) {
             $data['parking'] = json_encode($data['parking']);
         }
@@ -184,6 +188,7 @@ class EventController extends Controller {
         $operation_hour = array();
         $brunch_hour = array();
         $happy_hour = array();
+        $daily_deal = array();
         foreach ($data['day'] as $key => $val) {
             $operation_hour[$key] = array(
                 'day' => $val,
@@ -201,14 +206,16 @@ class EventController extends Controller {
                 'time_from' => $data['happy_time_from'][$key],
                 'time_to' => $data['happy_time_to'][$key],
             );
+            $daily_deal[$val] = $data['deal_name'][$key] != null ? $data['deal_name'][$key] : 'null';
         }
 
         $data['operation_hour'] = json_encode($operation_hour);
         $data['brunch_hour'] = json_encode($brunch_hour);
         $data['happy_hour'] = json_encode($happy_hour);
+        $data['daily_deal'] = json_encode($daily_deal);
         if ($request->get('parking') != null) {
             $data['parking'] = json_encode($data['parking']);
-        }else {
+        } else {
             $data['parking'] = null;
         }
         $events = Event::Where(['id' => $id, 'user_id' => Auth::id()])->first();
@@ -392,19 +399,14 @@ class EventController extends Controller {
                                 ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
                     })->orderby('created_at', 'DESC')->paginate(20);
         } elseif ($keyword == 'daily_deals') {
-            $current_date = Carbon::now()->toDateString();
-            if ($days != null) {
-                $day_date = Carbon::parse('this ' . $days)->toDateString();
-                $events = Event::Where('status', 1)->whereDate('end_date', '>=', $current_date)->whereDate('start_date', '<=', $day_date)->whereDate('end_date', '>=', $day_date)->Where(function($query) use ($distant_array) {
-                            $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
-                                    ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
-                        })->paginate(20);
-            } else {
-                $events = Event::Where('status', 1)->whereDate('end_date', '>=', $current_date)->Where(function($query) use ($distant_array) {
-                            $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
-                                    ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
-                        })->paginate(20);
+            if ($days == null) {
+                $days = date('D');
             }
+            $regrex = '"' . $days . '"' . ':"[^"]*[[:<:]]null[[:>:]]';
+            $events = Event::Where('status', 1)->whereRaw("daily_deal NOT REGEXP '" . $regrex . "'")->Where(function($query) use ($distant_array) {
+                        $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
+                                ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
+                    })->paginate(20);
         } else {
 
             $events = Event::Where('status', 1)->Where(function($query) use ($distant_array) {

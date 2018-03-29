@@ -25,6 +25,7 @@ class CreateEventsTable extends Migration {
             $table->string('zip');
             $table->integer('country_id');
             $table->string('formatted_address');
+            $table->text('daily_deal')->nullable();
             $table->string('happy_hour')->nullable();
             $table->text('happy_hour_note')->nullable();
             $table->string('brunch_hour')->nullable();

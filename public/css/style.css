@@ -1182,6 +1182,10 @@ div#maximage{ width: 100% !important;}
 .amenities-list li::before { content: "\f00c";font: normal normal normal 14px/1 FontAwesome; color: #41a700;font-size: 15px; }
 .amenities-list li span.hour_collapse { float: right;font-size: 20px;cursor: pointer; }
 .amenities-list .hours_details { display:none; }
+.amenities-list .hours_details ul li:before { content:none; }
+.amenities-list .hours_details ul li { border:none; }
+.event-listing .day_deal p { color: hsl(23, 100%, 47%);margin-top: 10px; }
+.event-listing .day_deal i { margin-right: 10px; }
 
 
 /*media query css*/

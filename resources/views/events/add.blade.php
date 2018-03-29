@@ -165,6 +165,28 @@
                     $time_array = array('Mon', "Tue", 'Wed', 'Thu', 'Fri', 'Sat', 'Sun')
                     ?>
                     <div class="form-group">
+                        <label for="daily_deals" class="col-form-label">Daily Deals </label><a class="btn lock_hour_btn">Click Here</a>
+                    </div>
+                    <div class="lock_hour_html" style="display: none;">
+                        <div class="form-row">
+                            @foreach($time_array as $key=>$val)
+                            <div class="form-group col-md-6">
+                                @if($key == 0)
+                                <label for="day" class="col-form-label">Day</label>
+                                @endif
+                                <input type="text" class="form-control" name="day[]" value="{{ $val }}" readonly="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                @if($key == 0)
+                                <label for="time_from" class="col-form-label">Deal name</label>
+                                @endif
+                                <input type="text" class="form-control" name="deal_name[]">
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
                         <label>Do you have operating hours ?</label><a class="btn lock_hour_btn">Click Here</a>
                     </div>
                     <div class="form-row lock_hour_html" style="display: none;">
@@ -205,7 +227,7 @@
                                 @if($key == 0)
                                 <label for="day" class="col-form-label">Week Day</label>
                                 @endif
-                                <input type="text" class="form-control" name="day[]" value="{{ $val }}" readonly="">
+                                <input type="text" class="form-control" value="{{ $val }}" readonly="">
                             </div>
                             <div class="form-group col-md-4">
                                 @if($key == 0)

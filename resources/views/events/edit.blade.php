@@ -167,7 +167,29 @@
                     $operation_hour = json_decode($events->operation_hour);
                     $brunch_hour = json_decode($events->brunch_hour);
                     $happy_hour = json_decode($events->happy_hour);
+                    $daily_deal = json_decode($events->daily_deal);
                     ?>
+                    <div class="form-group">
+                        <label for="daily_deals" class="col-form-label">Daily Deals </label><a class="btn lock_hour_btn">Click Here</a>
+                    </div>
+                    <div class="lock_hour_html" style="display: none;">
+                        <div class="form-row">
+                            @foreach($time_array as $key=>$val)
+                            <div class="form-group col-md-6">
+                                @if($key == 0)
+                                <label for="day" class="col-form-label">Day</label>
+                                @endif
+                                <input type="text" class="form-control" name="day[]" value="{{ $val }}" readonly="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                @if($key == 0)
+                                <label for="time_from" class="col-form-label">Deal name</label>
+                                @endif
+                                <input type="text" class="form-control" name="deal_name[]" value="{{ isset($daily_deal->$val) && $daily_deal->$val!='null'?$daily_deal->$val:'' }}">
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label>Do you have operating hours ?</label><a class="btn lock_hour_btn">Click Here</a>
                     </div>
@@ -211,13 +233,13 @@
                                 @if($key == 0)
                                 <label for="day" class="col-form-label">Week Day</label>
                                 @endif
-                                <input type="text" class="form-control" name="day[]" value="{{ $val }}" readonly="">
+                                <input type="text" class="form-control" value="{{ $val }}" readonly="">
                             </div>
                             <div class="form-group col-md-4">
                                 @if($key == 0)
                                 <label for="happy_time_from" class="col-form-label">Time From</label>
                                 @endif
-                                <input type="text" class="form-control timepicker" name="happy_time_from[]"  value="{{ isset($happy_hour[$key]->time_from)?$happy_hour[$key]->time_from:'' }}">
+                                <input type="text" class="form-control timepicker" name="happy_time_from[]" value="{{ isset($happy_hour[$key]->time_from)?$happy_hour[$key]->time_from:'' }}">
                             </div>
                             <div class="form-group col-md-4">
                                 @if($key == 0)

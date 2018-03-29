@@ -335,27 +335,35 @@
                     <?php
                         $happy_hour = json_decode($events->happy_hour);
                         $brunch_hour = json_decode($events->brunch_hour);
-                        $day_key = array_search(date("D"), $time_array); //   get the array key based on current day
+                       // $day_key = array_search(date("D"), $time_array); //   get the array key based on current day
                     ?>
                     <div>
                           <h4><b>Main Amenities </b></h4>
                           <ul class="amenities-list">
-                               @if($happy_hour[$day_key]->time_from && $happy_hour[$day_key]->time_to)
-                                <li><strong>Happy hours</strong><span class="fa fa-plus-square hour_collapse"></span>
+                               <li><strong>Happy hours</strong><span class="fa fa-plus-square hour_collapse"></span>
                                   <div class="hours_details">
-                                      <h5>{{ $happy_hour[$day_key]->time_from.' - '.$happy_hour[$day_key]->time_to }}</h5>
+                                      <ul>
+                                          @foreach($happy_hour as $val)
+                                          @if($val->time_from && $val->time_to)
+                                          <li><strong>{{ $val->day }}</strong><span style="float:right">{{ $val->time_from.' - '.$val->time_to }}</span></li>
+                                          @endif
+                                          @endforeach
+                                      </ul>
                                       <p>{{ $events->happy_hour_note }}</p>
                                   </div>
                                 </li>
-                               @endif
-                               @if($brunch_hour[$day_key]->time_from && $brunch_hour[$day_key]->time_to)
                                 <li><strong>Brunch hours</strong><span class="fa fa-plus-square hour_collapse"></span>
                                     <div class="hours_details">
-                                      <h5>{{ $brunch_hour[$day_key]->time_from.' - '.$brunch_hour[$day_key]->time_to }}</h5>
+                                        <ul>
+                                          @foreach($brunch_hour as $val)
+                                          @if($val->time_from && $val->time_to)
+                                          <li><strong>{{ $val->day }}</strong><span style="float:right">{{ $val->time_from.' - '.$val->time_to }}</span></li>
+                                          @endif
+                                          @endforeach
+                                        </ul>
                                       <p>{{ $events->brunch_hour_note }}</p>
                                     </div>
                                 </li>
-                               @endif
                                @if($events->vegan)
                                <li><strong>Vegan options</strong></li>
                                @endif
