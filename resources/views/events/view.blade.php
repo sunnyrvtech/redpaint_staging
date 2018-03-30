@@ -350,6 +350,17 @@
                     <div>
                           <h4><b>Main Amenities </b></h4>
                           <ul class="amenities-list">
+                               <li><strong>Daily Deals</strong><span class="fa fa-plus-square hour_collapse"></span>
+                                  <div class="hours_details">
+                                      <ul>
+                                          @foreach($time_array as $val)
+                                          @if(isset($daily_deal->$val) && $daily_deal->$val != 'null')
+                                          <li><strong>{{ $val }}</strong><span style="float:right">{{ $daily_deal->$val }}</span></li>
+                                          @endif
+                                          @endforeach
+                                      </ul>
+                                  </div>
+                               </li>
                                <li><strong>Happy hours</strong><span class="fa fa-plus-square hour_collapse"></span>
                                   <div class="hours_details">
                                       <ul>

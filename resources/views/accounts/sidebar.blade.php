@@ -17,7 +17,7 @@
             @if(Auth::user()->subscribed('ads_subscription'))
             <li><a href="{{ route('ads.index') }}" class="@if(Request::segment(2) == 'ads')active @endif">Add Ads</a></li>
             @endif
-            <li><a href="{{ route('events.index') }}" class="@if(Request::path() == 'business/events')active @endif">Events</a></li>
+            <li><a href="{{ route('events.index') }}" class="@if(Request::path() == 'business/events')active @endif">Business Pages</a></li>
             <li><a href="{{ route('payments') }}" class="@if(Request::path() == 'business/payments')active @endif">Payment History</a></li>
 
             @endif
