@@ -9,6 +9,9 @@
 </style>
 <div class="profile-outer-main">
     <div class="container">
+        <a data-href="{{ route('photo.show',$events->event_slug) }}" class="add-photo-button">
+                                        <i class="fa fa-camera" aria-hidden="true"></i>Add Photo     
+                                    </a>
         <div class="row">
             <div class="ads-container">
                 @foreach($ads as $val)
@@ -80,7 +83,7 @@
                                     <i class="fa fa-star" aria-hidden="true"></i> Write a Review     
                                 </a>
                                 <span class="allbtn-group">
-                                    <a data-href="{{ route('photo.show',$events->event_slug) }}" class="add-photo-button">
+                                    <a href="{{ route('photo.show',$events->event_slug) }}" class="add-photo-button">
                                         <i class="fa fa-camera" aria-hidden="true"></i>Add Photo     
                                     </a>
 <!--                                    <a href="#" class="share-icon">
@@ -517,11 +520,6 @@ function initMap() {
             title: 'Hello World!'
     });
 }
-$(document).ready(function(){
-    $(".add-photo-button").click(function(){
-    alert($(this).attr('data-href'));
-    });
-});
 </script>
 @endpush
 
