@@ -27,15 +27,14 @@ class EventImageController extends Controller {
     public function store(Request $request) {
         
     }
-    
-    
+
     /**
      * function to get all event images based on event id.
      *
      * @return Response
      */
-    public function getAllEventImages(Request $request,$slug) {
-        $events = Event::Where('event_slug',$slug)->first();
+    public function getAllEventImages(Request $request, $slug) {
+        $events = Event::Where('event_slug', $slug)->first();
         return View::make('events.all_images', compact('events'));
     }
 
@@ -45,11 +44,11 @@ class EventImageController extends Controller {
      * @return Response
      */
     public function show(Request $request, $slug) {
-        $events = Event::Where('event_slug',$slug)->first();
+        $events = Event::Where('event_slug', $slug)->first();
         if ($events) {
             $event_images = array();
             //if ($events->user_id == Auth::id()) {  // this is used to check if event is related to owner
-            $event_images = EventImage::Where(['user_id' => Auth::id(),'event_id' => $events->id])->get();
+            $event_images = EventImage::Where(['user_id' => Auth::id(), 'event_id' => $events->id])->get();
             //}
 //            else {
 //                $event_images = EventImage::Where(['user_id' => Auth::id(), 'event_id' => $events->id])->get();
@@ -77,7 +76,7 @@ class EventImageController extends Controller {
             'event_images' => 'required'
         ]);
 
-        $events = Event::Where('event_slug',$slug)->first();
+        $events = Event::Where('event_slug', $slug)->first();
 
         if ($events) {
             if ($request->file('event_images')) {
@@ -130,7 +129,10 @@ class EventImageController extends Controller {
                 $key = array_search($request->get('id'), $eventimageArray);
                 unset($eventimageArray[$key]);
                 $eventimageArray = array_values($eventimageArray);
-                $event_images->fill(array('event_images' => json_encode($eventimageArray)))->save();
+                if (!empty($eventimageArray))
+                    $event_images->fill(array('event_images' => json_encode($eventimageArray)))->save();
+                else
+                    $event_images->delete();
                 @unlink(base_path('public/event_images/') . $request->get('id'));
             }
             return response()->json(['success' => true, 'html' => $this->show($request, $events->event_slug), 'messages' => "Event image deleted successfully!"]);

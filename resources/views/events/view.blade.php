@@ -51,24 +51,48 @@
                                 </div>
                             </div>
                             <div class="price-category">
-                                @if($events->getSubCategory)
                                 <p><span>{{ $events->description }}</span></p>
+                                @if($events->getSubCategory)
                                 <span class="bullet-after">
                                     <span class="price-range">$$</span>
                                 </span>
                                 <span class="category-str-list">
-
+                                    <!--<span>{{ str_replace('.00', '',number_format($events->price_to,2)).'-'.str_replace('.00', '',number_format($events->price_from,2)) }}</span>-->
                                     <a href="{{ route('subcategory.search',$events->getSubCategory->id) }}">{{ $events->getSubCategory->name }}</a>
-                                    <!--                                <a href="#">Korean</a>,
-                                                                    <a href="#">American (New)</a>-->
                                 </span>
                                 @endif
-                                <div class="rating-details">
-                                    <!--<a href="#"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</a>-->
-                                </div>
                             </div>
-
-                            <div class="mapbox-container">
+                            <?php  
+                                $daily_deal = json_decode($events->daily_deal); 
+                                $day_key = date("D");
+                            ?>
+                            @if(isset($daily_deal->$day_key) && $daily_deal->$day_key !='null')
+                            <div class="day_deal">
+                                <p><i class="fa fa-clock-o" aria-hidden="true"></i> Deal of the day </p>
+                                <span>{{ $daily_deal->$day_key }}</span>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="biz-page-actions">
+                                <a @if(!Auth::check()) href="{{ route('login') }}" @endif class="review-btn">
+                                    <i class="fa fa-star" aria-hidden="true"></i> Write a Review     
+                                </a>
+                                <span class="allbtn-group">
+                                    <a href="{{ route('photo.show',$events->event_slug) }}" class="add-photo-button">
+                                        <i class="fa fa-camera" aria-hidden="true"></i>Add Photo     
+                                    </a>
+<!--                                    <a href="#" class="share-icon">
+                                        <i class="fa fa-share-square-o" aria-hidden="true"></i>Share     
+                                    </a>-->
+                                </span>
+                            </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="mapbox-container">
                                 <div class="mapbox-map" id="map">
 
 
@@ -108,25 +132,11 @@
                                                                             </li>-->
                                     </ul>
                                 </div>
-                            </div>		
-
-                        </div>
+                            </div>
                     </div>
                     <div class="col-sm-8">
                         <div class="biz-page-header-right">
-                            <div class="biz-page-actions">
-                                <a @if(!Auth::check()) href="{{ route('login') }}" @endif class="review-btn">
-                                    <i class="fa fa-star" aria-hidden="true"></i> Write a Review     
-                                </a>
-                                <span class="allbtn-group">
-                                    <a href="{{ route('photo.show',$events->event_slug) }}" class="add-photo-button">
-                                        <i class="fa fa-camera" aria-hidden="true"></i>Add Photo     
-                                    </a>
-<!--                                    <a href="#" class="share-icon">
-                                        <i class="fa fa-share-square-o" aria-hidden="true"></i>Share     
-                                    </a>-->
-                                </span>
-                            </div>
+                            
                             <!--//                            print_r($events->getEventImages->take(3)->toArray());-->
 
                             <?php
