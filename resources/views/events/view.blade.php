@@ -7,7 +7,8 @@
 <a href="{{ route('photo.show',$events->event_slug) }}" class="add-photo-button">
                                         <i class="fa fa-camera" aria-hidden="true"></i>Add Photo     
                                     </a>
-@endpush
+
+@endsection
 
 
 
