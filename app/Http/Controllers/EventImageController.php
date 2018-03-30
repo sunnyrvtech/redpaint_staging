@@ -49,7 +49,6 @@ class EventImageController extends Controller {
      * @return Response
      */
     public function show(Request $request, $slug) {
-        die('helo');
         $events = Event::Where('event_slug', $slug)->first();
         if ($events) {
             $event_images = array();
