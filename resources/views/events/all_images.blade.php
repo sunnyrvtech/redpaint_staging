@@ -44,22 +44,6 @@
 @endsection
 @push('scripts')
 <script type="text/javascript">
-    $(document).ready(function () {
-        $(document).on('change', '.photo_file', function (e) {
-            document.getElementById("imageForm").submit();
-//            $(".renderPreviewImage").html('');
-//            $.each(e.originalEvent.target.files, function (i, file) {
-//                var reader = new FileReader();
-//                reader.onloadend = function () {
-//                    var HTML = '<div class="col-md-4">';
-//                    HTML += '<div class="thumbnail"><img width="100%" src="' + reader.result + '"></div>';
-//                    HTML += '</div>';
-//                    $(".renderPreviewImage").append(HTML);
-//                }
-//                reader.readAsDataURL(file);
-//            });
-        });
-    });
 </script>
 @endpush
 

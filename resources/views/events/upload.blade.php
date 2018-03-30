@@ -69,6 +69,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $(document).on('change', '.photo_file', function (e) {
+            $("#loaderOverlay").removeClass('ng-hide');
             document.getElementById("imageForm").submit();
 //            $(".renderPreviewImage").html('');
 //            $.each(e.originalEvent.target.files, function (i, file) {

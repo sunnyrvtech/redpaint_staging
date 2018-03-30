@@ -35,7 +35,12 @@ class EventImageController extends Controller {
      */
     public function getAllEventImages(Request $request, $slug) {
         $events = Event::Where('event_slug', $slug)->first();
-        return View::make('events.all_images', compact('events'));
+        $view = View::make('events.all_images', compact('events'));
+        if ($request->wantsJson()) {
+            $sections = $view->renderSections();
+            return $sections['content'];
+        }
+        return $view;
     }
 
     /**
@@ -135,7 +140,7 @@ class EventImageController extends Controller {
                     $event_images->delete();
                 @unlink(base_path('public/event_images/') . $request->get('id'));
             }
-            return response()->json(['success' => true, 'html' => $this->show($request, $events->event_slug), 'messages' => "Event image deleted successfully!"]);
+            return response()->json(['success' => true, 'html' => $this->getAllEventImages($request, $events->event_slug), 'messages' => "Event image deleted successfully!"]);
         }
         return 'true';
     }
