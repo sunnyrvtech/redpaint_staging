@@ -80,7 +80,7 @@
                                     <i class="fa fa-star" aria-hidden="true"></i> Write a Review     
                                 </a>
                                 <span class="allbtn-group">
-                                    <a href="{{ route('photo.show',$events->event_slug) }}" class="add-photo-button">
+                                    <a data-href="{{ route('photo.show',$events->event_slug) }}" class="add-photo-button">
                                         <i class="fa fa-camera" aria-hidden="true"></i>Add Photo     
                                     </a>
 <!--                                    <a href="#" class="share-icon">
@@ -517,6 +517,11 @@ function initMap() {
             title: 'Hello World!'
     });
 }
+$(document).ready(function(){
+    $(".add-photo-button").click(function(){
+    alert($(this).attr('data-href'));
+    });
+});
 </script>
 @endpush
 
