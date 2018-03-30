@@ -80,7 +80,9 @@
                                     <i class="fa fa-star" aria-hidden="true"></i> Write a Review     
                                 </a>
                                 <span class="allbtn-group">
-                                    
+                                    <a href="javascript:void(0);" class="add-photo-button">
+                                        <i class="fa fa-camera" aria-hidden="true"></i>Add Photo     
+                                    </a>
 <!--                                    <a href="#" class="share-icon">
                                         <i class="fa fa-share-square-o" aria-hidden="true"></i>Share     
                                     </a>-->
