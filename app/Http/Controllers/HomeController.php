@@ -27,7 +27,7 @@ class HomeController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $events = Event::Where('status', 1)->orderby('created_at', 'DESC')->take(20)->get();
+        $events = Event::Where('stadtus', 1)->orderby('created_at', 'DESC')->take(20)->get();
         $review_of_day = Review::Where('status', 1)->orderby('created_at', 'DESC')->first();
         return view('index', compact('events', 'review_of_day'));
     }
