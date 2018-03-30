@@ -9,7 +9,7 @@
 </style>
 <div class="profile-outer-main">
     <div class="container">
-        <a data-href="{{ route('photo.show',$events->event_slug) }}" class="add-photo-button">
+        <a href="{{ route('photo.show',$events->event_slug) }}" class="add-photo-button">
                                         <i class="fa fa-camera" aria-hidden="true"></i>Add Photo     
                                     </a>
         <div class="row">
