@@ -92,7 +92,7 @@ class EventImageController extends Controller {
                     foreach ($image as $key => $image_val) {
                         
                         
-                       echo  $image_val>getClientSize();
+                       print_r($image_val);
                         
                         
 //                        $type = $image_val->getClientMimeType();
