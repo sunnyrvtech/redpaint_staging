@@ -90,13 +90,20 @@ class EventImageController extends Controller {
                     $imageArray = array();
                     $path = base_path('public/event_images/');
                     foreach ($image as $key => $image_val) {
-                        $type = $image_val->getClientMimeType();
-                        if ($type == 'image/png' || $type == 'image/jpg' || $type == 'image/jpeg') {
-                            $filename = str_random(15) . '.' . $image_val->getClientOriginalExtension();
-                            $image_val->move($path, $filename);
-                            $imageArray[$key] = $filename;
-                        }
+                        
+                        
+                       echo  $image_val>getClientSize();
+                        
+                        
+//                        $type = $image_val->getClientMimeType();
+//                        if ($type == 'image/png' || $type == 'image/jpg' || $type == 'image/jpeg') {
+//                            $filename = str_random(15) . '.' . $image_val->getClientOriginalExtension();
+//                            $image_val->move($path, $filename);
+//                            $imageArray[$key] = $filename;
+//                        }
                     }
+                    
+                    die;
                     $data['event_images'] = json_encode($imageArray);
                 }
             }
