@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="titled-nav-header_content">
-                            <h3>Add Events</h3>
+                            <h3>Add Business</h3>
                         </div>
                     </div>
                     <div class="col-md-2 pull-right">
