@@ -82,35 +82,38 @@ class EventImageController extends Controller {
         ]);
 
         $events = Event::Where('event_slug', $slug)->first();
-
-        if ($events) {
-            if ($request->file('event_images')) {
-                if ($request->hasFile('event_images')) {
-                    $image = $request->file('event_images');
-                    $imageArray = array();
-                    $path = base_path('public/event_images/');
-                    foreach ($image as $key => $image_val) {
-                        $type = $image_val->getClientMimeType();
-                        if ($type == 'image/png' || $type == 'image/jpg' || $type == 'image/jpeg') {
-                            $filename = str_random(15) . '.' . $image_val->getClientOriginalExtension();
-                            $image_val->move($path, $filename);
-                            $imageArray[$key] = $filename;
+        try {
+            if ($events) {
+                if ($request->file('event_images')) {
+                    if ($request->hasFile('event_images')) {
+                        $image = $request->file('event_images');
+                        $imageArray = array();
+                        $path = base_path('public/event_images/');
+                        foreach ($image as $key => $image_val) {
+                            $type = $image_val->getClientMimeType();
+                            if ($type == 'image/png' || $type == 'image/jpg' || $type == 'image/jpeg') {
+                                $filename = str_random(15) . '.' . $image_val->getClientOriginalExtension();
+                                $image_val->move($path, $filename);
+                                $imageArray[$key] = $filename;
+                            }
                         }
+                        $data['event_images'] = json_encode($imageArray);
                     }
-                    $data['event_images'] = json_encode($imageArray);
                 }
+                $data['user_id'] = Auth::id();
+                $data['event_id'] = $events->id;
+                $event_images = EventImage::Where(['event_id' => $events->id, 'user_id' => Auth::id()])->first();
+                if ($event_images) {
+                    $eventimageArray = array_merge(json_decode($event_images->event_images), $imageArray);
+                    $event_images->fill(array('event_images' => json_encode($eventimageArray)))->save();
+                } else {
+                    EventImage::create($data);
+                }
+                return redirect()->back()
+                                ->with('success-message', 'Photo added successfully!');
             }
-            $data['user_id'] = Auth::id();
-            $data['event_id'] = $events->id;
-            $event_images = EventImage::Where(['event_id' => $events->id, 'user_id' => Auth::id()])->first();
-            if ($event_images) {
-                $eventimageArray = array_merge(json_decode($event_images->event_images), $imageArray);
-                $event_images->fill(array('event_images' => json_encode($eventimageArray)))->save();
-            } else {
-                EventImage::create($data);
-            }
-            return redirect()->back()
-                            ->with('success-message', 'Photo added successfully!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error-message', 'Something went wrong,please try again later !');
         }
         return redirect()->back()
                         ->with('error-message', 'No Event found!');
