@@ -26,7 +26,7 @@ class HomeController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
         echo $request->session()->get('latitude');
         die;
         $events = Event::Where('status', 1)->orderby('created_at', 'DESC')->take(20)->get();
