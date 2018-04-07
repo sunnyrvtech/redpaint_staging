@@ -159,11 +159,11 @@
         <script>
             var from_lat,from_lng;
             var to_lat,to_lng;
-            to_lat = {{ $event->latitude }};
-            to_lng = {{ $event->longitude }};
+            to_lat = "{{ $event->latitude }}";
+            to_lng = "{{ $event->longitude }}";
             @if(Session::has('latitude') && Session::has('longitude'))  
-            from_lat = {{ Session::has('latitude') }};
-            from_lng = {{ Session::has('longitude') }};
+            from_lat = "{{ Session::has('latitude') }}";
+            from_lng = "{{ Session::has('longitude') }}";
             alert(from_lat);
             alert(from_lng);
             @endif
