@@ -9,6 +9,7 @@ use App\Event;
 use Newsletter;
 use App\StaticPage;
 use View;
+use Session;
 
 class HomeController extends Controller {
 
@@ -87,10 +88,10 @@ class HomeController extends Controller {
         $data = $request->all();
         
         if($data['latitude'] != null){
-            $request->session()->put('latitude', $data['latitude']);
+            Session::put('latitude', $data['latitude']);
         }
         if($data['longitude'] != null){
-            $request->session()->put('longitude', $data['longitude']);
+            Session::put('longitude', $data['longitude']);
         }
         return true;
     }
