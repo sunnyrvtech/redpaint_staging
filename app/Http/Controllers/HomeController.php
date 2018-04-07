@@ -98,6 +98,8 @@ class HomeController extends Controller {
     
     public function getMapLocation(Request $request,$id){
          $data['event'] = Event::Where('id', $id)->first(array('latitude','longitude','formatted_address'));
+         $data['user_lat'] = $request->session()->get('latitude');
+         $data['user_lng'] = $request->session()->get('longitude');
          return view('events.map',$data);
     }
 }

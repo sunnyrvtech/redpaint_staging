@@ -157,16 +157,13 @@
         </div>
         <script src="{{ URL::asset('js/jquery.js') }}"></script>
         <script>
-            $(document).ready(function(){
                 var from_lat,from_lng;
                 var to_lat,to_lng;
                 to_lat = "{{ $event->latitude }}";
                 to_lng = "{{ $event->longitude }}";
                 @if(Session::has('latitude') && Session::has('longitude'))  
-                from_lat = "{{ Session::has('latitude') }}";
-                from_lng = "{{ Session::has('longitude') }}";
-                alert(from_lat);
-                alert(from_lng);
+                from_lat = "{{ $user_lat }}";
+                from_lng = "{{ $user_lng }}";
                 @endif
                 function initMap() {
                     var myLatLng = { lat: to_lat, lng: to_lng };
@@ -195,8 +192,8 @@
                     $(document).on('click','.GetDirectionBtn',function(){
                         if(!$("#location").val()){
                             @if(Session::has('latitude') && Session::has('longitude'))  
-                                from_lat = {{ Session::has('latitude') }};
-                                from_lng = {{ Session::has('longitude') }};
+                                from_lat = "{{ $user_lat }}";
+                                from_lng = "{{ $user_lng }}";
                             @endif
                         }
                         $(".direction_mode li.active").trigger('click');
@@ -255,7 +252,6 @@
                         document.getElementById('total').innerHTML = total + ' km';
                     }
                 }
-            });
         </script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZGTC412EEKYBmKXxH9VFnE97fKNsu0zQ&callback=initMap&libraries=places"></script>
         <script>
