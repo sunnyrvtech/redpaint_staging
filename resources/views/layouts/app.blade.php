@@ -263,7 +263,6 @@
             getGeoLocation();
             function getGeoLocation() {
                 if (navigator.geolocation) {
-                    alert('hello');
                     navigator.geolocation.getCurrentPosition(showPosition,error);
                 } else { 
                     alert("Geolocation is not supported by this browser.");
@@ -271,6 +270,7 @@
             }
 
             function showPosition(position) {
+                alert(position.coords.latitude);
               angular.element(document.body).scope().submitUserLocation("{{ route('user_location') }}",position.coords.latitude,position.coords.longitude);
             }
             function error(msg) {
