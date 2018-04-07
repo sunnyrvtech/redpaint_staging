@@ -85,7 +85,7 @@ class HomeController extends Controller {
     
     public function saveUserLocation(Request $request){
         $data = $request->all();
-        
+        dd($data);
         if($data['latitude'] != null){
             $request->session()->put('latitude', $data['latitude']);
         }

@@ -329,9 +329,9 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
                 data: 'latitude=' + $latitude + '&longitude=' + $longitude,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function (data, status, headers, config) {
-                window.location.reload();
+                //window.location.reload();
             }, function errorCallback(data) {
-                window.location.reload();
+               // window.location.reload();
             });
         }
 
