@@ -86,10 +86,14 @@ class HomeController extends Controller {
     public function saveUserLocation(Request $request){
         $data = $request->all();
         
-        echo $data['latitude'];
-        echo $data['longitude'];
+        if($data['latitude'] != null){
+            $request->session()->put('latitude', $data['latitude']);
+        }
         
-        return true;
+        if($data['longitude'] != null){
+            $request->session()->put('longitude', $data['longitude']);
+        }
+        return array('latitude'=>$request->session()->get('latitude'),'longitude'=>$request->session()->get('longitude'));
     }
     
     public function getMapLocation(Request $request,$id){
