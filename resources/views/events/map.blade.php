@@ -164,6 +164,8 @@
             @if(Session::has('latitude') && Session::has('longitude'))  
             from_lat = {{ Session::has('latitude') }};
             from_lng = {{ Session::has('longitude') }};
+            alert(from_lat);
+            alert(from_lng);
             @endif
             function initMap() {
                 var myLatLng = { lat: to_lat, lng: to_lng };
