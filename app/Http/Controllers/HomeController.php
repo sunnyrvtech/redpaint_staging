@@ -85,21 +85,14 @@ class HomeController extends Controller {
     
     public function saveUserLocation(Request $request){
         $data = $request->all();
-        dd($data);
+        
         if($data['latitude'] != null){
             $request->session()->put('latitude', $data['latitude']);
         }
-        
         if($data['longitude'] != null){
             $request->session()->put('longitude', $data['longitude']);
         }
-        
-//        if($data['user_location'] != null){
-//            $request->session()->put('user_location', $data['user_location']);
-//        }
-        
         return true;
-//        return redirect('/');
     }
     
     public function getMapLocation(Request $request,$id){
