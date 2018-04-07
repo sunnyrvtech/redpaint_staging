@@ -176,6 +176,8 @@
             </p>
         </div>
     </div>
+
+{{ Session::has('latitude') }}
 </footer><!-- end footer -->
 <!-- Scripts -->
 <script src="{{ URL::asset('js/jquery.js') }}"></script>
