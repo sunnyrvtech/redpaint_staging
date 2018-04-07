@@ -159,11 +159,11 @@
         <script>
                 var from_lat,from_lng;
                 var to_lat,to_lng;
-                to_lat = "{{ $event->latitude }}";
-                to_lng = "{{ $event->longitude }}";
+                to_lat = {{ $event->latitude }};
+                to_lng = {{ $event->longitude }};
                 @if(Session::has('latitude') && Session::has('longitude'))  
-                from_lat = "{{ $user_lat }}";
-                from_lng = "{{ $user_lng }}";
+                from_lat = {{ $user_lat }};
+                from_lng = {{ $user_lng }};
                 @endif
                 function initMap() {
                     var myLatLng = { lat: to_lat, lng: to_lng };
