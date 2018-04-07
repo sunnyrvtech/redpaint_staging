@@ -176,8 +176,6 @@
             </p>
         </div>
     </div>
-
-{{ Session::has('latitude') }}
 </footer><!-- end footer -->
 <!-- Scripts -->
 <script src="{{ URL::asset('js/jquery.js') }}"></script>
@@ -202,11 +200,6 @@
         file.trigger('click');
     });
     $(document).ready(function () {
-        
-                  alert("{{ Session::has('latitude') }}");
-        
-        
-        
         $("#myModal").modal({ backdrop: 'static' });
         $(document).on('click', '.confirmationStatus', function (e) {
             e.preventDefault(); // does not go through with the link.
