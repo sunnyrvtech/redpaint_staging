@@ -200,6 +200,11 @@
         file.trigger('click');
     });
     $(document).ready(function () {
+        
+                  alert("{{ Session::has('latitude') }}");
+        
+        
+        
         $("#myModal").modal({ backdrop: 'static' });
         $(document).on('click', '.confirmationStatus', function (e) {
             e.preventDefault(); // does not go through with the link.
