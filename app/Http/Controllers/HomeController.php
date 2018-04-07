@@ -88,15 +88,7 @@ class HomeController extends Controller {
         
         echo $data['latitude'];
         echo $data['longitude'];
-        die;
         
-        if($data['latitude'] != null){
-            $request->session()->put('latitude', $data['latitude']);
-        }
-        
-        if($data['longitude'] != null){
-            $request->session()->put('longitude', $data['longitude']);
-        }
         return true;
     }
     
