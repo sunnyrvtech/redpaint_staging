@@ -263,6 +263,7 @@
             getGeoLocation();
             function getGeoLocation() {
                 if (navigator.geolocation) {
+                    alert('hello');
                     navigator.geolocation.getCurrentPosition(showPosition,error);
                 } else { 
                     alert("Geolocation is not supported by this browser.");
