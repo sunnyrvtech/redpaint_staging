@@ -157,103 +157,105 @@
         </div>
         <script src="{{ URL::asset('js/jquery.js') }}"></script>
         <script>
-            var from_lat,from_lng;
-            var to_lat,to_lng;
-            to_lat = "{{ $event->latitude }}";
-            to_lng = "{{ $event->longitude }}";
-            @if(Session::has('latitude') && Session::has('longitude'))  
-            from_lat = "{{ Session::has('latitude') }}";
-            from_lng = "{{ Session::has('longitude') }}";
-            alert(from_lat);
-            alert(from_lng);
-            @endif
-            function initMap() {
-                var myLatLng = { lat: to_lat, lng: to_lng };
-                var map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 10,
-                    center: myLatLng  
-                });
-                
-                var marker = new google.maps.Marker({
-                    position: myLatLng,
-                    map: map,
-                    title: 'Hello World!'
-                });
+            $(document).ready(function(){
+                var from_lat,from_lng;
+                var to_lat,to_lng;
+                to_lat = "{{ $event->latitude }}";
+                to_lng = "{{ $event->longitude }}";
+                @if(Session::has('latitude') && Session::has('longitude'))  
+                from_lat = "{{ Session::has('latitude') }}";
+                from_lng = "{{ Session::has('longitude') }}";
+                alert(from_lat);
+                alert(from_lng);
+                @endif
+                function initMap() {
+                    var myLatLng = { lat: to_lat, lng: to_lng };
+                    var map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 10,
+                        center: myLatLng  
+                    });
 
-                var directionsService = new google.maps.DirectionsService;
-                var directionsDisplay = new google.maps.DirectionsRenderer({
-                    draggable: true,
-                    map: map,
-                    panel: document.getElementById('right-panel')
-                });
+                    var marker = new google.maps.Marker({
+                        position: myLatLng,
+                        map: map,
+                        title: 'Hello World!'
+                    });
 
-                //        directionsDisplay.addListener('directions_changed', function() {
-                //          computeTotalDistance(directionsDisplay.getDirections());
-                //        });
-                
-                $(document).on('click','.GetDirectionBtn',function(){
-                    if(!$("#location").val()){
-                        @if(Session::has('latitude') && Session::has('longitude'))  
-                            from_lat = {{ Session::has('latitude') }};
-                            from_lng = {{ Session::has('longitude') }};
-                        @endif
-                    }
-                    $(".direction_mode li.active").trigger('click');
-                    
-                    console.log(from_lat);
-                    console.log(from_lng);
-                });
-                
-                
-                
-                $(document).on("click",".direction_mode li",function(){
-                    $(".Driving_directions").next().remove();
-                    $('.direction_mode li').removeClass('active');
-                    $(this).addClass('active');
-                    var mode = $(this).attr('data-mode');
-                    $("#mode").text(mode+' directions');
-                    if(from_lat !=undefined && from_lng !=undefined){
-                        var start = new google.maps.LatLng(from_lat, from_lng);
-                        var end = new google.maps.LatLng(to_lat, to_lng);
-                        computeTotalDistance(directionsDisplay.getDirections());
-                        displayRoute(start, end, directionsService,
-                            directionsDisplay,mode,marker);
-                    }else{
-                          $("#right-panel").append("<div>We didn't recognize one of your addresses. Please enter at least a city and a state or a ZIP code.</div>")
-                    }
-                });
-            }
+                    var directionsService = new google.maps.DirectionsService;
+                    var directionsDisplay = new google.maps.DirectionsRenderer({
+                        draggable: true,
+                        map: map,
+                        panel: document.getElementById('right-panel')
+                    });
 
-            function displayRoute(origin, destination, service, display,mode,marker) {
-                service.route({
-                    origin: origin,
-                    destination: destination,
-                    travelMode: google.maps.TravelMode[mode],
-                    avoidTolls: true
-                }, function (response, status) {
-                    if (status === 'OK') {
-                        marker.setMap(null);
-                        display.setDirections(response);
-                    } else {
+                    //        directionsDisplay.addListener('directions_changed', function() {
+                    //          computeTotalDistance(directionsDisplay.getDirections());
+                    //        });
+
+                    $(document).on('click','.GetDirectionBtn',function(){
+                        if(!$("#location").val()){
+                            @if(Session::has('latitude') && Session::has('longitude'))  
+                                from_lat = {{ Session::has('latitude') }};
+                                from_lng = {{ Session::has('longitude') }};
+                            @endif
+                        }
+                        $(".direction_mode li.active").trigger('click');
+
+                        console.log(from_lat);
+                        console.log(from_lng);
+                    });
+
+
+
+                    $(document).on("click",".direction_mode li",function(){
                         $(".Driving_directions").next().remove();
-                        $("#total").text('');
-                        $("#right-panel").append("<div>We didn't recognize one of your addresses. Please enter at least a city and a state or a ZIP code.</div>")
-//                        alert('Could not display directions due to: ' + status);
-                    }
-                });
-            }
-
-            function computeTotalDistance(result) {
-                var total = 0;
-                if(result != undefined){
-                    var myroute = result.routes[0];
-                    for (var i = 0; i < myroute.legs.length; i++) {
-                        total += myroute.legs[i].distance.value;
-                    }
-                    total = total / 1000;
-                    document.getElementById('total').innerHTML = total + ' km';
+                        $('.direction_mode li').removeClass('active');
+                        $(this).addClass('active');
+                        var mode = $(this).attr('data-mode');
+                        $("#mode").text(mode+' directions');
+                        if(from_lat !=undefined && from_lng !=undefined){
+                            var start = new google.maps.LatLng(from_lat, from_lng);
+                            var end = new google.maps.LatLng(to_lat, to_lng);
+                            computeTotalDistance(directionsDisplay.getDirections());
+                            displayRoute(start, end, directionsService,
+                                directionsDisplay,mode,marker);
+                        }else{
+                              $("#right-panel").append("<div>We didn't recognize one of your addresses. Please enter at least a city and a state or a ZIP code.</div>")
+                        }
+                    });
                 }
-            }
+
+                function displayRoute(origin, destination, service, display,mode,marker) {
+                    service.route({
+                        origin: origin,
+                        destination: destination,
+                        travelMode: google.maps.TravelMode[mode],
+                        avoidTolls: true
+                    }, function (response, status) {
+                        if (status === 'OK') {
+                            marker.setMap(null);
+                            display.setDirections(response);
+                        } else {
+                            $(".Driving_directions").next().remove();
+                            $("#total").text('');
+                            $("#right-panel").append("<div>We didn't recognize one of your addresses. Please enter at least a city and a state or a ZIP code.</div>")
+    //                        alert('Could not display directions due to: ' + status);
+                        }
+                    });
+                }
+
+                function computeTotalDistance(result) {
+                    var total = 0;
+                    if(result != undefined){
+                        var myroute = result.routes[0];
+                        for (var i = 0; i < myroute.legs.length; i++) {
+                            total += myroute.legs[i].distance.value;
+                        }
+                        total = total / 1000;
+                        document.getElementById('total').innerHTML = total + ' km';
+                    }
+                }
+            });
         </script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZGTC412EEKYBmKXxH9VFnE97fKNsu0zQ&callback=initMap&libraries=places"></script>
         <script>
