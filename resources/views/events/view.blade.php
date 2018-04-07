@@ -2,6 +2,7 @@
 @push('stylesheet')
 <link href="{{ URL::asset('/slick/slick.css') }}" rel="stylesheet">
 <link href="{{ URL::asset('/slick/slick-theme.css') }}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('/fancybox/jquery.fancybox-1.3.4.css') }}" media="screen" />
 @endpush
 @section('content')
 <style>
@@ -112,7 +113,7 @@
                                         </li>
                                         <li class="direction">
                                             <div class="map-box-address">
-                                                <!--<a href="#">Get Direction</a>-->
+                                                <a href="{{ route('maps',$events->id) }}" id="various3">Get Direction</a>
                                             </div>
                                         </li>
 <!--                                                                            <li class="ph-call">
@@ -436,6 +437,7 @@
 <script src="{{ URL::asset('/slick/slick.js') }}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZGTC412EEKYBmKXxH9VFnE97fKNsu0zQ&callback=initMap"
 async defer></script>
+<script type="text/javascript" src="{{ URL::asset('/fancybox/jquery.fancybox-1.3.4.js') }}"></script>
 <script type="text/javascript">
 $(document).ready(function () {
     if($("ul.amenities-list").has("li").length == 0){
@@ -509,6 +511,22 @@ $(document).ready(function () {
         arrows: false,
         slidesToShow: 1,
         slidesToScroll: 1
+    });
+    
+    $("#various3").fancybox({
+	'width'		: '100%',
+	'height'	: '100%',
+	'autoScale'	: false,
+	'transitionIn'	: 'none',
+	'transitionOut'	: 'none',
+	'type'		: 'iframe',
+        'onStart': function(){
+            $("body").css({'overflow-y':'hidden'});
+            $(window).scrollTop(0);
+        },
+        'onClosed': function(){
+            $("body").css({'overflow-y':'visible'});
+        }
     });
 });
 </script>

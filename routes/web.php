@@ -71,7 +71,9 @@ Route::group(['prefix' => 'account', 'middleware' => 'CheckLoginStatus'], functi
     })->name('account-password');
     Route::post('change/password', 'AccountController@changePassword')->name('change-password');
 });
-Route::group(['prefix' => 'business', 'middleware' => ['CheckLoginStatus','UserType']], function () {
+Route::get('/maps/{id}', 'HomeController@getMapLocation')->name('maps');
+
+Route::group(['prefix' => 'business', 'middleware' => ['CheckLoginStatus', 'UserType']], function () {
     Route::get('profile/overview', 'AccountController@renderProfile')->name('profile-overview');
     Route::resource('events', 'EventController');
     Route::resource('ads', 'AdController');

@@ -101,4 +101,9 @@ class HomeController extends Controller {
         return true;
 //        return redirect('/');
     }
+    
+    public function getMapLocation(Request $request,$id){
+         $data['event'] = Event::Where('id', $id)->first(array('latitude','longitude','formatted_address'));
+         return view('events.map',$data);
+    }
 }
