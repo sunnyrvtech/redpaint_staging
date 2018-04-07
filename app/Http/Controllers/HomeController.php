@@ -9,7 +9,6 @@ use App\Event;
 use Newsletter;
 use App\StaticPage;
 use View;
-use Session;
 
 class HomeController extends Controller {
 
@@ -87,11 +86,16 @@ class HomeController extends Controller {
     public function saveUserLocation(Request $request){
         $data = $request->all();
         
+        echo $data['latitude'];
+        echo $data['longitude'];
+        die;
+        
         if($data['latitude'] != null){
-            Session::put('latitude', $data['latitude']);
+            $request->session()->put('latitude', $data['latitude']);
         }
+        
         if($data['longitude'] != null){
-            Session::put('longitude', $data['longitude']);
+            $request->session()->put('longitude', $data['longitude']);
         }
         return true;
     }
