@@ -42,6 +42,7 @@
             .adp-step b, .adp-substep b { font-weight: 600 !important; }
             #mode { text-transform: lowercase;display: inline-block; }
             #mode:first-letter { text-transform: uppercase; }
+            .location-form { padding-top: 20px; }
             @media only screen and (max-width: 727px) {
                 .map-container .side-panel { position: static;z-index: 9;background: #fff;height: calc(63% - 40px);width: 100%;left: 10px;top: 10px;border-radius: 0;overflow: auto;box-shadow: none;padding: 10px;box-sizing: border-box;font-family: Roboto,Arial,sans-serif;margin-bottom: 0; }
                 #map { height:45%;}
@@ -129,26 +130,33 @@
                         </svg>
                     </li>
                 </ul>
-                <div class="start_from">
-                    <span><b>Start From</b></span>
-                    <!--<a href="#" class="Swap">Swap start / end point</a>-->
-                </div>
-                <div class="enter_location">
-                    <svg version="1.1" id="location_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                         viewBox="0 0 54.757 54.757" style="enable-background:new 0 0 54.757 54.757;" xml:space="preserve">
-                    <path d="M40.94,5.617C37.318,1.995,32.502,0,27.38,0c-5.123,0-9.938,1.995-13.56,5.617c-6.703,6.702-7.536,19.312-1.804,26.952
-                          L27.38,54.757L42.721,32.6C48.476,24.929,47.643,12.319,40.94,5.617z M27.557,26c-3.859,0-7-3.141-7-7s3.141-7,7-7s7,3.141,7,7
-                          S31.416,26,27.557,26z"/>
-                    </svg>
-                    <input type="text" name="location" id="location">
-                    <i><svg version="1.1" id="location_icon_bullet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                            viewBox="0 0 54.757 54.757" style="enable-background:new 0 0 54.757 54.757;" xml:space="preserve">
+                
+                @if(Session::has('latitude') && Session::has('longitude')) 
+                <label><input type="radio" name="choose_location" value="not_gps">Choose location</label>
+                <label><input type="radio" name="choose_location" checked="" value="gps">GPS</label>
+                @endif
+                <div class="location-form"  @if(Session::has('latitude') && Session::has('longitude')) style="display:none;" @endif>
+                    <div class="start_from">
+                        <span><b>Start From</b></span>
+                        <!--<a href="#" class="Swap">Swap start / end point</a>-->
+                    </div>
+                    <div class="enter_location">
+                        <svg version="1.1" id="location_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                             viewBox="0 0 54.757 54.757" style="enable-background:new 0 0 54.757 54.757;" xml:space="preserve">
                         <path d="M40.94,5.617C37.318,1.995,32.502,0,27.38,0c-5.123,0-9.938,1.995-13.56,5.617c-6.703,6.702-7.536,19.312-1.804,26.952
                               L27.38,54.757L42.721,32.6C48.476,24.929,47.643,12.319,40.94,5.617z M27.557,26c-3.859,0-7-3.141-7-7s3.141-7,7-7s7,3.141,7,7
                               S31.416,26,27.557,26z"/>
-                        </svg> {{ $event->formatted_address }}</i>
-                </div>
+                        </svg>
+                        <input type="text" name="location" id="location">
+                        <i><svg version="1.1" id="location_icon_bullet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                viewBox="0 0 54.757 54.757" style="enable-background:new 0 0 54.757 54.757;" xml:space="preserve">
+                            <path d="M40.94,5.617C37.318,1.995,32.502,0,27.38,0c-5.123,0-9.938,1.995-13.56,5.617c-6.703,6.702-7.536,19.312-1.804,26.952
+                                  L27.38,54.757L42.721,32.6C48.476,24.929,47.643,12.319,40.94,5.617z M27.557,26c-3.859,0-7-3.141-7-7s3.141-7,7-7s7,3.141,7,7
+                                  S31.416,26,27.557,26z"/>
+                            </svg> {{ $event->formatted_address }}</i>
+                    </div>
                 <button type="button" class="GetDirectionBtn">Get Direction</button>
+                </div>
                 <div id="right-panel">
                     <div class="Driving_directions"><span id="mode">Driving directions</span><span id="total"></span></div>
                 </div>
@@ -157,14 +165,32 @@
         </div>
         <script src="{{ URL::asset('js/jquery.js') }}"></script>
         <script>
-                var from_lat,from_lng;
+            var from_lat,from_lng;
                 var to_lat,to_lng;
                 to_lat = {{ $event->latitude }};
                 to_lng = {{ $event->longitude }};
+            $(document).ready(function(){
+                $(document).on('click','input[name="choose_location"]',function(){
+                   if($(this).val() == 'gps'){
+                       $('.location-form').hide();
+                        @if(Session::has('latitude') && Session::has('longitude'))  
+                            from_lat = "{{ $user_lat }}";
+                            from_lng = "{{ $user_lng }}";
+                            $(".direction_mode li.active").trigger('click');
+                        @endif
+                   }else{
+                       $("#location").val('');
+                       $('.location-form').show();
+                   }
+                });
+            
                 @if(Session::has('latitude') && Session::has('longitude'))  
                 from_lat = {{ $user_lat }};
                 from_lng = {{ $user_lng }};
+                $(".direction_mode li.active").trigger('click');
                 @endif
+                
+                });
                 function initMap() {
                     var myLatLng = { lat: to_lat, lng: to_lng };
                     var map = new google.maps.Map(document.getElementById('map'), {
@@ -190,14 +216,11 @@
                     //        });
 
                     $(document).on('click','.GetDirectionBtn',function(){
-                        if(!$("#location").val()){
-                            @if(Session::has('latitude') && Session::has('longitude'))  
-                                from_lat = "{{ $user_lat }}";
-                                from_lng = "{{ $user_lng }}";
-                            @endif
+                        if($("#location").val()){
+                           $(".direction_mode li.active").trigger('click');
+                        }else{
+                           $("#right-panel").append("<div>We didn't recognize one of your addresses. Please enter at least a city and a state or a ZIP code.</div>")
                         }
-                        $(".direction_mode li.active").trigger('click');
-
                         console.log(from_lat);
                         console.log(from_lng);
                     });
