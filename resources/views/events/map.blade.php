@@ -195,7 +195,15 @@
                 $(document).on('click','.nav_btn',function(){
                    var saddr = from_lat+','+from_lng;
                    var daddr = to_lat+','+to_lng;
-                   var map_url = 'https://maps.google.com/?saddr='+saddr+'&daddr='+daddr;
+                   var map_url = '';
+           
+                   if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+                       map_url = 'https://maps.apple.com/?saddr='+saddr+'&daddr='+daddr;
+                       alert('yes');
+                   }else{
+                       map_url = 'https://maps.google.com/?saddr='+saddr+'&daddr='+daddr;
+                        alert('no');
+                   }
                    window.open(map_url);
                 });
             
