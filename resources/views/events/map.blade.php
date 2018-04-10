@@ -35,7 +35,7 @@
             .map-container .side-panel button.GetDirectionBtn { color: white;background-color: #d90007;background: -webkit-linear-gradient(#d90007, #c91400);background: linear-gradient(#d90007, #c91400);padding: 5px 8px;font-size: 12px;line-height: 1.5em;border-radius: 3px;box-sizing: border-box;border: solid 1px #8d0005;font-weight: 600;cursor: pointer; }
             .map-container .side-panel button.GetDirectionBtn:hover{ background-color: #ed0008;background: -webkit-linear-gradient(#ed0008, #dd1600);background: linear-gradient(#ed0008, #dd1600); }
             .map-container .side-panel .Driving_directions { border-top: solid 1px #b3b3b3;border-bottom: solid 1px #b3b3b3;padding: 9px;margin-top: 15px;margin-bottom: 5px; }
-            .map-container .side-panel #right-panel { padding-left: 0;overflow: auto; }
+            .map-container .side-panel #right-panel { padding-left: 0;overflow: auto;float: left;width: 100%; }
             .map-container .side-panel #right-panel table.adp-placemark tr td img { width: 15px;height: 25px;position: relative;top: 4px; }
             .map-container .side-panel #right-panel table.adp-placemark { background: none;border-left: none;border-right: 0;margin-top: -6px; }
             .adp-step, .adp-substep{ font-size: 14px; }
@@ -155,11 +155,11 @@
                                   S31.416,26,27.557,26z"/>
                             </svg> {{ $event->formatted_address }}</i>
                     </div>
-                <button type="button" class="GetDirectionBtn"></button>
+                <!--<button type="button" class="GetDirectionBtn"></button>-->
                 </div>
                 <div id="right-panel">
                     <div class="Driving_directions"><span id="mode">Driving directions</span>
-                        <button type="button" class="GetDirectionBtn nav_btn" style="float:right;">Start navigation</button>
+                        <button type="button" class="GetDirectionBtn nav_btn" style="float:right;display:none;">Start navigation</button>
                         <!--<span id="total"></span>-->
                     </div>
                 </div>
@@ -203,6 +203,7 @@
                 from_lat = {{ $user_lat }};
                 from_lng = {{ $user_lng }};
                 $(".direction_mode li.active").trigger('click');
+                 $('.nav_btn').show();
                 @endif
                 
                 });
