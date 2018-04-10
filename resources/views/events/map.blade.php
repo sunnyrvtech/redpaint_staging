@@ -199,10 +199,8 @@
            
                    if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
                        map_url = 'https://maps.apple.com/?saddr='+saddr+'&daddr='+daddr;
-                       alert('yes');
                    }else{
                        map_url = 'https://maps.google.com/?saddr='+saddr+'&daddr='+daddr;
-                        alert('no');
                    }
                    window.open(map_url);
                 });
