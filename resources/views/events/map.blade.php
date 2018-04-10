@@ -155,10 +155,13 @@
                                   S31.416,26,27.557,26z"/>
                             </svg> {{ $event->formatted_address }}</i>
                     </div>
-                <button type="button" class="GetDirectionBtn">Get Direction</button>
+                <button type="button" class="GetDirectionBtn"></button>
                 </div>
                 <div id="right-panel">
-                    <div class="Driving_directions"><span id="mode">Driving directions</span><span id="total"></span></div>
+                    <div class="Driving_directions"><span id="mode">Driving directions</span>
+                        <button type="button" class="GetDirectionBtn nav_btn" style="float:right;">Start navigation</button>
+                        <!--<span id="total"></span>-->
+                    </div>
                 </div>
             </div>
             <div id="map"></div>
@@ -173,6 +176,7 @@
                 $(document).on('click','input[name="choose_location"]',function(){
                    if($(this).val() == 'gps'){
                        $('.location-form').hide();
+                       $('.nav_btn').show();
                         @if(Session::has('latitude') && Session::has('longitude'))  
                             from_lat = "{{ $user_lat }}";
                             from_lng = "{{ $user_lng }}";
@@ -181,7 +185,18 @@
                    }else{
                        $("#location").val('');
                        $('.location-form').show();
+                       $('.nav_btn').hide();
+                       from_lat = undefined;
+                       from_lng = undefined;
+                       $(".direction_mode li.active").trigger('click');
                    }
+                });
+                
+                $(document).on('click','.nav_btn',function(){
+                   var saddr = from_lat+','+from_lng;
+                   var daddr = to_lat+','+to_lng;
+                   var map_url = 'https://maps.google.com/?saddr='+saddr+'&daddr='+daddr;
+                   window.open(map_url);
                 });
             
                 @if(Session::has('latitude') && Session::has('longitude'))  
@@ -215,17 +230,18 @@
                     //          computeTotalDistance(directionsDisplay.getDirections());
                     //        });
 
-                    $(document).on('click','.GetDirectionBtn',function(){
-                        if($("#location").val()){
-                           $(".direction_mode li.active").trigger('click');
-                        }else{
-                           $("#right-panel").append("<div>We didn't recognize one of your addresses. Please enter at least a city and a state or a ZIP code.</div>")
-                        }
-                        console.log(from_lat);
-                        console.log(from_lng);
-                    });
-
-
+//                    $(document).on('click','.GetDirectionBtn',function(){
+//                        if($("#location").val() != ''){
+//                           $(".direction_mode li.active").trigger('click');
+//                        }else{
+//                           directionsDisplay.setMap(null);
+//                           $(".Driving_directions").next().remove();
+//                           $("#right-panel").append("<div>We didn't recognize one of your addresses. Please enter at least a city and a state or a ZIP code.</div>")
+//                        }
+//                                
+//                        console.log(from_lat);
+//                        console.log(from_lng);
+//                    });
 
                     $(document).on("click",".direction_mode li",function(){
                         $(".Driving_directions").next().remove();
@@ -236,16 +252,20 @@
                         if(from_lat !=undefined && from_lng !=undefined){
                             var start = new google.maps.LatLng(from_lat, from_lng);
                             var end = new google.maps.LatLng(to_lat, to_lng);
-                            computeTotalDistance(directionsDisplay.getDirections());
+                            //computeTotalDistance(directionsDisplay.getDirections());
                             displayRoute(start, end, directionsService,
-                                directionsDisplay,mode,marker);
+                                directionsDisplay,mode,map);
                         }else{
+                              directionsDisplay.setMap(null);
+                              $(".Driving_directions").next().remove();
                               $("#right-panel").append("<div>We didn't recognize one of your addresses. Please enter at least a city and a state or a ZIP code.</div>")
                         }
+                        console.log(from_lat);
+                        console.log(from_lng);
                     });
                 }
 
-                function displayRoute(origin, destination, service, display,mode,marker) {
+                function displayRoute(origin, destination, service, display,mode,map) {
                     service.route({
                         origin: origin,
                         destination: destination,
@@ -253,7 +273,7 @@
                         avoidTolls: true
                     }, function (response, status) {
                         if (status === 'OK') {
-                            marker.setMap(null);
+                            display.setMap(map);
                             display.setDirections(response);
                         } else {
                             $(".Driving_directions").next().remove();
@@ -264,17 +284,17 @@
                     });
                 }
 
-                function computeTotalDistance(result) {
-                    var total = 0;
-                    if(result != undefined){
-                        var myroute = result.routes[0];
-                        for (var i = 0; i < myroute.legs.length; i++) {
-                            total += myroute.legs[i].distance.value;
-                        }
-                        total = total / 1000;
-                        document.getElementById('total').innerHTML = total + ' km';
-                    }
-                }
+//                function computeTotalDistance(result) {
+//                    var total = 0;
+//                    if(result != undefined){
+//                        var myroute = result.routes[0];
+//                        for (var i = 0; i < myroute.legs.length; i++) {
+//                            total += myroute.legs[i].distance.value;
+//                        }
+//                        total = total / 1000;
+//                        document.getElementById('total').innerHTML = total + ' km';
+//                    }
+//                }
         </script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZGTC412EEKYBmKXxH9VFnE97fKNsu0zQ&callback=initMap&libraries=places"></script>
         <script>
@@ -285,6 +305,8 @@
                     var place = autocomplete.getPlace();
                      from_lat = place.geometry.location.lat();
                      from_lng = place.geometry.location.lng();
+                     $('.nav_btn').show();
+                     $(".direction_mode li.active").trigger('click');
                     //                    alert(place.geometry.location.lat());
                 });
 
