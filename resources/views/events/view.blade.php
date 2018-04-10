@@ -8,6 +8,7 @@
 <style>
     #map { height: 200px; }
 </style>
+<a href="https://maps.google.com/?saddr=45.34802,-75.91903&daddr=45.424807,-75.699234">Open map</a>
 <div class="profile-outer-main">
     <div class="container">
         <div class="row">
