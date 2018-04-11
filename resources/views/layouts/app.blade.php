@@ -130,21 +130,12 @@
             </ul>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12 instagram_gallery">
-            <h2>instagram</h2>
+            <h2>Instagram</h2>
                 <ul>
-                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-1.png') }}"></a></li>
+<!--            <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-1.png') }}"></a></li>
                 <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-2.png') }}"></a></li>
-                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-3.png') }}"></a></li>
-                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-1.png') }}"></a></li>
-                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-2.png') }}"></a></li>
-                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-3.png') }}"></a></li>
-                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-1.png') }}"></a></li>
-                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-2.png') }}"></a></li>
-                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-3.png') }}"></a></li>
-                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-1.png') }}"></a></li>
-                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-2.png') }}"></a></li>
-                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-3.png') }}"></a></li>
-            </ul>
+                <li><a href="javascript:void(0);"><img src="{{ URL::asset('images/image-3.png') }}"></a></li>-->
+                </ul>
         </div>
     </div>
 <!--    <div class="modal fade" id="myModal">
@@ -276,6 +267,37 @@
 //                alert('Please follow this link to enable geolocation in your browser "https://support.mozilla.org/en-US/questions/1104359" ');
             }
         @endif
+        
+        var token = "{{ env('INSTA_TOKEN') }}",
+        userid = {{ env('INSTA_USER_ID') }},
+        num_photos = 12; 
+ 
+        $.ajax({
+                url: 'https://api.instagram.com/v1/users/' + userid + '/media/recent', // or /users/self/media/recent for Sandbox
+                dataType: 'jsonp',
+                type: 'GET',
+                data: {access_token: token, count: num_photos},
+                success: function(data){
+                        for( x in data.data ){
+                                $('.instagram_gallery ul').append('<li><a target="_blank" href="'+data.data[x].link+'"><img src="'+data.data[x].images.low_resolution.url+'"></a></li>'); // data.data[x].images.low_resolution.url - URL of image, 306х306
+                                // data.data[x].images.thumbnail.url - URL of image 150х150
+                                // data.data[x].images.standard_resolution.url - URL of image 612х612
+                                // data.data[x].link - Instagram post URL 
+                        }
+                },
+                error: function(data){
+                        console.log(data); // send the error notifications to console
+                }
+        });
+        
+        
+        
+        
+        
+        
+        
+        
+        
     });
     
 </script>

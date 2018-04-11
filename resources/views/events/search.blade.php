@@ -35,10 +35,10 @@
                'Sat' => 'Saturday',
                'Sun' => 'Sunday');
             ?>
-                <select ng-model="day" ng-init="day='{{ Request::get('day') }}'" ng-change="filterByDay()">
+            <select name="day">
                 <option value="">Choose...</option>
                 @foreach($days as $key=>$val)
-                <option value="{{ $key }}">{{ $val }}</option>
+                <option @if(Request::get('day') == $key) selected @endif value="{{ $key }}">{{ $val }}</option>
                 @endforeach
             </select>
         </div>
@@ -81,7 +81,10 @@
                                 <span class="description-search">{{ str_limit($value->description, $limit = 32, $end = '...') }}</span>
                                 <?php  
                                 $daily_deal = json_decode($value->daily_deal); 
-                                $day_key = date("D");
+                                if(Request::get('day') == null)
+                                    $day_key = date("D");
+                                else
+                                    $day_key = Request::get('day');
                                 ?>
                                 @if(isset($daily_deal->$day_key) && $daily_deal->$day_key !='null')
                                 <div class="day_deal">
@@ -150,6 +153,10 @@
             }
             return assoc;
         }
+        
+        $(document).on('change', 'select[name="day"]', function (e) {
+           angular.element(this).scope().filterByDay($(this).val());
+        });
     });
 </script>
 @endpush

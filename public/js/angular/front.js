@@ -269,14 +269,14 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
                 $scope.news_msg = false;
             }, 8000);
         }
-        $scope.filterByDay = function (isValid) {
-            if ($scope.day) {
-                window.history.pushState("", "", BaseUrl + '/search?keyword=daily_deals&day=' + $scope.day);
+        $scope.filterByDay = function ($day) {
+            if ($day) {
+                window.history.pushState("", "", BaseUrl + '/search?keyword=daily_deals&day=' + $day);
                 $scope.loading = true;
                 $http({
                     method: 'GET',
                     url: BaseUrl + '/search',
-                    params: {keyword: 'daily_deals', day: $scope.day},
+                    params: {keyword: 'daily_deals', day: $day},
                     headers: {'Content-Type': 'application/json'}
                 }).then(function (data, status, headers, config) {
                     $scope.loading = false;
