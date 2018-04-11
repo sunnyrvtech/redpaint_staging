@@ -110,7 +110,7 @@
                 @endforelse
                 <div class="row">
                     @if(!empty($events))
-                    <div class="pagination_main_wrapper text-center">{{ $events->links() }}</div>
+                    <div class="pagination_main_wrapper text-center">{{ $events->appends($_GET)->links() }}</div>
                     @endif
                 </div>
             </div>
@@ -121,39 +121,6 @@
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function () {
-        $(document).on('click', '.pagination a', function (e) {
-            e.preventDefault();
-            var qs = getQueryStrings();
-            var URL = $(this).attr('href');
-            if (qs['keyword'] != undefined) {
-                URL = URL + '&keyword=' + qs['keyword'];
-            }
-            if (qs['address'] != undefined) {
-                URL = URL + '&address=' + qs['address'];
-            }
-            if (qs['day'] != undefined) {
-                URL = URL + '&day=' + qs['day'];
-            }
-            window.location.href = URL;
-        });
-
-        function getQueryStrings() {
-            var assoc = {};
-            var decode = function (s) {
-                return decodeURIComponent(s.replace(/\+/g, " "));
-            };
-            var queryString = location.search.substring(1);
-            var keyValues = queryString.split('&');
-
-            for (var i in keyValues) {
-                var key = keyValues[i].split('=');
-                if (key.length > 1) {
-                    assoc[decode(key[0])] = decode(key[1]);
-                }
-            }
-            return assoc;
-        }
-        
         $(document).on('change', 'select[name="day"]', function (e) {
            angular.element(this).scope().filterByDay($(this).val());
         });
