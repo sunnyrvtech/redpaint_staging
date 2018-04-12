@@ -1082,7 +1082,7 @@ fieldset[disabled] .btn-google-plus.active{background-color:#dd4b39;border-color
 .tooltip.top .tooltip-arrow { margin-left: 0 !important; }
 .profile-outer-main input[type=checkbox] { display: inline-block;position: static;width: 16px;margin: 0px 5px 0px 0px;line-height: normal;vertical-align: middle; }
 .business-event-wrap a { margin-right: 3px; }
-.business-event-wrap a.label {	line-height: 28px; }
+.business-event-wrap a.label { padding: 10px;margin-top: 10px;display: inline-block; }
 .more_category { display: none; }
 .more_category .cat_child { margin-top:10px; }
 .more_category .cat_child > a { color: #3a3a3a;font-size: 19px;font-weight: 100; }
