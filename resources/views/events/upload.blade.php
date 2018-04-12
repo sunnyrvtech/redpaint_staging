@@ -13,14 +13,15 @@
                     <a href="{{ route('events.index') }}" class="btn btn-primary" type="button">Back To Listing</a>
                 </div>
             </div>
-            <form method="POST" id="imageForm" action="{{ route('photo.update',$events->event_slug) }}" enctype="multipart/form-data">
+            <div class="row">
+                <form method="POST" id="imageForm" action="{{ route('photo.update',$events->event_slug) }}" enctype="multipart/form-data">
                 <input name="_method" value="PUT" type="hidden">
                 {{ csrf_field()}}
                 <div class="row">
                     <div class="form-group text-center{{ $errors->has('event_images') ? ' has-error' : '' }}">
-                        <span style="font-size: 0">
+                        <div class="browse-btn">
                             <button class="btn btn-primary browse" type="button">Browse Files</button>
-                        </span>
+                        </div>
                         <input style="display: none;" id="file_type" name="event_images[]" class="photo_file" multiple="" type="file">
                         @if($errors->has('event_images'))
                         <span class="help-block">
@@ -32,7 +33,9 @@
                         </span>-->
                     </div>
                 </div>
-                <div class="row">
+            </form>
+            </div>
+            <div class="row">
                     <div class="renderPreviewImage clearfix">
                         <?php $i = 1; ?>
                         @foreach($event_images as $key=>$value)
@@ -60,7 +63,6 @@
                         @endforeach
                     </div>
                 </div>
-            </form>
         </div>
     </div>
 </div>
