@@ -315,7 +315,8 @@ class EventController extends Controller {
             'user_id' => Auth::id(),
             'event_id' => $id,
             'rate' => $request->get('rate'),
-            'comment' => $request->get('comment')
+            'comment' => $request->get('comment'),
+            'status' => 1,
         );
         if (Review::Where(['event_id' => $id, 'user_id' => Auth::id()])->count() == 0) {
             Review::create($data);

@@ -300,7 +300,7 @@
                         @else
                         @if(!empty($checkUserReviewStatus))
                         <div class="notice notice-danger">
-                            <strong>Notice:-</strong> You have already submit your review for <strong>{{ ucfirst($events->name) }}</strong>@if(!$checkUserReviewStatus->status) and only approved by administrator.@else.@endif
+                            <strong>Notice:-</strong> You have already submit your review for <strong>{{ ucfirst($events->name) }}</strong>@if(!$checkUserReviewStatus->status) and deactivate by administrator.@else.@endif
                         </div>
                         @endif
                         @endif
