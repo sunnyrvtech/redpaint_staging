@@ -291,8 +291,8 @@
         });
         
         $("body").on('touchstart', function(e) {
+           e.stopPropagation();
            $(".dropdown-toggle").removeClass("open");
-           alert('hello');
         });
         
     });
