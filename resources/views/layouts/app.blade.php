@@ -290,11 +290,6 @@
                 }
         });
         
-        $("body").on('touchstart', function(e) {
-           e.stopPropagation();
-           $(".dropdown").removeClass("open");
-        });
-        
     });
     
 </script>
