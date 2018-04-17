@@ -292,6 +292,7 @@
         
         $("body").on('touchstart', function(e) {
            e.stopPropagation();
+           alert('ssss');
            $(".dropdown").removeClass("open");
         });
         
