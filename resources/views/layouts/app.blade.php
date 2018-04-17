@@ -292,6 +292,7 @@
         
         $("body").on('touchstart', function(e) {
            $(".dropdown-toggle").removeClass("open");
+           alert('hello');
         });
         
     });
