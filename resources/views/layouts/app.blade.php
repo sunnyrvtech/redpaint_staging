@@ -291,8 +291,7 @@
         });
         
         $("body").on('touchstart', function(e) {
-           e.stopPropagation();
-           $('a.dropdown-toggle, .dropdown-menu a').trigger('click');
+           $(".dropdown-toggle").removeClass("open");
         });
         
     });
