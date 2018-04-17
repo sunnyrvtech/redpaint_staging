@@ -290,8 +290,8 @@
                 }
         });
         
-        $('a.dropdown-toggle, .dropdown-menu a').on('touchstart', function(e) {
-           alert('dddd');
+        $(document).on('touchstart', function(e) {
+           $('a.dropdown-toggle, .dropdown-menu a').trigger('click');
         });
         
     });
