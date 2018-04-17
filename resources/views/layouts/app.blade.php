@@ -290,7 +290,7 @@
                 }
         });
         
-        $(document).on('touchstart', function(e) {
+        $("body").on('touchstart', function(e) {
             alert($(this).html());
            $('a.dropdown-toggle, .dropdown-menu a').trigger('click');
         });
