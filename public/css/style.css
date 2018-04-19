@@ -144,13 +144,14 @@ footer h2 {
     margin-bottom: 25px;
 }
 footer .address address {
-    font-size: 17px;
+    font-size: 16px;
     color: #616161;
     font-weight: 100;
 }
 footer .address address span {
     color: #d03310;
     font-weight: 400;
+    font-size: 14px;
 }
 footer .address ul.footer_social li {
     display: inline-block;
