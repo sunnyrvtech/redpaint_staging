@@ -105,9 +105,9 @@
         <div class="col-md-3 col-sm-3 col-xs-12 address">
             <h2>Get in touch</h2>
             <address>
-                <span>EMAIL:</span> redpaint@gmail.com
+                <span>EMAIL:</span> contact@weareredpaint.com
                 <br/>
-                <span>PHONE: </span>800-2345-6789
+                <span>PHONE: </span>(804) 269-6131
             </address>
             <ul class="footer_social">
                 <li><a href="javascript:void(0);"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
