@@ -321,7 +321,7 @@ class EventController extends Controller {
         if (Review::Where(['event_id' => $id, 'user_id' => Auth::id()])->count() == 0) {
             Review::create($data);
             return redirect()->back()
-                            ->with('success-message', 'Your review has been submitted successfully and it will display after approved by administrator!');
+                            ->with('success-message', 'Your review has been submitted successfully !');
         }
         return redirect()->back()
                         ->with('error-message', 'You have already submit your review for this event!');

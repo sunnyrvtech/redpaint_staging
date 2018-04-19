@@ -78,10 +78,6 @@ Route::group(['prefix' => 'business', 'middleware' => ['CheckLoginStatus', 'User
     Route::resource('events', 'EventController');
     Route::resource('ads', 'AdController');
     Route::get('payments', 'AccountController@getPaymentHistory')->name('payments');
-    Route::group(['prefix' => 'events'], function () {
-        Route::resource('photo', 'EventImageController');
-    });
-    Route::post('events/review/{id}', 'EventController@addReview')->name('events-review');
     Route::post('events/status/{status}', 'EventController@eventStatus')->name('events-status');
     Route::get('subscription', 'SubscriptionController@index')->name('subscription');
     Route::post('subscription/join', 'SubscriptionController@subscriptionJoin')->name('subscription-join');
@@ -89,6 +85,12 @@ Route::group(['prefix' => 'business', 'middleware' => ['CheckLoginStatus', 'User
     Route::post('subscription/cancel', 'SubscriptionController@subscriptionCancel')->name('subscription-cancel');
     Route::post('subscription/resume', 'SubscriptionController@subscriptionResume')->name('subscription-resume');
     Route::post('subscription/card', 'SubscriptionController@updateCard')->name('subscription-card');
+});
+Route::group(['prefix' => 'business', 'middleware' => 'CheckLoginStatus'], function () {
+    Route::group(['prefix' => 'events'], function () {
+        Route::resource('photo', 'EventImageController');
+    });
+    Route::post('events/review/{id}', 'EventController@addReview')->name('events-review');
 });
 Route::get('/about-us', 'HomeController@getAboutUs')->name('about-us');
 Route::get('/advertise', 'HomeController@getAdvertise')->name('advertise');

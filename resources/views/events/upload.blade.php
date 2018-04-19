@@ -10,7 +10,9 @@
                     </div>
                 </div>
                 <div class="col-md-2 pull-right">
+                    @if(Auth::user()->role_id == 2)
                     <a href="{{ route('events.index') }}" class="btn btn-primary" type="button">Back To Listing</a>
+                    @endif
                 </div>
             </div>
             <div class="row">
