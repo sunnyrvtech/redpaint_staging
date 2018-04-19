@@ -5,7 +5,7 @@
 <div class="Browse-Category">
     <div class="container">
         <div class="heading"><h2>Browse Businesses by Category</h2></div>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. <br/>Lorem Ipsum has been the industry</p>
+        <p>A new better way to search for local food.</p>
 
         <ul class="Category_listing">
             @foreach($categories->take(4) as $key=>$val)
@@ -163,7 +163,7 @@
 <div class="news_letter">
     <div class="container">
         <h2>SIGN UP FOR NEWSLETTER</h2>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry</p>
+        <p>Stay up to date for everything Red Paint related, from new participating restaurants to new features and website updates. Get it here first!</p>
         <form>
             <div class="news_letter_input" ng-bind-html="news_msg">
             </div>
