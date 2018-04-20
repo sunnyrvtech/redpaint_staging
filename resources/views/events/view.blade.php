@@ -351,60 +351,78 @@
                     <div>
                           <h4><b>Main Amenities </b></h4>
                           <ul class="amenities-list">
-                               <li><strong>Daily Deals</strong><span class="fa fa-plus-square hour_collapse"></span>
+                              <?php $time_flag = true; ?>
+                              @foreach($time_array as $val)
+                              @if(isset($daily_deal->$val) && $daily_deal->$val != 'null')
+                              @if($time_flag)          
+                              <li><strong>Daily Deals</strong><span class="fa fa-plus-square hour_collapse"></span>
                                   <div class="hours_details">
+                                      <?php $time_flag = false; ?>
+                                      @endif
                                       <ul>
-                                          @foreach($time_array as $val)
-                                          @if(isset($daily_deal->$val) && $daily_deal->$val != 'null')
                                           <li><strong>{{ $val }}</strong><span style="float:right">{{ $daily_deal->$val }}</span></li>
-                                          @endif
-                                          @endforeach
                                       </ul>
+                                      @if($val === end($time_array))
                                   </div>
-                               </li>
-                               <li><strong>Happy hours</strong><span class="fa fa-plus-square hour_collapse"></span>
+                              </li>
+                              @endif
+                              @endif
+                              @endforeach
+                              <?php $time_flag = true; ?>
+                              @foreach($happy_hour as $val)
+                              @if($val->time_from && $val->time_to)
+                              @if($time_flag)
+                              <li><strong>Happy hours</strong><span class="fa fa-plus-square hour_collapse"></span>
                                   <div class="hours_details">
+                                      <?php $time_flag = false; ?>
+                                      @endif
                                       <ul>
-                                          @foreach($happy_hour as $val)
-                                          @if($val->time_from && $val->time_to)
                                           <li><strong>{{ $val->day }}</strong><span style="float:right">{{ $val->time_from.' - '.$val->time_to }}</span></li>
-                                          @endif
-                                          @endforeach
                                       </ul>
                                       <p>{{ $events->happy_hour_note }}</p>
+                                      @if($val === end($happy_hour))      
                                   </div>
-                                </li>
-                                <li><strong>Brunch hours</strong><span class="fa fa-plus-square hour_collapse"></span>
-                                    <div class="hours_details">
-                                        <ul>
-                                          @foreach($brunch_hour as $val)
-                                          @if($val->time_from && $val->time_to)
+                              </li>
+                              @endif
+                              @endif
+                              @endforeach
+                              <?php $time_flag = true; ?>
+                              @foreach($brunch_hour as $val)
+                              @if($val->time_from && $val->time_to) 
+                              @if($time_flag)
+                              <li><strong>Brunch hours</strong><span class="fa fa-plus-square hour_collapse"></span>
+                                  <div class="hours_details">
+                                      <?php $time_flag = false; ?>
+                                      @endif
+                                      <ul>
                                           <li><strong>{{ $val->day }}</strong><span style="float:right">{{ $val->time_from.' - '.$val->time_to }}</span></li>
-                                          @endif
-                                          @endforeach
-                                        </ul>
+                                      </ul>
                                       <p>{{ $events->brunch_hour_note }}</p>
-                                    </div>
-                                </li>
-                               @if($events->vegan)
-                               <li><strong>Vegan options</strong></li>
-                               @endif
-                               @if($events->vegetarian)
-                               <li><strong>Vegetarian options</strong></li>
-                               @endif
-                               @if($events->gluten)
-                               <li><strong>Gluten free options</strong></li>
-                               @endif
-                               @if($events->parking)
-                               <?php $parking = json_decode($events->parking); ?>
-                               <li><strong>Parking-</strong>
-                                   @foreach($parking as $val)
-                                       <span>
-                                           {{ ucfirst($val) }}@if($val != end($parking)),@endif
-                                       </span>
-                                    @endforeach
-                               </li>
-                               @endif
+                                      @if($val === end($brunch_hour))       
+                                  </div>
+                              </li>
+                              @endif
+                              @endif
+                              @endforeach
+                              @if($events->vegan)
+                              <li><strong>Vegan options</strong></li>
+                              @endif
+                              @if($events->vegetarian)
+                              <li><strong>Vegetarian options</strong></li>
+                              @endif
+                              @if($events->gluten)
+                              <li><strong>Gluten free options</strong></li>
+                              @endif
+                              @if($events->parking)
+                              <?php $parking = json_decode($events->parking); ?>
+                              <li><strong>Parking-</strong>
+                                  @foreach($parking as $val)
+                                  <span>
+                                      {{ ucfirst($val) }}@if($val != end($parking)),@endif
+                                  </span>
+                                  @endforeach
+                              </li>
+                              @endif
                           </ul>
                       </div>
                 <div>
