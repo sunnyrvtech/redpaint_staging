@@ -61,9 +61,9 @@
                             <p>{{ str_limit($value->description, $limit = 37, $end = '...') }}</p>
                             <?php $current_date = date('Y-m-d H:i:s'); ?>
                             @if(($current_date >= $value->start_date && $current_date <= $value->end_date) || empty($value->end_date))
-                            <span>Opened Today</span>
+                            <!--<span>Opened Today</span>-->
                             @elseif($current_date < $value->end_date)
-                            <span>Opened {{ $value->start_date }}</span>
+                            <span>Opened <?php //$value->start_date ?></span>
                             @else
                             <?php
                             $dDiff = Carbon\Carbon::parse($value->end_date);
