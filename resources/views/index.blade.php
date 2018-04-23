@@ -68,7 +68,7 @@
                             <?php
                             $dDiff = Carbon\Carbon::parse($value->end_date);
                             ?>
-                            <span>Opened {{ $dDiff->diffForHumans() }}</span>
+                            <!--<span>Opened <?php //$dDiff->diffForHumans() ?></span>-->
                             @endif
                             <div class="ratting_star">
                                 <span>
