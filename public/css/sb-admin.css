@@ -72,8 +72,14 @@ ul.alert-dropdown { width: 200px; }
 }
 .tabs-left > li > a { border-radius: 4px 0 0 4px;display: block;margin-right: 0; }
 .form-group .control-label .comps { color: red; }
-#content .not_active {
-  display: none;
+#content .not_active { display: none; }
+input[type="checkbox"] {
+    display: inline-block;
+    position: static;
+    width: 16px;
+    margin: 0px 5px 0px 0px;
+    line-height: normal;
+    vertical-align: middle;
 }
 
 @media(min-width:768px) {
