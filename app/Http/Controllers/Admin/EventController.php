@@ -94,7 +94,7 @@ class EventController extends Controller {
         $this->validate($request, [
             'name' => 'required|max:100',
             'category_id' => 'required',
-            'sub_category' => 'required',
+//            'sub_category' => 'required',
             'address' => 'required',
             'city' => 'required',
             'state' => 'required',
