@@ -74,6 +74,8 @@ class EventController extends Controller {
                 $sub_category = SubCategory::create($sub_data);
             }
             $data['sub_category_id'] = $sub_category->id;
+        } else {
+            $data['sub_category_id'] = null;
         }
         $lat_long = $this->getLatLong($data['country_id'], $data['state'], $data['city'], $data['address'], $data['zip']);
 
@@ -186,6 +188,8 @@ class EventController extends Controller {
                 $sub_category = SubCategory::create($sub_data);
             }
             $data['sub_category_id'] = $sub_category->id;
+        } else {
+            $data['sub_category_id'] = null;
         }
 
         $lat_long = $this->getLatLong($data['country_id'], $data['state'], $data['city'], $data['address'], $data['zip']);
