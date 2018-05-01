@@ -312,7 +312,6 @@
                     $time_array = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
                     $operation_hour = json_decode($events->operation_hour);
                     ?>
-                    @if(isset($operation_hour[0]->time_from) && $operation_hour[0]->time_from !=null)
                     <div>
                         <h4><b>Opening Hours</b></h4>
                         <table class="table table-simple hours-table">
@@ -342,7 +341,6 @@
                             </tbody>
                         </table>
                     </div>
-                    @endif
                     <?php
                         $happy_hour = json_decode($events->happy_hour);
                         $brunch_hour = json_decode($events->brunch_hour);
