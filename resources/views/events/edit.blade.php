@@ -125,7 +125,7 @@
                         </div>
                         <div class="form-group col-md-6{{ $errors->has('sub_category') ? ' has-error' : '' }}">
                             <label for="sub_category" required="" class="col-form-label">Business Type</label>
-                            <input type="text" required="" class="form-control typeahead" name="sub_category" value="{{ @$events->getSubCategory->name }}" autocomplete="off" data-url="{{ route('events-sub_cat').'?id='.$events->category_id }}" placeholder="Sub Category">
+                            <input type="text" class="form-control typeahead" name="sub_category" value="{{ @$events->getSubCategory->name }}" autocomplete="off" data-url="{{ route('events-sub_cat').'?id='.$events->category_id }}" placeholder="Sub Category">
                             @if ($errors->has('sub_category'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('sub_category') }}</strong>
