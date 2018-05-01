@@ -127,9 +127,18 @@ class EventController extends Controller {
             $operation_hour[$key] = array(
                 'day' => $val,
                 'time_from' => $data['time_from'][$key],
-                'time_to' => $data['time_to'][$key],
-                'status' => isset($data['status' . $key]) ? $data['status' . $key] : 1
+                'time_to' => $data['time_to'][$key]
             );
+            if (isset($data['status' . $key])) {
+                $operation_hour[$key]['time_from'] = null;
+                $operation_hour[$key]['time_to'] = null;
+            }
+            if (!empty($operation_hour[$key]['time_from']) && !empty($operation_hour[$key]['time_to'])) {
+                $operation_hour[$key]['status'] = 1;
+            } else {
+                $operation_hour[$key]['status'] = 0;
+            }
+            
             $brunch_hour[$key] = array(
                 'day' => $val,
                 'time_from' => $data['brunch_time_from'][$key],
