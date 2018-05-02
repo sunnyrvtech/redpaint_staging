@@ -144,7 +144,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-6{{ $errors->has('price_to') ? ' has-error' : '' }}">
                             <label for="price_to" class="col-form-label">Price To</label>
-                            <input type="text" class="form-control" required="" name="price_to" placeholder="Price To">
+                            <input type="text" class="form-control" required="" name="price_to" placeholder="Enter price without special character">
                             @if ($errors->has('price_to'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('price_to') }}</strong>
@@ -153,7 +153,7 @@
                         </div>
                         <div class="form-group col-md-6{{ $errors->has('price_from') ? ' has-error' : '' }}">
                             <label for="price_from" class="col-form-label">Price From</label>
-                            <input type="text" class="form-control" required="" name="price_from" placeholder="Price From">
+                            <input type="text" class="form-control" required="" name="price_from" placeholder="Enter price without special character">
                             @if ($errors->has('price_from'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('price_from') }}</strong>
