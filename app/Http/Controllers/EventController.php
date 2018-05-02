@@ -63,8 +63,8 @@ class EventController extends Controller {
             'state' => 'required',
             'zip' => 'required',
             'country_id' => 'required',
-            'price_to' => 'required',
-            'price_from' => 'required',
+            'price_to' => 'required|numeric',
+            'price_from' => 'required|numeric',
         ]);
         if ($request->get('sub_category') != null) {
             if (!$sub_category = SubCategory::Where('name', 'like', trim($request->get('sub_category')))->first()) {
@@ -176,8 +176,8 @@ class EventController extends Controller {
             'state' => 'required',
             'zip' => 'required',
             'country_id' => 'required',
-            'price_to' => 'required',
-            'price_from' => 'required',
+            'price_to' => 'required|numeric',
+            'price_from' => 'required|numeric',
         ]);
 
         if ($request->get('sub_category') != null) {
