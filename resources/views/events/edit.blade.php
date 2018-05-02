@@ -216,7 +216,7 @@
                             </div>
                             <div class="form-group col-md-2">
                                 @if($key == 0)
-                                <label for="hour_status" class="col-form-label">Status</label><br>
+                                <label for="hour_status" class="col-form-label">Closed</label><br>
                                 @endif
                                 <input type="checkbox" class="form-control" name="status{{ $key }}" @if(isset($operation_hour[$key]->status) && $operation_hour[$key]->status == 0) checked @endif value="0">
                             </div>
