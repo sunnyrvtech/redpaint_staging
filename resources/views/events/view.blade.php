@@ -106,7 +106,7 @@
                                         <li>
                                             <!--<a href="#" class="link-more"><span>Edit</span></a>-->
                                             <div class="map-box-address">
-                                                <strong class="street-address"><address>{{ $events->address }}<br>{{ $events->address.','.$events->state.' '.$events->zip }}</address> </strong>
+                                                <strong class="street-address"><address>{{ ucfirst($events->address) }}<br>{{ ucfirst($events->address).','.ucfirst($events->state).' '.$events->zip }}</address> </strong>
                                                 <!--<span class="cross-streets">b/t Fell St &amp; Hayes St </span>-->
                                                 <!--<span class="neighborhood-str-list"> NoPa</span>-->
                                             </div>
