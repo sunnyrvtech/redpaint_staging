@@ -77,7 +77,7 @@
                                         <li class="cou-rate"><span>{{ $value->getReviews->count() }} reviews</span></li>
                                     </ul>
                                 </div>
-                                <span><i class="fa fa-map-marker"></i> {{ str_limit($value->formatted_address, $limit = 32, $end = '...') }}</span>
+                                <span><i class="fa fa-map-marker"></i>{{ ucfirst($value->address).','.ucfirst($value->city).','.ucfirst($value->city).' '.$value->zip }}</span>
                                 <span class="description-search">{{ str_limit($value->description, $limit = 32, $end = '...') }}</span>
                                 <?php  
                                 $daily_deal = json_decode($value->daily_deal); 
