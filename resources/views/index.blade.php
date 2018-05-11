@@ -57,7 +57,7 @@
                         <div class="image"><a href="{{ route('events',$value->event_slug) }}"><img src="{{ URL::asset('/event_images').'/'.$event_images[0] }}"></a></div>
                         <div class="item_content">
                             <h3><a href="{{ route('events',$value->event_slug) }}">{{ $value->name }}</a></h3>
-                            <h4><i class="fa fa-map-marker"></i> {{ ucfirst($value->address).','.ucfirst($value->city).','.ucfirst($value->city).' '.$value->zip }}</h4>
+                            <h4><i class="fa fa-map-marker"></i> {{ ucfirst($value->address).','.ucfirst($value->city).','.ucfirst($value->state).' '.$value->zip }}</h4>
                             <p>{{ str_limit($value->description, $limit = 37, $end = '...') }}</p>
                             <?php $current_date = date('Y-m-d H:i:s'); ?>
                             @if(($current_date >= $value->start_date && $current_date <= $value->end_date) || empty($value->end_date))
