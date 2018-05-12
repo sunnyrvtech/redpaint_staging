@@ -167,6 +167,7 @@ return [
         Unisharp\Ckeditor\ServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Spatie\Newsletter\NewsletterServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -234,7 +235,6 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Newsletter' => Spatie\Newsletter\NewsletterFacade::class,
-
+        'Image' => Intervention\Image\Facades\Image::class,
     ],
-
 ];

@@ -7,6 +7,7 @@ use App\Event;
 use App\EventImage;
 use Auth;
 use View;
+use Image;
 
 class EventImageController extends Controller {
 
@@ -93,7 +94,9 @@ class EventImageController extends Controller {
                         $type = $image_val->getClientMimeType();
                         if ($type == 'image/png' || $type == 'image/jpg' || $type == 'image/jpeg') {
                             $filename = str_random(15) . '.' . $image_val->getClientOriginalExtension();
-                            $image_val->move($path, $filename);
+                            $image_val = Image::make($image_val)->orientate();
+                            $image_val->save($path . '/' . $filename);
+//                              $image_val->move($path, $filename);
                             $imageArray[$key] = $filename;
                         }
                     }
