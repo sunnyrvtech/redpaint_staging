@@ -83,12 +83,26 @@
                                             @else
                                             <input type="hidden" name="type" ng-model="register.type" ng-init="register.type='business'">
                                             @endif
+                                            <div class="sub-text-box">
+                                                <small class="subtle-text">Already on Redpaint ? <a class="signup-link" href="{{ route('login')}}">Log in</a></small>
+                                            </div>
                                             <input class="btn btn-lg btn-success btn-block" type="submit" value="Sign Up">
                                         </form>
-                                        <div class="sub-text-box">
-                                            <small class="subtle-text">Already on Redpaint ? <a class="signup-link" href="{{ route('login')}}">Log in</a></small>
+                                        <fieldset class="hr-line">
+                                            <legend align="center">OR</legend>
+                                        </fieldset>
+                                        <div class="social-buttons">
+                                            <a href="{{ url('/facebook/redirect')}}" class="btn btn-social btn-facebook">
+                                                <i class="fa fa-facebook"></i>Facebook
+                                            </a>
+                                            <a href="{{ url('/google/redirect')}}" class="btn btn-social btn-google-plus">
+                                                <i class="fa fa-google-plus"></i> Google 
+                                            </a>
                                         </div>
-                                        <div class="bsn-btn">
+                                        <fieldset class="hr-line">
+                                            <legend align="center">OR</legend>
+                                        </fieldset>
+                                        <div class="social-buttons">
                                             @if(request()->path() == 'register')
                                             <a href="{{ route('business.register')}}" class="btn btn-lg btn-default btn-block">Continue as a business</a>
                                             @else

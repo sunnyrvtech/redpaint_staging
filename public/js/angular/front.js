@@ -320,6 +320,27 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
                 }
             });
         }
+        $scope.EventLikes = function ($eventId, $url) {
+            $http({
+                method: 'POST',
+                url: $url,
+                data: 'event_id=' + $eventId,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function (data, status, headers, config) {
+                $scope.like.text = data.data.like_txt;
+                $scope.like.count = data.data.like_count;
+                $scope.like.class = data.data.like_class;
+                $scope.like.title = data.data.like_title;
+            }, function errorCallback(data) {
+                $scope.loading = false;
+                $scope.alert_loading = true;
+                $scope.alertClass = 'alert-danger';
+                $scope.alertLabel = 'Error!';
+                $scope.alert_messages = "Something went wrong,please try again !";
+                $scope.alertHide();
+                $(window).scrollTop(0);
+            });
+        }
 
         $scope.submitUserLocation = function ($Url, $latitude, $longitude) {
             $scope.loading = true;

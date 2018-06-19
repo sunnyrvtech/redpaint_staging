@@ -69,7 +69,7 @@ class AccountController extends Controller {
 
     // To activate user by the code provided in the link via email
     public function getActivate($code) {
-
+        Auth::logout();
         $user = User::where('verify_token', '=', $code)->where('status', '=', 0);
 
         if ($user->count()) {
@@ -81,18 +81,17 @@ class AccountController extends Controller {
             $user->verify_token = null;
             if ($user->save()) {
                 Auth::login($user);
-                return Redirect::to('/')->with('success-message', 'Your account has been activated and successfully logged in!');
+                if ($user->role_id == 2)
+                    return Redirect::route('events.create')->with('success-message', 'Your account has been activated and successfully logged in!');
+                else
+                    return Redirect::to('/')->with('success-message', 'Your account has been activated and successfully logged in!');
             } else {
                 return Redirect::to('/')
                                 ->with('error-message', 'We could not activate your account, please try again later.');
             }
         }
-        if (!Auth::check()) {
-            return Redirect::to('/')
-                            ->with('success-message', 'Your account is already activated! You may now sign in!');
-        } else {
-            return Redirect::to('/my-account')->with('success-message', 'Your account has been activated and successfully logged in!');
-        }
+        return Redirect::to('/login')
+                        ->with('success-message', 'Your account is already activated! You may now sign in!');
     }
 
     /**

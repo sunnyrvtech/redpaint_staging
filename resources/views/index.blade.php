@@ -43,11 +43,6 @@
             <div class="ca-wrapper">
                 @forelse($events as $key=>$value)
                 <?php
-                if ($value->getReviews->count() > 0) {
-                    $average = number_format(($value->getReviews->sum('rate') / $value->getReviews->count()), 0);
-                } else {
-                    $average = 0;
-                }
                 $event_images = isset($value->getOwnerEventImages->event_images) ? json_decode($value->getOwnerEventImages->event_images) : array();
                 if (empty($event_images))
                     $event_images[0] = 'default.jpg';
@@ -70,16 +65,6 @@
                             ?>
                             <!--<span>Opened <?php //$dDiff->diffForHumans() ?></span>-->
                             @endif
-                            <div class="ratting_star">
-                                <span>
-                                    <i class="icofont icofont-star @if($average >= 1) yallow @endif"></i>
-                                    <i class="icofont icofont-star @if($average >= 2) yallow @endif"></i>
-                                    <i class="icofont icofont-star @if($average >= 3) yallow @endif"></i>
-                                    <i class="icofont icofont-star @if($average >= 4) yallow @endif"></i>
-                                    <i class="icofont icofont-star @if($average >= 5) yallow @endif"></i>
-                                </span>
-                                {{ $value->getReviews->count() }} reviews
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -111,16 +96,6 @@
                         <p>{{ str_limit($review_of_day->comment, $limit = 150, $end = '...') }}</p>
                     </div>
                     <div class="review_footer">
-                        <div class="ratting_star">
-                            <span>
-                                <i class="icofont icofont-star @if($review_of_day->rate >=1) yallow @endif"></i>
-                                <i class="icofont icofont-star @if($review_of_day->rate >=2) yallow @endif"></i>
-                                <i class="icofont icofont-star @if($review_of_day->rate >=3) yallow @endif"></i>
-                                <i class="icofont icofont-star @if($review_of_day->rate >=4) yallow @endif"></i>
-                                <i class="icofont icofont-star @if($review_of_day->rate >=5) yallow @endif"></i>
-                            </span>
-                            {{ date('m/d/Y',strtotime($review_of_day->getEventDetails->created_at)) }}
-                        </div>
                         <div class="Continue-reading"><a href="{{ route('events',$review_of_day->getEventDetails->event_slug) }}">Continue reading</a></div>
                     </div>
                     @else

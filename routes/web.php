@@ -91,6 +91,7 @@ Route::group(['prefix' => 'business', 'middleware' => 'CheckLoginStatus'], funct
         Route::resource('photo', 'EventImageController');
     });
     Route::post('events/review/{id}', 'EventController@addReview')->name('events-review');
+    Route::post('events/likes', 'EventController@addEventLikes')->name('events.likes');
 });
 Route::get('/about-us', 'HomeController@getAboutUs')->name('about-us');
 Route::get('/advertise', 'HomeController@getAdvertise')->name('advertise');

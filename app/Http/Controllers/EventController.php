@@ -8,6 +8,7 @@ use App\SubCategory;
 use App\Event;
 use App\Ad;
 use App\Review;
+use App\EventLike;
 use App\Country;
 use App\EventImage;
 use App\Http\Controllers\Admin\SubCategoryController;
@@ -286,14 +287,16 @@ class EventController extends Controller {
      * @return Response
      */
     public function getEventByslug(Request $request, $slug) {
-        $events = Event::Where('event_slug', $slug)->first();
-        $event_by_cat = Event::Where(['status' => 1, 'category_id' => $events->category_id])->Where('id', '!=', $events->id)->orderby('created_at', 'DESC')->take(5)->get();
-        $ads = Ad::get();
-        $checkUserReviewStatus = 0; //set as false
-        if ($events) {
-            $checkUserReviewStatus = Review::Where(['user_id' => Auth::id(), 'event_id' => $events->id])->first(array('status'));
+        $data['events'] = Event::Where('event_slug', $slug)->first();
+        $data['event_by_cat'] = Event::Where(['status' => 1, 'category_id' => $data['events']->category_id])->Where('id', '!=', $data['events']->id)->orderby('created_at', 'DESC')->take(5)->get();
+        $data['ads'] = Ad::get();
+        $data['checkUserReviewStatus'] = 0; //set as false
+        if ($data['events']) {
+            $checkUserReviewStatus = Review::Where(['user_id' => Auth::id(), 'event_id' => $data['events']->id])->first(array('status'));
         }
-        return View::make('events.view', compact('events', 'checkUserReviewStatus', 'ads', 'event_by_cat'));
+        $data['like_count'] = EventLike::Where('event_id', '=', $data['events']->id)->count();
+        $view = View::make('events.view', $data);
+        return $view;
     }
 
     /**
@@ -329,14 +332,14 @@ class EventController extends Controller {
      */
     public function addReview(Request $request, $id) {
         $this->validate($request, [
-            'rate' => 'required',
+//            'rate' => 'required',
             'comment' => 'required|max:1000',
         ]);
 
         $data = array(
             'user_id' => Auth::id(),
             'event_id' => $id,
-            'rate' => $request->get('rate'),
+//            'rate' => $request->get('rate'),
             'comment' => $request->get('comment'),
             'status' => 1,
         );
@@ -347,6 +350,32 @@ class EventController extends Controller {
         }
         return redirect()->back()
                         ->with('error-message', 'You have already submit your review for this event!');
+    }
+
+    /**
+     * function to add & remove event likes 
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function addEventLikes(Request $request) {
+        $data = $request->all();
+        $events = EventLike::Where([['user_id', '=', Auth::id()], ['event_id', '=', $data['event_id']]])->first();
+        $like_class = false;
+        $like_txt = 'Like';
+        $like_title = 'Like';
+        if (!$events) {
+            $data['user_id'] = Auth::id();
+            EventLike::create($data);
+            $like_txt = 'Liked';
+            $like_title = 'Unlike';
+            $like_class = true;
+        } else {
+            $events->delete();
+        }
+
+        $like_count = EventLike::Where('event_id', '=', $data['event_id'])->count();
+        return response()->json(['success' => true, 'like_count' => $like_count, 'like_txt' => $like_txt, 'like_class' => $like_class, 'like_title' => $like_title]);
     }
 
     /**

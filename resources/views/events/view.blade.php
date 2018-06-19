@@ -24,31 +24,37 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="sidebar-map-wrap">
-                            <h2>{{ ucfirst($events->name) }}</h2>
+                            <h3>{{ ucfirst($events->name) }}</h3>
                             <div class="biz-main-info">
-                                <div class="rating-detail">
-                                    <div class="biz-rating">
-                                        <?php
-                                         if($events->getReviews->count() >0){
-                                             $average = number_format(($events->getReviews->sum('rate') / $events->getReviews->count()), 0);
-                                         }else{
-                                             $average = 0;
-                                         }
-                                        ?>
-                                        <ul>
-                                            <li class="@if($average >=1) {{ 'rating'.$average }} @else rating @endif"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                            <li class="@if($average >=2) {{ 'rating'.$average }} @else rating @endif"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                            <li class="@if($average >=3) {{ 'rating'.$average }} @else rating @endif"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                            <li class="@if($average >=4) {{ 'rating'.$average }} @else rating @endif"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                            <li class="@if($average >=5) {{ 'rating'.$average }} @else rating @endif"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                        </ul>
+                                <div class="mapbox-container">
+                                    <div class="row text-center">
+                                        <div class="col-md-6 col-xs-6 ld">
+                                            @if(Auth::check())
+                                            <?php
+                                            $like_txt = "Like";
+                                            $like_title = 'Like';
+                                            $like_class = false;
+                                            if($events->check_event_like){
+                                                $like_txt = "Liked";
+                                                $like_title = 'Unlike';
+                                                $like_class = true;
+                                            }
+                                            ?>
+                                            <span class="btn" ng-click="!like.class && EventLikes({{$events->id}},'{{ route('events.likes') }}')" ng-class="{ set: like.class }" ng-init='like.text="{{ $like_txt }}";like.class="{{ $like_class }}"'>
+                                                <a href="javascript:void(0);" ng-init='like.title="{{ $like_title }}"' title="<%like.title%>"><i class="fa fa-thumbs-o-up"></i><%like.text%></a>
+                                                <ul class="dropdown-menu">
+                                                   <li><a href="javascript:void(0);" ng-click="like.class && EventLikes({{$events->id}},'{{ route('events.likes') }}')">Unlike</a></li>
+                                                </ul>
+                                            </span>
+                                            @else
+                                            <span class="btn"><a href="{{ route('login') }}"><i class="fa fa-thumbs-o-up"></i> Like</a></span>
+                                            @endif
+                                        </div> 
+                                        <div class="col-md-6 col-xs-6">
+                                            <span class="like-count" ng-init='like.count="{{ $like_count }}"'></i><%like.count%></span></span><br>
+                                            <span class="like-txt">Total Likes</span>
+                                        </div>
                                     </div>
-
-                                    <!--                                {{ $events->getReviews->sum('rate') }}-->
-                                    <span class="review-count">{{ $events->getReviews->count() }} reviews </span>
-                                </div>
-                                <div class="rating-details">
-                                    <!--<a href="#"><i class="fa fa-paragraph" aria-hidden="true"></i>Details</a>-->
                                 </div>
                             </div>
                             <div class="price-category">
@@ -214,29 +220,14 @@
                                     <div class="user-name">
                                         <h5>{{ ucfirst($value->getUserDetails->first_name).' '.str_limit(ucfirst($value->getUserDetails->last_name), $limit = 1, $end = '.') }}</h5>
                                         <p>{{ !empty($value->getUserDetails->city)?$value->getUserDetails->city.',':'' }}{{ $value->getUserDetails->state }}</p>
+                                        <span class="rating-qualifier"> {{ date('m/d/Y',strtotime($value->created_at)) }} </span>
+                                    
                                     </div>
                                 </div>
                                 <div class="review-by-people">
-                                    <!--{{ $value->rate }}-->
-                                    <div class="biz-rating">
-                                        <ul>
-                                            <li class="rating{{ $value->rate }}"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                            <li class="@if($value->rate >=2) {{ 'rating'.$value->rate }} @else rating @endif"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                            <li class="@if($value->rate >=3) {{ 'rating'.$value->rate }} @else rating @endif"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                            <li class="@if($value->rate >=4) {{ 'rating'.$value->rate }} @else rating @endif"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                            <li class="@if($value->rate >=5) {{ 'rating'.$value->rate }} @else rating @endif"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                        </ul>
+                                    <div class="">
+                                    <span>{{ $value->comment }}</span>
                                     </div>
-                                    <span class="rating-qualifier"> {{ date('m/d/Y',strtotime($value->created_at)) }} </span>
-                                    <p>{{ $value->comment }}</p>
-                                    <!--                            <div class="review-footer">
-                                                                    <p class="voting-intro"> Was this review …?</p>
-                                                                    <ul class="voting-buttons">
-                                                                        <li><a href="#"><i class="fa fa-lightbulb-o" aria-hidden="true"></i>Useful</a></li>
-                                                                        <li><a href="#"><i class="fa fa-smile-o" aria-hidden="true"></i>Funny</a></li>
-                                                                        <li><a href="#"><i class="fa fa-smile-o" aria-hidden="true"></i>Cool</a></li>
-                                                                    </ul>
-                                                                </div>-->
                                 </div>
                             </div>
                         </div>
@@ -260,33 +251,9 @@
                                 <small class="pull-right"> <a class="guidelines" href="#">Read our review guidelines</a></small>
                             </div>
                             <div class="review-written">
-                                <div class="rating-and-comment">
-                                    <div class="biz-rating">
-                                        <ul>
-                                            <li class="rating"><label><input type="radio" data-msg="Eek! Methinks not." class="input_radio" required="" name="rate" value="1">
-                                                    <i class="fa fa-star" aria-hidden="true"></i></label></li>
-                                            <li class="rating"><label><input type="radio" data-msg="Meh. I've experienced better." class="input_radio" required="" name="rate" value="2">
-                                                    <i class="fa fa-star" aria-hidden="true"></i></label></li>
-                                            <li class="rating"><label><input type="radio" data-msg="A-OK." class="input_radio" required="" name="rate" value="3">
-                                                    <i class="fa fa-star" aria-hidden="true"></i></label></li>
-                                            <li class="rating"><label><input type="radio" data-msg="Yay! I'm a fan." class="input_radio" required="" name="rate" value="4">
-                                                    <i class="fa fa-star" aria-hidden="true"></i></label></li>
-                                            <li class="rating"><label><input type="radio" data-msg="Woohoo! As good as it gets." class="input_radio" required="" name="rate" value="5">
-                                                    <i class="fa fa-star" aria-hidden="true"></i></label></li>
-                                        </ul>
-                                    </div>
-                                    <p class="star-selector">Select your rating.</p>
-                                    <div class="form-group {{ $errors->has('rate') ? ' has-error' : '' }}">
-                                        @if ($errors->has('rate'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('rate') }}</strong>
-                                        </span>
-                                        @endif
-                                    </div>
-                                </div>
                                 <div class="review-widget">
                                     <div class="form-group {{ $errors->has('comment') ? ' has-error' : '' }}">
-                                        <textarea class="review-textarea form-control" required="" maxlength="1000" id="review-text" name="comment"  placeholder="Your review helps others learn about great local businesses. Please don't review this business if you received a freebie for writing this review, or if you're connected in any way to the owner or employees.">{{ old('comment') }}</textarea> 
+                                        <textarea class="review-textarea form-control" required="" maxlength="1000" id="review-text" name="comment"  placeholder="What do you like about this business? Your recommendation helps others learn about local businesses.">{{ old('comment') }}</textarea> 
                                         @if ($errors->has('comment'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('comment') }}</strong>
@@ -456,6 +423,11 @@ async defer></script>
 <script type="text/javascript" src="{{ URL::asset('/fancybox/jquery.fancybox-1.3.4.js') }}"></script>
 <script type="text/javascript">
 $(document).ready(function () {
+    
+    $(document).on("click",".biz-main-info span.btn.set",function(){
+       $(this).toggleClass('open'); 
+    });
+    
     if($("ul.amenities-list").has("li").length == 0){
         $("ul.amenities-list").parent().remove();
     }

@@ -53,11 +53,6 @@
                 if (empty($event_images)) {
                     $event_images = array('default.jpg');
                 }
-                if ($value->getReviews->count() > 0) {
-                    $average = number_format(($value->getReviews->sum('rate') / $value->getReviews->count()), 0);
-                } else {
-                    $average = 0;
-                }
                 ?>
                 @if($i%3 == 0)
                 <div class="row">
@@ -67,17 +62,7 @@
                             <a href="{{ route('events',$value->event_slug) }}"><img src="{{ URL::asset('/event_images').'/'.$event_images[0] }}" alt=""></a>
                             <div class="caption">
                                 <span><a href="{{ route('events',$value->event_slug) }}">{{ $value->name }}</a></span>
-                                <div class="biz-rating">
-                                    <ul>
-                                        <li class="@if($average >=1) {{ 'rating'.$average }} @else rating @endif"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                        <li class="@if($average >=2) {{ 'rating'.$average }} @else rating @endif"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                        <li class="@if($average >=3) {{ 'rating'.$average }} @else rating @endif"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                        <li class="@if($average >=4) {{ 'rating'.$average }} @else rating @endif"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                        <li class="@if($average >=5) {{ 'rating'.$average }} @else rating @endif"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                        <li class="cou-rate"><span>{{ $value->getReviews->count() }} reviews</span></li>
-                                    </ul>
-                                </div>
-                                <span><i class="fa fa-map-marker"></i>{{ ucfirst($value->address).','.ucfirst($value->city).','.ucfirst($value->state).' '.$value->zip }}</span>
+                                <span><i class="fa fa-map-marker"></i> {{ ucfirst($value->address).','.ucfirst($value->city).','.ucfirst($value->state).' '.$value->zip }}</span>
                                 <span class="description-search">{{ str_limit($value->description, $limit = 32, $end = '...') }}</span>
                                 <?php  
                                 $daily_deal = json_decode($value->daily_deal); 

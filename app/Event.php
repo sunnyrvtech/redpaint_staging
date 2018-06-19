@@ -45,12 +45,12 @@ class Event extends Model {
     }
 
     /**
-     * function to get owner event images
+     * function to check event likes
      *
      * @return Response
      */
-    public function getOwnerEventImages() {
-        return $this->belongsTo('App\EventImage', 'id', 'event_id');
+    public function check_event_like() {
+        return $this->belongsTo('App\EventLike', 'id', 'event_id')->select('id');
     }
     
     /**
