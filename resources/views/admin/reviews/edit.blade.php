@@ -16,10 +16,10 @@
             {{ csrf_field()}}
             <div class="row">
                 <div class="col-lg-8">
-                    <div class="form-group {{ $errors->has('rate') ? ' has-error' : '' }}">
+<!--                    <div class="form-group {{ $errors->has('rate') ? ' has-error' : '' }}">
                         <label for="rate" class="col-sm-3 col-md-3 control-label">Rating</label>
                         <div class="col-sm-9 col-md-9">
-                            <select required="" class="form-control" name="rate">
+                            <select class="form-control" name="rate">
                                 <?php for($i=1;$i<=5;$i++){ ?>
                                 <option @if($reviews->rate == $i) selected @endif value="{{$i}}">{{$i}}</option>
                                 <?php } ?>
@@ -30,7 +30,7 @@
                             </span>
                             @endif
                         </div>
-                    </div>
+                    </div>-->
                     <div class="form-group {{ $errors->has('comment') ? ' has-error' : '' }}">
                         <label for="comment" class="col-sm-3 col-md-3 control-label">Comment</label>
                         <div class="col-sm-9 col-md-9">

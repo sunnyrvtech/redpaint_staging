@@ -29,11 +29,7 @@ class EventController extends Controller {
             $events = Event::with(['getUserDetails', 'getReviews'])->get();
             foreach ($events as $key => $value) {
                 $events[$key]['user_name'] = $value->getUserDetails->first_name . ' ' . $value->getUserDetails->last_name;
-                if ($value->getReviews->count() > 0) {
-                    $events[$key]['rate'] = number_format(($value->getReviews->sum('rate') / $value->getReviews->count()), 0);
-                } else {
-                    $events[$key]['rate'] = 0;
-                }
+                $events[$key]['total_likes'] = $value->getlikes->count();
                 $events[$key]['comment'] = $value->getReviews->count();
                 if ($value->status == 1) {
                     $events[$key]['status'] = '<div class="btn-group status-toggle" data-id="' . $value->id . '" data-url="' . route('business-status') . '"><button class="btn active btn-primary" data-value="1">Active</button><button class="btn btn-default" data-value="0">Deactivate</button></div>';

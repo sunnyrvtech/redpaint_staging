@@ -23,7 +23,6 @@
                         <th>Event Name</th>
                         <th>Submit By</th>
                         <th>Comment</th>
-                        <th>Rating</th>
                         <th>Status</th>
                         <th>Created At</th>
                         <th>Action</th>
@@ -47,7 +46,6 @@
                 {data: 'event_name', name: 'event_name'},
                 {data: 'user_name', name: 'user_name'},
                 {data: 'comment', name: 'comment'},
-                {data: 'rate', name: 'rate'},
                 {data: 'status', name: 'status'},
                 {data: 'created_at', name: 'created_at'},
                 {data: 'Action', orderable: false, searchable: false, render: function (data, type, row) {

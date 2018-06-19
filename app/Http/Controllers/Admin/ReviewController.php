@@ -84,7 +84,7 @@ class ReviewController extends Controller {
     public function update(Request $request, $id) {
         $data = $request->all();
         $this->validate($request, [
-            'rate' => 'required',
+//            'rate' => 'required',
             'comment' => 'required|max:1000',
         ]);
 

@@ -23,9 +23,9 @@
                         <th>Event Name</th>
                         <th>Submit By</th>
                         <th>Comment</th>
-                        <th>Average Rating</th>
+                        <th>Total likes</th>
                         <th>Status</th>
-                        <th>View Review</th>
+                        <th>View Recommendation</th>
                         <th>View Event Images</th>
                         <th>Created At</th>
                         <th>Action</th>
@@ -49,7 +49,7 @@
                 {data: 'name', name: 'name'},
                 {data: 'user_name', name: 'user_name'},
                 {data: 'comment', name: 'comment'},
-                {data: 'rate', name: 'rate'},
+                {data: 'total_likes', name: 'total_likes'},
                 {data: 'status', name: 'status',"width": "20%"},
                 {data: 'view_review', name: 'view_review',"width": "2%"},
                 {data: 'view_photo', name: 'view_photo',"width": "2%"},

@@ -79,5 +79,14 @@ class Event extends Model {
     public function getReviews() {
         return $this->hasMany('App\Review', 'event_id', 'id')->Where('status',1)->orderBy('created_at','DESC');
     }
+    
+    /**
+     * function to get owner event images
+     *
+     * @return Response
+     */
+    public function getlikes() {
+        return $this->hasMany('App\EventLike', 'event_id', 'id')->select('id');
+    }
 
 }

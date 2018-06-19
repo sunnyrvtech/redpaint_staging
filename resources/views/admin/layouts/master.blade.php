@@ -86,7 +86,7 @@
                             <a href="{{ route('business.index')}}"><i class="fa fa-fw fa-building-o"></i>Business Event</a>
                         </li>
                         <li class="@if(Request::segment(2) == 'reviews')active @endif">
-                            <a href="{{ route('reviews.index')}}"><i class="fa fa-fw fa-star"></i>Recent Reviews</a>
+                            <a href="{{ route('reviews.index')}}"><i class="fa fa-fw fa-star"></i>Recent Recommendation</a>
                         </li>
                         <li class="@if(Request::segment(2) == 'ads_list')active @endif">
                             <a href="{{ route('ads_list.index')}}"><i class="fa fa-fw fa-buysellads"></i>Ads</a>

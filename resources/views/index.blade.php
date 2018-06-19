@@ -81,7 +81,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-sm-7 col-xs-12">
-                <div class="heading"><h2>Review of the Day</h2></div>
+                <div class="heading"><h2>Recommendation of the Day</h2></div>
                 <div class="ROTD">
                     @if($review_of_day)
                     <?php

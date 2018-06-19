@@ -84,7 +84,7 @@
                     <div class="col-sm-8">
                         <div class="biz-page-actions">
                                 <a @if(!Auth::check()) href="{{ route('login') }}" @endif class="review-btn">
-                                    <i class="fa fa-star" aria-hidden="true"></i> Write a Review     
+                                    <i class="fa fa-star" aria-hidden="true"></i> Write a Recommendation     
                                 </a>
                                 <span class="allbtn-group">
                                     <a href="{{ route('photo.show',$events->event_slug) }}" class="add-photo-button">
@@ -248,7 +248,7 @@
                             {{ csrf_field()}}
                             <div>
                                 <label>Your Recommendation</label>
-                                <small class="pull-right"> <a class="guidelines" href="#">Read our review guidelines</a></small>
+                                <small class="pull-right"> <a class="guidelines" href="#">Read our recommendation guidelines</a></small>
                             </div>
                             <div class="review-written">
                                 <div class="review-widget">
