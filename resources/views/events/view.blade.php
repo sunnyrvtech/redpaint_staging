@@ -41,17 +41,17 @@
                                             }
                                             ?>
                                             <span class="btn" ng-click="!like.class && EventLikes({{$events->id}},'{{ route('events.likes') }}')" ng-class="{ set: like.class }" ng-init='like.text="{{ $like_txt }}";like.class="{{ $like_class }}"'>
-                                                <a href="javascript:void(0);" ng-init='like.title="{{ $like_title }}"' title="<%like.title%>"><i class="fa fa-thumbs-o-up"></i><%like.text%></a>
+                                                <a href="javascript:void(0);" ng-init='like.title="{{ $like_title }}"' title="<%like.title%>"><img class="thumbs" src="{{ asset('/images/thumbsup.jpg') }}"><%like.text%></a>
                                                 <ul class="dropdown-menu">
                                                    <li><a href="javascript:void(0);" ng-click="like.class && EventLikes({{$events->id}},'{{ route('events.likes') }}')">Unlike</a></li>
                                                 </ul>
                                             </span>
                                             @else
-                                            <span class="btn"><a href="{{ route('login') }}"><i class="fa fa-thumbs-o-up"></i> Like</a></span>
+                                            <span class="btn"><a href="{{ route('login') }}"><img class="thumbs" src="{{ asset('/images/thumbsup.jpg') }}"> Like</a></span>
                                             @endif
                                         </div> 
                                         <div class="col-md-6 col-xs-6">
-                                            <span class="like-count" ng-init='like.count="{{ $like_count }}"'></i><%like.count%></span></span><br>
+                                            <span class="like-count" ng-init='like.count="{{ $like_count }}"'><%like.count%></span></span><br>
                                             <span class="like-txt">Total Likes</span>
                                         </div>
                                     </div>
@@ -267,7 +267,7 @@
                         @else
                         @if(!empty($checkUserReviewStatus))
                         <div class="notice notice-danger">
-                            <strong>Notice:-</strong> You have already submit your review for <strong>{{ ucfirst($events->name) }}</strong>@if(!$checkUserReviewStatus->status) and deactivate by administrator.@else.@endif
+                            <strong>Notice:-</strong> You have already submit your recommendation for <strong>{{ ucfirst($events->name) }}</strong>@if(!$checkUserReviewStatus->status) and deactivate by administrator.@else.@endif
                         </div>
                         @endif
                         @endif
