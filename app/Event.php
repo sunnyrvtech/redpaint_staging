@@ -43,6 +43,15 @@ class Event extends Model {
     public function getCategory() {
         return $this->belongsTo('App\Category', 'category_id', 'id');
     }
+    
+     /**
+     * function to get owner event images
+     *
+     * @return Response
+     */
+    public function getOwnerEventImages() {
+        return $this->belongsTo('App\EventImage', 'id', 'event_id');
+    }
 
     /**
      * function to check event likes

@@ -44,6 +44,7 @@
                 @forelse($events as $key=>$value)
                 <?php
                 $event_images = isset($value->getOwnerEventImages->event_images) ? json_decode($value->getOwnerEventImages->event_images) : array();
+                dd($event_images);
                 if (empty($event_images))
                     $event_images[0] = 'default.jpg';
                 ?>
