@@ -234,7 +234,7 @@
                         @empty
                         <div>
                             <div class="notice notice-danger">
-                                No Review Found !
+                                No recommendation found !
                             </div>
                         </div>
                         @endforelse
@@ -247,7 +247,7 @@
                         <form action="{{ route('events-review',$events->id) }}" method="post">
                             {{ csrf_field()}}
                             <div>
-                                <label>Your review</label>
+                                <label>Your recommendation</label>
                                 <small class="pull-right"> <a class="guidelines" href="#">Read our review guidelines</a></small>
                             </div>
                             <div class="review-written">
