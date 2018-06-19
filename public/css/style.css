@@ -1135,7 +1135,7 @@ div#maximage{ width: 100% !important;}
 .biz-main-info span.btn { border: 1px solid rgb(221, 221, 221); }
 /*.biz-main-info span.btn i.fa-thumbs-o-up { font-size: 18px;margin-right: 3px; }*/
 /*.biz-main-info span.btn.set i { color: #337ab7; }*/
-.biz-main-info span.btn img.thumbs { max-width: 22px; }
+.biz-main-info span.btn img.thumbs { max-width: 24px;margin-left: 4px; }
 .biz-main-info span.btn.set:after { content: "\f0d7";font: normal normal normal 14px/1 FontAwesome;padding-left: 4px; }
 .biz-main-info span.btn.set.open { position: relative; }
 .biz-main-info span.btn.set.open .dropdown-menu { min-width: 94px;padding: 0px; }
