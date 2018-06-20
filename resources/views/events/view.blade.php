@@ -34,7 +34,7 @@
                                             $like_txt = "Like";
                                             $like_title = 'Like';
                                             $like_class = false;
-                                            if($events->check_event_like){
+                                            if($check_count){
                                                 $like_txt = "Liked";
                                                 $like_title = 'Unlike';
                                                 $like_class = true;
@@ -51,7 +51,7 @@
                                             @endif
                                         </div> 
                                         <div class="col-md-6 col-xs-6">
-                                            <span class="like-count" ng-init='like.count="{{ $like_count }}"'><%like.count%></span></span><br>
+                                            <span class="like-count" ng-init='like.count="{{ $events->event_likes->count() }}"'><%like.count%></span></span><br>
                                             <span class="like-txt">Total Likes</span>
                                         </div>
                                     </div>

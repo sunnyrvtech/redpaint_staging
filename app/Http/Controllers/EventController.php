@@ -294,7 +294,7 @@ class EventController extends Controller {
         if ($data['events']) {
             $checkUserReviewStatus = Review::Where(['user_id' => Auth::id(), 'event_id' => $data['events']->id])->first(array('status'));
         }
-        $data['like_count'] = EventLike::Where('event_id', '=', $data['events']->id)->count();
+        $data['check_count'] = EventLike::Where([['user_id', '=', Auth::id()],['event_id', '=', $data['events']->id]])->count();
         $view = View::make('events.view', $data);
         return $view;
     }

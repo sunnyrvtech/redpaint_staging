@@ -54,12 +54,12 @@ class Event extends Model {
     }
 
     /**
-     * function to check event likes
+     * function to get total event likes
      *
      * @return Response
      */
-    public function check_event_like() {
-        return $this->belongsTo('App\EventLike', 'id', 'event_id')->select('id');
+    public function event_likes() {
+        return $this->hasMany('App\EventLike', 'event_id', 'id')->select('id');
     }
     
     /**
