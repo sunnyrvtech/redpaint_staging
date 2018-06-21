@@ -124,7 +124,7 @@
                             <div class="form-group">
                                 <label for="card_number" class="col-form-label">Card Number</label>
                                 <span class="help-block"></span>
-                                <input type="text" class="form-control" data-stripe="number" value="4242424242424242" placeholder="Credit card number" name="card_number">
+                                <input type="text" class="form-control" data-stripe="number" placeholder="Credit card number" name="card_number">
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-4">
