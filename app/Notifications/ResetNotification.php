@@ -45,7 +45,7 @@ class ResetNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Password Reset from AutoLightHouse')
+                    ->subject('Password Reset From Weareredpaint')
                         ->greeting('Hello ' . $this->username . ',')
                         ->line([
                             'You have recently requested for a password reset on your account.',
