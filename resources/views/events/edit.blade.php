@@ -22,7 +22,16 @@
                 </div>
             </div>
             <div class="content-middle">
-                <form action="{{ route('events.update',$events->id)}}" method="post">
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+                <form action="{{ route('events.update',$events->id)}}" enctype="multipart/form-data" method="post">
                     <input name="_method" value="PUT" type="hidden">
                     {{ csrf_field()}}
                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -124,7 +133,7 @@
                             @endif
                         </div>
                         <div class="form-group col-md-6{{ $errors->has('sub_category') ? ' has-error' : '' }}">
-                            <label for="sub_category" required="" class="col-form-label">Business Type</label>
+                            <label for="sub_category" class="col-form-label">Business Type</label>
                             <input type="text" class="form-control typeahead" name="sub_category" value="{{ @$events->getSubCategory->name }}" autocomplete="off" data-url="{{ route('events-sub_cat').'?id='.$events->category_id }}" placeholder="Sub Category">
                             @if ($errors->has('sub_category'))
                             <span class="help-block">
@@ -170,6 +179,39 @@
                     $daily_deal = json_decode($events->daily_deal);
                     ?>
                     <div class="form-group">
+                        <label>Operating hours </label>
+                    </div>
+                    <div class="lock_hour_html">
+                        <div class="form-row">
+                            @foreach($time_array as $key=>$val)
+                            <div class="form-group col-md-4">
+                                @if($key == 0)
+                                <label for="day" class="col-form-label">Week Day</label>
+                                @endif
+                                <input type="text" class="form-control" value="{{ $val }}" readonly="">
+                            </div>
+                            <div class="form-group col-md-3">
+                                @if($key == 0)
+                                <label for="time_from" class="col-form-label">Time From</label>
+                                @endif
+                                <input type="text" class="form-control timepicker" required="" name="time_from[]" value="{{ isset($operation_hour[$key]->time_from)?$operation_hour[$key]->time_from:'' }}">
+                            </div>
+                            <div class="form-group col-md-3">
+                                @if($key == 0)
+                                <label for="time_to" class="col-form-label">Time To</label>
+                                @endif
+                                <input type="text" class="form-control timepicker" required="" name="time_to[]" value="{{ isset($operation_hour[$key]->time_to)?$operation_hour[$key]->time_to:'' }}">
+                            </div>
+                            <div class="form-group col-md-2">
+                                @if($key == 0)
+                                <label for="hour_status" class="col-form-label">Closed</label><br>
+                                @endif
+                                <input type="checkbox" class="form-control" name="status{{ $key }}" @if(isset($operation_hour[$key]->status) && $operation_hour[$key]->status == 0) checked @endif value="0">
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="daily_deals" class="col-form-label">Daily Deals </label><a class="btn lock_hour_btn">Click Here</a>
                     </div>
                     <div class="lock_hour_html" style="display: none;">
@@ -190,39 +232,7 @@
                             @endforeach
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>Do you have operating hours ?</label><a class="btn lock_hour_btn">Click Here</a>
-                    </div>
-                    <div class="lock_hour_html" style="display: none;">
-                        <div class="form-row">
-                            @foreach($time_array as $key=>$val)
-                            <div class="form-group col-md-4">
-                                @if($key == 0)
-                                <label for="day" class="col-form-label">Week Day</label>
-                                @endif
-                                <input type="text" class="form-control" value="{{ $val }}" readonly="">
-                            </div>
-                            <div class="form-group col-md-3">
-                                @if($key == 0)
-                                <label for="time_from" class="col-form-label">Time From</label>
-                                @endif
-                                <input type="text" class="form-control timepicker" name="time_from[]" value="{{ isset($operation_hour[$key]->time_from)?$operation_hour[$key]->time_from:'' }}">
-                            </div>
-                            <div class="form-group col-md-3">
-                                @if($key == 0)
-                                <label for="time_to" class="col-form-label">Time To</label>
-                                @endif
-                                <input type="text" class="form-control timepicker" name="time_to[]" value="{{ isset($operation_hour[$key]->time_to)?$operation_hour[$key]->time_to:'' }}">
-                            </div>
-                            <div class="form-group col-md-2">
-                                @if($key == 0)
-                                <label for="hour_status" class="col-form-label">Closed</label><br>
-                                @endif
-                                <input type="checkbox" class="form-control" name="status{{ $key }}" @if(isset($operation_hour[$key]->status) && $operation_hour[$key]->status == 0) checked @endif value="0">
-                            </div>
-                            @endforeach
-                        </div>
-                    </div>
+
                     <div class="form-group">
                         <label>Do you have happy hours ?</label><a class="btn lock_hour_btn">Click Here</a>
                     </div>
@@ -334,6 +344,28 @@
                         <label class="checkbox-inline">
                             <input type="checkbox" name="parking[]" @if(!empty($parking) && in_array('valet',$parking)) checked @endif value="valet"><span>Valet</span>
                         </label>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6 {{ $errors->has('event_image') ? ' has-error' : '' }}">
+                            <div class="pro-browse text-center">
+                                <button class="btn btn-info browse" type="button">Browse Files</button>
+                            </div>
+                            <input style="display: none;" id="file_type" name="event_image" class="file" type="file">
+                            <span class="label label-info" id="upload-file-info"></span>
+                            @if ($errors->has('event_image'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('event_image') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        <?php $event_images = json_decode($events->getOwnerEventImages->event_images); ?>
+                        <div class="form-group col-md-6">
+                            @if(isset($event_images[0]))
+                            <img height="150px" id="blah" style="display:block;" src="{{ URL::asset('/event_images').'/'.$event_images[0] }}">
+                            @else
+                            <img height="150px" id="blah" src="">
+                            @endif
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </form>

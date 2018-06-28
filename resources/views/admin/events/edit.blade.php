@@ -14,6 +14,15 @@
     </div>
     <!-- /.row -->
     <div class="row">
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <form action="{{ route('business.update',$events->id)}}" method="post">
             <input name="_method" value="PUT" type="hidden">
             {{ csrf_field()}}
@@ -162,6 +171,39 @@
             $daily_deal = json_decode($events->daily_deal);
             ?>
             <div class="form-group">
+                <label>Operating hours </label>
+            </div>
+            <div class="lock_hour_html">
+                <div class="row">
+                    @foreach($time_array as $key=>$val)
+                    <div class="form-group col-md-4">
+                        @if($key == 0)
+                        <label for="day" class="col-form-label">Week Day</label>
+                        @endif
+                        <input type="text" class="form-control" value="{{ $val }}" readonly="">
+                    </div>
+                    <div class="form-group col-md-3">
+                        @if($key == 0)
+                        <label for="time_from" class="col-form-label">Time From</label>
+                        @endif
+                        <input type="text" class="form-control timepicker" required="" name="time_from[]" value="{{ isset($operation_hour[$key]->time_from)?$operation_hour[$key]->time_from:'' }}">
+                    </div>
+                    <div class="form-group col-md-3">
+                        @if($key == 0)
+                        <label for="time_to" class="col-form-label">Time To</label>
+                        @endif
+                        <input type="text" class="form-control timepicker" required="" name="time_to[]" value="{{ isset($operation_hour[$key]->time_to)?$operation_hour[$key]->time_to:'' }}">
+                    </div>
+                    <div class="form-group col-md-2">
+                        @if($key == 0)
+                        <label for="hour_status" class="col-form-label">Closed</label><br>
+                        @endif
+                        <input type="checkbox" class="form-control" name="status{{ $key }}" @if(isset($operation_hour[$key]->status) && $operation_hour[$key]->status == 0) checked @endif value="0">
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="daily_deals" class="col-form-label">Daily Deals </label><a class="btn lock_hour_btn">Click Here</a>
             </div>
             <div class="lock_hour_html" style="display: none;">
@@ -178,39 +220,6 @@
                         <label for="time_from" class="col-form-label">Deal name</label>
                         @endif
                         <input type="text" class="form-control" name="deal_name[]" value="{{ isset($daily_deal->$val) && $daily_deal->$val!='null'?$daily_deal->$val:'' }}">
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-            <div class="form-group">
-                <label>Do you have operating hours ?</label><a class="btn lock_hour_btn">Click Here</a>
-            </div>
-            <div class="lock_hour_html" style="display: none;">
-                <div class="row">
-                    @foreach($time_array as $key=>$val)
-                    <div class="form-group col-md-4">
-                        @if($key == 0)
-                        <label for="day" class="col-form-label">Week Day</label>
-                        @endif
-                        <input type="text" class="form-control" value="{{ $val }}" readonly="">
-                    </div>
-                    <div class="form-group col-md-3">
-                        @if($key == 0)
-                        <label for="time_from" class="col-form-label">Time From</label>
-                        @endif
-                        <input type="text" class="form-control timepicker" name="time_from[]" value="{{ isset($operation_hour[$key]->time_from)?$operation_hour[$key]->time_from:'' }}">
-                    </div>
-                    <div class="form-group col-md-3">
-                        @if($key == 0)
-                        <label for="time_to" class="col-form-label">Time To</label>
-                        @endif
-                        <input type="text" class="form-control timepicker" name="time_to[]" value="{{ isset($operation_hour[$key]->time_to)?$operation_hour[$key]->time_to:'' }}">
-                    </div>
-                    <div class="form-group col-md-2">
-                        @if($key == 0)
-                        <label for="hour_status" class="col-form-label">Closed</label><br>
-                        @endif
-                        <input type="checkbox" class="form-control" name="status{{ $key }}" @if(isset($operation_hour[$key]->status) && $operation_hour[$key]->status == 0) checked @endif value="0">
                     </div>
                     @endforeach
                 </div>

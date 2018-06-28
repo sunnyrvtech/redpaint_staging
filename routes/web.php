@@ -32,6 +32,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'IsAdmin'], function () {
     Route::post('categories/status', 'Admin\CategoryController@categoryStatus')->name('categories-status');
     Route::resource('users', 'Admin\UserController');
     Route::post('users/status', 'Admin\UserController@userStatus')->name('users-status');
+    Route::get('users/password/{id}', 'Admin\UserController@changePasswordView')->name('users-password');
+    Route::post('users/password/{id}', 'Admin\UserController@changePassword')->name('users-password');
 });
 //routes for admin section end here
 //Auth::routes();

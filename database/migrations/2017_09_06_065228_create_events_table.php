@@ -38,8 +38,8 @@ class CreateEventsTable extends Migration {
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->string('website_url')->nullable();
-            $table->decimal('price_to', 5, 2)->nullable();
-            $table->decimal('price_from', 5, 2)->nullable();
+            $table->decimal('price_to', 10, 2)->nullable();
+            $table->decimal('price_from', 10, 2)->nullable();
             $table->integer('category_id');
             $table->integer('sub_category_id')->nullable();
             $table->timestamp('start_date')->nullable();

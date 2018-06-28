@@ -21,7 +21,7 @@ class UserController extends Controller {
         if ($request->ajax()) {
             $users = User::get();
             foreach ($users as $key => $value) {
-                $users[$key]['action'] = '<a href="' . route('users.show', $value->id) . '" data-toggle="tooltip" title="update" class="glyphicon glyphicon-edit"></a>';
+                $users[$key]['action'] = '<a href="' . route('users.show', $value->id) . '" data-toggle="tooltip" title="update" class="glyphicon glyphicon-share"></a>&nbsp;&nbsp<a href="' . route('users-password', $value->id) . '" data-toggle="tooltip" title="change password" class="glyphicon glyphicon-edit"></a>';
                 if ($value->status == 1) {
                     $users[$key]['status'] = '<div class="btn-group status-toggle" data-id="' . $value->id . '" data-url="' . route('users-status') . '"><button class="btn active btn-primary" data-value="1">Active</button><button class="btn btn-default" data-value="0">Deactive</button></div>';
                 } else {
@@ -119,6 +119,41 @@ class UserController extends Controller {
             }
             return response()->json(['success' => true, 'messages' => "User deactivated successfully!"]);
         }
+    }
+
+    /**
+     * function to change password
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function changePasswordView(Request $request, $id) {
+        $data['title'] = 'Password | change';
+        $data['id'] = $id;
+        return View::make('admin.users.password', $data);
+    }
+
+    /**
+     * function to change password
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function changePassword(Request $request, $id) {
+
+        $this->validate($request, [
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        $user = User::find($id);
+    
+        
+        if ($user->update(array('password'=>bcrypt($request->get('password'))))) {
+            return redirect()->route('users.index')
+                            ->with('success-message', 'Password changed successfully!');
+        }
+        return redirect()->back()
+                        ->with('error-message', 'Something went wrong,please try again later!');
     }
 
 //

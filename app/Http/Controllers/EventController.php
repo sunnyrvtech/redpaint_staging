@@ -11,6 +11,7 @@ use App\Review;
 use App\EventLike;
 use App\Country;
 use App\EventImage;
+use Image;
 use App\Http\Controllers\Admin\SubCategoryController;
 use Auth;
 use View;
@@ -66,6 +67,7 @@ class EventController extends Controller {
             'country_id' => 'required',
             'price_to' => 'required|numeric',
             'price_from' => 'required|numeric',
+            'event_image' => 'required|image|mimes:jpeg,png,jpg',
         ]);
         if ($request->get('sub_category') != null) {
             if (!$sub_category = SubCategory::Where('name', 'like', trim($request->get('sub_category')))->first()) {
@@ -131,7 +133,36 @@ class EventController extends Controller {
         $data['user_id'] = Auth::id();
         $data['event_slug'] = $this->createSlug($data['name']);
 
-        Event::create($data);
+        $filename = null;
+        if ($request->file('event_image')) {
+            if ($request->hasFile('event_image')) {
+                $image = $request->file('event_image');
+                $path = base_path('public/event_images/');
+                $type = $image->getClientMimeType();
+                if ($type == 'image/png' || $type == 'image/jpg' || $type == 'image/jpeg') {
+                    $filename = str_random(15) . '.' . $image->getClientOriginalExtension();
+                    $image = Image::make($image)->orientate();
+                    $image->save($path . '/' . $filename);
+                }
+            }
+        }
+
+        if ($filename != null && $event = Event::create($data)) {
+            $event_images = EventImage::Where(['event_id' => $event->id, 'user_id' => Auth::id()])->first();
+            if ($event_images) {
+                $event_images->fill(array('event_images' => json_encode(array($filename))))->save();
+            } else {
+                $data['event_id'] = $event->id;
+                $data['event_images'] = json_encode(array($filename));
+                EventImage::create($data);
+            }
+        } else {
+            return redirect()->back()
+                            ->with('error-message', 'Business not saved, something is wrong please try again later!');
+        }
+
+
+
         return redirect()->route('events.index')
                         ->with('success-message', 'Event created successfully!');
     }
@@ -244,6 +275,22 @@ class EventController extends Controller {
         $events = Event::Where(['id' => $id, 'user_id' => Auth::id()])->first();
 
         if ($events) {
+            if ($request->file('event_image')) {
+                if ($request->hasFile('event_image')) {
+                    $image = $request->file('event_image');
+                    $path = base_path('public/event_images/');
+                    $type = $image->getClientMimeType();
+                    if ($type == 'image/png' || $type == 'image/jpg' || $type == 'image/jpeg') {
+                        $filename = str_random(15) . '.' . $image->getClientOriginalExtension();
+                        $image = Image::make($image)->orientate();
+                        $image->save($path . '/' . $filename);
+                    }
+                }
+
+                $event_images = EventImage::Where(['event_id' => $events->id, 'user_id' => Auth::id()])->first();
+                $eventimageArray = array_merge(array($filename),json_decode($event_images->event_images));
+                $event_images->fill(array('event_images' => json_encode($eventimageArray)))->save();
+            }
             $events->fill($data)->save();
             return redirect()->route('events.index')
                             ->with('success-message', 'Event updated successfully!');
@@ -294,7 +341,7 @@ class EventController extends Controller {
         if ($data['events']) {
             $checkUserReviewStatus = Review::Where(['user_id' => Auth::id(), 'event_id' => $data['events']->id])->first(array('status'));
         }
-        $data['check_count'] = EventLike::Where([['user_id', '=', Auth::id()],['event_id', '=', $data['events']->id]])->count();
+        $data['check_count'] = EventLike::Where([['user_id', '=', Auth::id()], ['event_id', '=', $data['events']->id]])->count();
         $view = View::make('events.view', $data);
         return $view;
     }

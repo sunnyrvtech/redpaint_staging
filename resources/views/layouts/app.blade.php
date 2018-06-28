@@ -220,7 +220,7 @@
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function (event) {
-                     $('#blah').show();
+                    $('#blah').show();
                     $('#blah').attr('src', event.target.result);
                 }
                 reader.readAsDataURL(input.files[0]);
