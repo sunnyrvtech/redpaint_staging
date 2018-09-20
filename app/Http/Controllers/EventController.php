@@ -288,7 +288,7 @@ class EventController extends Controller {
                 }
 
                 $event_images = EventImage::Where(['event_id' => $events->id, 'user_id' => Auth::id()])->first();
-                $eventimageArray = array_merge(array($filename),json_decode($event_images->event_images));
+                $eventimageArray = array_merge(array($filename), json_decode($event_images->event_images));
                 $event_images->fill(array('event_images' => json_encode($eventimageArray)))->save();
             }
             $events->fill($data)->save();
@@ -446,21 +446,14 @@ class EventController extends Controller {
         $address = $request->get('address');
         $days = $request->get('day');
 
-//        $events = Event::Where(function($query) use ($keyword, $address, $distant_array) {
-//                    $query->Where('events.name', 'LIKE', '%' . $keyword . '%');
-//                })->orwhereHas('getCategory', function($query) use($keyword) {
-//                    if ($keyword != null) {
-//                        $query->Where('categories.name', 'LIKE', '%' . $keyword . '%');
-//                    }
-//                })->Where(function($query) use ($keyword, $address, $distant_array) {
-//                    $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
-//                    ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
-//                })
-//                ->get();
-//
-//
-//
-//        dd($events);
+        $happy_keywords = array('happy', 'happy hour');
+        $brunch_keywords = array('brunch', 'brunch hour');
+        $hour_check = false;
+        if (in_array($keyword, $happy_keywords)) {
+            $hour_check = 'happy_hour';
+        } else if (in_array($keyword, $brunch_keywords)) {
+            $hour_check = 'brunch_hour';
+        }
 
         if ($keyword != null && $keyword != 'recent_events' && $keyword != 'daily_deals') {
             $events = Event::Where('status', 1)->Where(function($query) use ($keyword, $address, $distant_array) {
@@ -479,6 +472,12 @@ class EventController extends Controller {
                     })->orwhereHas('getSubCategory', function($query) use($keyword, $distant_array) {
                         if ($keyword != null) {
                             $query->Where('sub_categories.name', 'LIKE', '%' . $keyword . '%')
+                                    ->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
+                                    ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
+                        }
+                    })->orwhere(function($query) use ($hour_check, $distant_array) {
+                        if ($hour_check) {
+                            $query->whereNotNull($hour_check)
                                     ->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                     ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
                         }

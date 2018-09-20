@@ -1104,7 +1104,7 @@ div#maximage{ width: 100% !important;}
 #content .static_page ul {margin-top: 20px;padding-left: 15px;list-style: circle;}
 #content .static_page ul li._aok { line-height: 30px; position: relative; padding-left: 0;}
 #content .static_page h1.page_tital {text-align: center;margin-bottom: 35px;text-transform: uppercase;font-weight: 600; }
-.bsn-btn { padding-top: 40px; }
+/*.bsn-btn { padding-top: 10px; }*/
 .profile-outer-main input[type="radio"] { min-height: 0;margin: 0px 5px 0px 0px;display: inline-block;position: static;line-height: normal;vertical-align: middle;width: auto; }
 /*.profile-outer-main .checkbox-inline span{ padding-left: 22px; }*/
 .amenities-list li { border-top: 1px solid #ddd;padding: 8px; }

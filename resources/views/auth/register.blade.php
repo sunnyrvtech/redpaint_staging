@@ -20,6 +20,17 @@
                                                 By signing up, you agree to Redpaint <a class="legal-link" href="#">Terms of Service</a> and <a class="legal-link" href="#">Privacy Policy</a>.
                                             </p>
                                         </div>
+                                        <div class="social-buttons">
+                                            <a href="{{ url('/facebook/redirect')}}" class="btn btn-social btn-facebook">
+                                                <i class="fa fa-facebook"></i>Facebook
+                                            </a>
+                                            <a href="{{ url('/google/redirect')}}" class="btn btn-social btn-google-plus">
+                                                <i class="fa fa-google-plus"></i> Google 
+                                            </a>
+                                        </div>
+                                        <fieldset class="hr-line">
+                                            <legend align="center">OR</legend>
+                                        </fieldset>
                                         <form name="registerForm" role="form" role="form" method="POST" action="javascript:void(0);" ng-submit="submitRegister(registerForm.$valid)" novalidate>
                                             <input type='text' style="display:none;">
                                             <input type='password' style="display:none;">
@@ -88,17 +99,6 @@
                                             </div>
                                             <input class="btn btn-lg btn-success btn-block" type="submit" value="Sign Up">
                                         </form>
-                                        <fieldset class="hr-line">
-                                            <legend align="center">OR</legend>
-                                        </fieldset>
-                                        <div class="social-buttons">
-                                            <a href="{{ url('/facebook/redirect')}}" class="btn btn-social btn-facebook">
-                                                <i class="fa fa-facebook"></i>Facebook
-                                            </a>
-                                            <a href="{{ url('/google/redirect')}}" class="btn btn-social btn-google-plus">
-                                                <i class="fa fa-google-plus"></i> Google 
-                                            </a>
-                                        </div>
                                         <fieldset class="hr-line">
                                             <legend align="center">OR</legend>
                                         </fieldset>

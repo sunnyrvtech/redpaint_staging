@@ -20,6 +20,17 @@
                                                 By logging in, you agree to Redpaint <a class="legal-link" href="javascript:void(0);">Terms of Service</a> and <a class="legal-link" href="javascript:void(0);">Privacy Policy</a>.
                                             </p>
                                         </div>
+                                        <div class="social-buttons">
+                                            <a href="{{ url('/facebook/redirect')}}" class="btn btn-social btn-facebook">
+                                                <i class="fa fa-facebook"></i>Facebook
+                                            </a>
+                                            <a href="{{ url('/google/redirect')}}" class="btn btn-social btn-google-plus">
+                                                <i class="fa fa-google-plus"></i> Google 
+                                            </a>
+                                        </div>
+                                        <fieldset class="hr-line">
+                                            <legend align="center">OR</legend>
+                                        </fieldset>
                                         <form name="loginForm" role="form" action="javascript:void(0);" ng-submit="submitLogin(loginForm.$valid)" novalidate>
                                             {{ csrf_field()}}
                                             <div class="input-container">
@@ -52,20 +63,12 @@
                                             @endif
                                             <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
                                         </form>
+                                        <div class="sub-text-box">
+                                            <small class="subtle-text">New to Redpaint? <a class="signup-link" href="{{ route('register')}}">Sign up</a></small>
+                                        </div><br>
                                         <fieldset class="hr-line">
                                             <legend align="center">OR</legend>
                                         </fieldset>
-                                        <div class="social-buttons">
-                                            <a href="{{ url('/facebook/redirect')}}" class="btn btn-social btn-facebook">
-                                                <i class="fa fa-facebook"></i>Facebook
-                                            </a>
-                                            <a href="{{ url('/google/redirect')}}" class="btn btn-social btn-google-plus">
-                                                <i class="fa fa-google-plus"></i> Google 
-                                            </a>
-                                        </div>
-                                        <div class="sub-text-box">
-                                            <small class="subtle-text">New to Redpaint? <a class="signup-link" href="{{ route('register')}}">Sign up</a></small>
-                                        </div>
                                         <div class="bsn-btn">
                                             @if(request()->path() == 'login')
                                             <a href="{{ route('business.login')}}" class="btn btn-lg btn-default btn-block">Continue as a business</a>
