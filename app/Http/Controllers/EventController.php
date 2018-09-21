@@ -107,7 +107,7 @@ class EventController extends Controller {
             } else {
                 $operation_hour[$key]['status'] = 0;
             }
-            if ($data['brunch_time_from'][0]) {
+            if ($data['brunch_time_from'][$key]) {
                 $brunch_time_from = true;
             }
             $brunch_hour[$key] = array(
@@ -115,7 +115,7 @@ class EventController extends Controller {
                 'time_from' => $data['brunch_time_from'][$key],
                 'time_to' => $data['brunch_time_to'][$key],
             );
-            if ($data['happy_time_from'][0]) {
+            if ($data['happy_time_from'][$key]) {
                 $happy_time_from = true;
             }
             $happy_hour[$key] = array(
@@ -265,7 +265,7 @@ class EventController extends Controller {
                 $operation_hour[$key]['status'] = 0;
             }
 
-            if ($data['brunch_time_from'][0]) {
+            if ($data['brunch_time_from'][$key]) {
                 $brunch_time_from = true;
             }
             $brunch_hour[$key] = array(
@@ -273,7 +273,7 @@ class EventController extends Controller {
                 'time_from' => $data['brunch_time_from'][$key],
                 'time_to' => $data['brunch_time_to'][$key],
             );
-            if ($data['happy_time_from'][0]) {
+            if ($data['happy_time_from'][$key]) {
                 $happy_time_from = true;
             }
             $happy_hour[$key] = array(
