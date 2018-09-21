@@ -334,41 +334,45 @@
                               @endif
                               @endforeach
                               <?php $time_flag = true; ?>
-                              @foreach($happy_hour as $val)
-                              @if($val->time_from && $val->time_to)
-                              @if($time_flag)
-                              <li><strong>Happy hours</strong><span class="fa fa-plus-square hour_collapse"></span>
-                                  <div class="hours_details">
-                                      <?php $time_flag = false; ?>
+                              @if($happy_hour)
+                                @foreach($happy_hour as $val)
+                                  @if($val->time_from && $val->time_to)
+                                      @if($time_flag)
+                                      <li><strong>Happy hours</strong><span class="fa fa-plus-square hour_collapse"></span>
+                                          <div class="hours_details">
+                                              <?php $time_flag = false; ?>
+                                              @endif
+                                              <ul>
+                                                  <li><strong>{{ $val->day }}</strong><span style="float:right">{{ $val->time_from.' - '.$val->time_to }}</span></li>
+                                              </ul>
+                                              <p>{{ $events->happy_hour_note }}</p>
+                                              @if($val === end($happy_hour))      
+                                          </div>
+                                      </li>
                                       @endif
-                                      <ul>
-                                          <li><strong>{{ $val->day }}</strong><span style="float:right">{{ $val->time_from.' - '.$val->time_to }}</span></li>
-                                      </ul>
-                                      <p>{{ $events->happy_hour_note }}</p>
-                                      @if($val === end($happy_hour))      
-                                  </div>
-                              </li>
+                                  @endif
+                                @endforeach
                               @endif
-                              @endif
-                              @endforeach
                               <?php $time_flag = true; ?>
-                              @foreach($brunch_hour as $val)
-                              @if($val->time_from && $val->time_to) 
-                              @if($time_flag)
-                              <li><strong>Brunch hours</strong><span class="fa fa-plus-square hour_collapse"></span>
-                                  <div class="hours_details">
-                                      <?php $time_flag = false; ?>
-                                      @endif
-                                      <ul>
-                                          <li><strong>{{ $val->day }}</strong><span style="float:right">{{ $val->time_from.' - '.$val->time_to }}</span></li>
-                                      </ul>
-                                      <p>{{ $events->brunch_hour_note }}</p>
-                                      @if($val === end($brunch_hour))       
-                                  </div>
-                              </li>
+                              @if($brunch_hour)
+                                @foreach($brunch_hour as $val)
+                                    @if($val->time_from && $val->time_to) 
+                                        @if($time_flag)
+                                        <li><strong>Brunch hours</strong><span class="fa fa-plus-square hour_collapse"></span>
+                                            <div class="hours_details">
+                                                <?php $time_flag = false; ?>
+                                                @endif
+                                                <ul>
+                                                    <li><strong>{{ $val->day }}</strong><span style="float:right">{{ $val->time_from.' - '.$val->time_to }}</span></li>
+                                                </ul>
+                                                <p>{{ $events->brunch_hour_note }}</p>
+                                                @if($val === end($brunch_hour))       
+                                            </div>
+                                        </li>
+                                        @endif
+                                    @endif
+                                @endforeach
                               @endif
-                              @endif
-                              @endforeach
                               @if($events->vegan)
                               <li><strong>Vegan options</strong></li>
                               @endif
