@@ -358,14 +358,18 @@
                             </span>
                             @endif
                         </div>
-                        <?php $event_images = json_decode($events->getOwnerEventImages->event_images); ?>
-                        <div class="form-group col-md-6">
-                            @if(isset($event_images[0]))
-                            <img height="150px" id="blah" style="display:block;" src="{{ URL::asset('/event_images').'/'.$event_images[0] }}">
-                            @else
-                            <img height="150px" id="blah" src="">
-                            @endif
-                        </div>
+                        <?php
+                        if ($events->getOwnerEventImages) {
+                            $event_images = json_decode($events->getOwnerEventImages->event_images);
+                            ?>
+                            <div class="form-group col-md-6">
+                                @if(isset($event_images[0]))
+                                <img height="150px" id="blah" style="display:block;" src="{{ URL::asset('/event_images').'/'.$event_images[0] }}">
+                                @else
+                                <img height="150px" id="blah" src="">
+                                @endif
+                            </div>
+                        <?php } ?>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </form>

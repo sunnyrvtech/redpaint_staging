@@ -107,7 +107,7 @@ class EventController extends Controller {
                 $sub_category = SubCategory::create($sub_data);
             }
             $data['sub_category_id'] = $sub_category->id;
-        }else{
+        } else {
             $data['sub_category_id'] = null;
         }
 
@@ -121,6 +121,8 @@ class EventController extends Controller {
         $brunch_hour = array();
         $happy_hour = array();
         $daily_deal = array();
+        $brunch_time_from = false;
+        $happy_time_from = false;
         foreach ($data['day'] as $key => $val) {
             $operation_hour[$key] = array(
                 'day' => $val,
@@ -136,12 +138,18 @@ class EventController extends Controller {
             } else {
                 $operation_hour[$key]['status'] = 0;
             }
-            
+
+            if ($data['brunch_time_from'][0]) {
+                $brunch_time_from = true;
+            }
             $brunch_hour[$key] = array(
                 'day' => $val,
                 'time_from' => $data['brunch_time_from'][$key],
                 'time_to' => $data['brunch_time_to'][$key],
             );
+            if ($data['happy_time_from'][0]) {
+                $happy_time_from = true;
+            }
             $happy_hour[$key] = array(
                 'day' => $val,
                 'time_from' => $data['happy_time_from'][$key],
@@ -151,13 +159,19 @@ class EventController extends Controller {
         }
 
         $data['operation_hour'] = json_encode($operation_hour);
-        $data['brunch_hour'] = json_encode($brunch_hour);
-        $data['happy_hour'] = json_encode($happy_hour);
+        if ($brunch_time_from)
+            $data['brunch_hour'] = json_encode($brunch_hour);
+        else
+            $data['brunch_hour'] = null;
+        if ($happy_time_from)
+            $data['happy_hour'] = json_encode($happy_hour);
+        else
+            $data['happy_hour'] = null;
         $data['daily_deal'] = json_encode($daily_deal);
         if ($request->get('parking') != null) {
             $data['parking'] = json_encode($data['parking']);
         }
-       
+
         $events = Event::Where(['id' => $id])->first();
 
         if ($events) {
