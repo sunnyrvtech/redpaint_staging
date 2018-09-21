@@ -476,9 +476,9 @@ class EventController extends Controller {
         $happy_keywords = array('happy', 'happy hour');
         $brunch_keywords = array('brunch', 'brunch hour');
         $hour_check = false;
-        if (in_array($keyword, $happy_keywords)) {
+        if (in_array(strtolower($keyword), $happy_keywords)) {
             $hour_check = 'happy_hour';
-        } else if (in_array($keyword, $brunch_keywords)) {
+        } else if (in_array(strtolower($keyword), $brunch_keywords)) {
             $hour_check = 'brunch_hour';
         }
 
