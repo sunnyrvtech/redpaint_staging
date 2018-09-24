@@ -224,6 +224,9 @@ dd($lat_long);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         $response = curl_exec($ch);
+        
+        dd($response);
+        
         curl_close($ch);
         $response_a = json_decode($response);
         if (isset($response_a->results[0]->geometry->location->lat)) {
