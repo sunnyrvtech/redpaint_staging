@@ -112,8 +112,7 @@ class EventController extends Controller {
         }
 
         $lat_long = $this->getLatLong($data['country_id'], $data['state'], $data['city'], $data['address'], $data['zip']);
-        print_r($lat_long);
-        die;
+dd($lat_long);
         $data['formatted_address'] = $data['address'] . ',' . $data['city'] . ',' . $data['state'];
         $data['latitude'] = $lat_long['latitude'];
         $data['longitude'] = $lat_long['longitude'];
@@ -158,12 +157,6 @@ class EventController extends Controller {
             );
             $daily_deal[$val] = $data['deal_name'][$key] != null ? $data['deal_name'][$key] : 'null';
         }
-        
-        echo "<pre>";
-        print_r($lat_long);
-        echo $lat_long['latitude'];
-        print_r($operation_hour);
-        dd($data);
 
         $data['operation_hour'] = json_encode($operation_hour);
         if ($brunch_time_from)
@@ -223,7 +216,7 @@ class EventController extends Controller {
     public function getLatLong($country_id, $state, $city, $address, $zip) {
         $country = Country::where('id', $country_id)->first();
         $address = str_replace(" ", "+", $country->name) . "+" . str_replace(" ", "+", $state) . "+" . str_replace(" ", "+", $city) . "+" . str_replace(" ", "+", $address) . "+" . $zip;
-        $url = "https://maps.google.com/maps/api/geocode/json?address=$address&sensor=false&region=USA";
+        $url = "http://maps.google.com/maps/api/geocode/json?key=AIzaSyDZGTC412EEKYBmKXxH9VFnE97fKNsu0zQ&address=$address&sensor=false&region=USA";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
