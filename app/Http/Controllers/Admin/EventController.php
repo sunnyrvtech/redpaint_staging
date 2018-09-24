@@ -159,6 +159,8 @@ class EventController extends Controller {
         }
         
         echo "<pre>";
+        print_r($lat_long);
+        echo $lat_long['latitude'];
         print_r($operation_hour);
         dd($data);
 
