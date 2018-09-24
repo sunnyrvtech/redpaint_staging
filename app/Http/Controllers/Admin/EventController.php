@@ -112,7 +112,6 @@ class EventController extends Controller {
         }
 
         $lat_long = $this->getLatLong($data['country_id'], $data['state'], $data['city'], $data['address'], $data['zip']);
-dd($lat_long);
         $data['formatted_address'] = $data['address'] . ',' . $data['city'] . ',' . $data['state'];
         $data['latitude'] = $lat_long['latitude'];
         $data['longitude'] = $lat_long['longitude'];
@@ -224,9 +223,6 @@ dd($lat_long);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         $response = curl_exec($ch);
-        
-        dd($response);
-        
         curl_close($ch);
         $response_a = json_decode($response);
         if (isset($response_a->results[0]->geometry->location->lat)) {
