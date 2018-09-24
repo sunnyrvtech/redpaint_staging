@@ -113,6 +113,7 @@ class EventController extends Controller {
 
         $lat_long = $this->getLatLong($data['country_id'], $data['state'], $data['city'], $data['address'], $data['zip']);
         print_r($lat_long);
+        die;
         $data['formatted_address'] = $data['address'] . ',' . $data['city'] . ',' . $data['state'];
         $data['latitude'] = $lat_long['latitude'];
         $data['longitude'] = $lat_long['longitude'];
