@@ -157,6 +157,10 @@ class EventController extends Controller {
             );
             $daily_deal[$val] = $data['deal_name'][$key] != null ? $data['deal_name'][$key] : 'null';
         }
+        
+        echo "<pre>";
+        print_r($operation_hour);
+        dd($data);
 
         $data['operation_hour'] = json_encode($operation_hour);
         if ($brunch_time_from)
