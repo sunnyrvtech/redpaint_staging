@@ -16,14 +16,6 @@ class SocialAuthController extends Controller {
     public function redirect($provider) {
 
         $previous_url = explode("/", parse_url(url()->previous(), PHP_URL_PATH));
-        
-        
-        echo Session::get('backUrl');
-        die;
-        
-        
-        
-        
 
         if (isset($previous_url[4]) && $previous_url[4] == 'business') {
             Session::put('login_type', 2);
@@ -68,7 +60,7 @@ class SocialAuthController extends Controller {
                 'social_type' => $provider,
             ]);
             Auth::login($users);
-            return Redirect::to('/')->with('success-message', 'login successfully !');
+            return Redirect::to(Session::get('backUrl'))->with('success-message', 'login successfully !');
         } else {
             // check user social type
             $user_social_log = DB::table('social_logs')->where('user_id', '=', $users->id)->where('social_type', '=', $provider)->first();
@@ -86,7 +78,7 @@ class SocialAuthController extends Controller {
             $users->user_image = $this->saveSocialImage(file_get_contents($providerUser->avatar_original), $users->id);
             $users->save();
             Auth::login($users);
-            return Redirect::to('/');
+            return Redirect::to(Session::get('backUrl'));
         }
     }
 
