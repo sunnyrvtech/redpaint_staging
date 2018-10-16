@@ -16,6 +16,14 @@ class SocialAuthController extends Controller {
     public function redirect($provider) {
 
         $previous_url = explode("/", parse_url(url()->previous(), PHP_URL_PATH));
+        
+        
+        echo $previous_url;
+        die;
+        
+        
+        
+        
 
         if (isset($previous_url[4]) && $previous_url[4] == 'business') {
             Session::put('login_type', 2);
