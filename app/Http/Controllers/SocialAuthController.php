@@ -18,7 +18,7 @@ class SocialAuthController extends Controller {
         $previous_url = explode("/", parse_url(url()->previous(), PHP_URL_PATH));
         
         
-        echo url()->previous();
+        echo Session::get('backUrl');
         die;
         
         
