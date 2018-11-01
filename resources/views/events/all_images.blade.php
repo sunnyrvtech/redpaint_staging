@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 pull-right">
-                    <a href="jaascript:void(0);" onclick="window.history.back();" class="btn btn-primary" type="button">Back</a>
+                    <a href="jaascript:void(0);" onclick="javascript:history.go(-1);return false;" class="btn btn-primary" type="button">Back</a>
                 </div>
             </div>
             <div class="row">
