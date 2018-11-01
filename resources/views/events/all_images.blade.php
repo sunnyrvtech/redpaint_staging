@@ -1,4 +1,13 @@
 @extends('layouts.app')
+@push('stylesheet')
+<link rel="stylesheet" href="{{ asset('css/jquery.fancybox.min.css') }}" />
+<style>
+    .container { padding-right: 0;padding-left: 0; }
+    .row { margin-right: 0px;margin-left: 0px; }
+    .col-md-3{ padding-right: 0;padding-left: 0; }
+    .thumbnail { margin-bottom: 0; }
+</style>
+@endpush
 @section('content')
 <div class="profile-outer-main">
     <div class="row">
@@ -19,20 +28,13 @@
                     @foreach($events->getEventImages as $key=>$value)
                     <?php $photos = json_decode($value->event_images); ?>
                     @foreach($photos as $val)
-                    <div class="col-md-3">
+                    <div class="@if($i%3 == 0) col-md-3 col-xs-12 col-sm-12 @else col-xs-6 col-sm-6 col-md-3 @endif">
+                        <a href="{{ URL::asset('/event_images').'/'.$val }}" data-fancybox data-caption="<p><span>Uploaded By:-</span> {{ $value->getUserByEventImageUserId->first_name.' '.$value->getUserByEventImageUserId->last_name }}</p>@if($events->user_id == Auth::id())<a data-href={{ route('photo.destroy', $value->event_id) }} data-id='{{ $val }}' data-title='Delete event image' data-msg='Are you sure you want to delete this event image!' data-method='delete' class='label label-danger confirmationStatus' data-toggle='tooltip' title='Delete event image'>Delete</a> @endif">
                         <div class="thumbnail">
-                            <img style="min-height: 248px;max-height: 60px;" src="{{ URL::asset('/event_images').'/'.$val }}">
-                            <div class="caption">
-                                <p><span>Submitted By:-</span> {{ $value->getUserByEventImageUserId->first_name.' '.$value->getUserByEventImageUserId->last_name }}</p>
-                                @if($events->user_id == Auth::id()) 
-                                <a data-href="{{ route('photo.destroy', $value->event_id) }}" data-id="{{ $val }}" data-title="Delete event image" data-msg="Are you sure you want to delete this event image!" data-method="delete" class="label label-danger confirmationStatus" data-toggle="tooltip" title="Delete event image">Delete</a>
-                                @endif
-                            </div>
+                            <img style="height:150px;width:100%;" src="{{ URL::asset('/event_images').'/'.$val }}">
                         </div>
+                    </a>
                     </div>
-                    @if($i%4 == 0)
-                    <div class="clearfix"></div>
-                    @endif
                     <?php $i++; ?>
                     @endforeach
                     @endforeach
@@ -43,6 +45,7 @@
 </div>
 @endsection
 @push('scripts')
+ <script src="{{ asset('js/jquery.fancybox.min.js') }}"></script>
 <script type="text/javascript">
 </script>
 @endpush

@@ -201,6 +201,7 @@
             $(".confirmation-success").attr('data-id', $this.attr('data-id'));
             $(".confirmation-success").attr('data-method', $this.attr('data-method'));
             $(".confirmation-success").attr('data-href', $this.attr('data-href'));
+            $.fancybox.close();
         });
         $(document).on('click', '.confirmation-success', function (e) {
             e.preventDefault(); // does not go through with the link.
