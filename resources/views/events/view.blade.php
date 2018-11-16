@@ -167,12 +167,11 @@
                                                     <a href="#">
                                                         <img src="{{ URL::asset('/event_images').'/'.$val }}">
                                                     </a>
-                                                    @if ($val == end($event_images_array))
+                                                    
                                                     <a class="view-more" href="{{ route('photo.view', $events->event_slug) }}">
                                                         <span><i class="fa fa-th-large" aria-hidden="true"></i></span>
                                                         <p> See all {{ count($event_images_array) }} photos </p>
                                                     </a>
-                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -203,6 +202,12 @@
                 <div>
                     <div class="people-review">
                         @forelse($events->getReviews()->paginate(15) as $value)
+                        <?php
+                        $user_event_images = App\EventImage::getUserEventImages($value->event_id,$value->user_id);
+                        if($user_event_images)
+                            $user_event_images = json_decode($user_event_images->event_images);
+//                        <img src="{{ URL::asset('/event_images').'/'.$val }}">
+                        ?>
                         <div>
                             <div class="review-inner">
                                 <div class="person-detail">
@@ -228,6 +233,20 @@
                                     <div class="">
                                     <span>{{ $value->comment }}</span>
                                     </div>
+                                    
+                                    @if($user_event_images)
+                                    <?php $i = 1; ?>
+                                    @foreach($user_event_images as $user_event_image)
+                                    <div style="padding-right: 0;padding-left: 0;" class="@if($i%3 == 0) col-md-12 col-xs-12 col-sm-12 @else col-xs-6 col-sm-6 col-md-6 @endif">
+                                        <a href="{{ URL::asset('/event_images').'/'.$val }}" class="various32">
+                                            <div style="margin-bottom: 0;" class="thumbnail">
+                                                <img style="height:150px;width:100%;" src="{{ URL::asset('/event_images').'/'.$user_event_image }}">
+                                           </div>
+                                        </a>
+                                    </div>
+                                    <?php $i++; ?>
+                                    @endforeach
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -512,6 +531,17 @@ $(document).ready(function () {
 	'transitionIn'	: 'none',
 	'transitionOut'	: 'none',
 	'type'		: 'iframe',
+        'onStart': function(){
+            $("body").css({'overflow-y':'hidden'});
+            $(window).scrollTop(0);
+        },
+        'onClosed': function(){
+            $("body").css({'overflow-y':'visible'});
+        }
+    });
+    $(".various32").fancybox({
+	'width'		: '100%',
+	'height'	: '100%',
         'onStart': function(){
             $("body").css({'overflow-y':'hidden'});
             $(window).scrollTop(0);
