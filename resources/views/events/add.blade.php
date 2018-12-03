@@ -179,29 +179,31 @@
                     </div>
                     <div class="form-row lock_hour_html">
                         @foreach($time_array as $key=>$val)
-                        <div class="form-group col-md-4">
-                            @if($key == 0)
-                            <label for="day" class="col-form-label">Week Day</label>
-                            @endif
-                            <input type="text" class="form-control" value="{{ $val }}" readonly="">
-                        </div>
-                        <div class="form-group col-md-3">
-                            @if($key == 0)
-                            <label for="time_from" class="col-form-label">Time From</label>
-                            @endif
-                            <input type="text" class="form-control timepicker" required="" value="{{ old('time_from')[$key] }}" name="time_from[]">
-                        </div>
-                        <div class="form-group col-md-3">
-                            @if($key == 0)
-                            <label for="time_to" class="col-form-label">Time To</label>
-                            @endif
-                            <input type="text" class="form-control timepicker" required="" value="{{ old('time_to')[$key] }}" name="time_to[]">
-                        </div>
-                        <div class="form-group col-md-2">
-                            @if($key == 0)
-                            <label for="hour_status" class="col-form-label">Closed</label><br>
-                            @endif
-                            <input type="checkbox" class="form-control" name="status{{ $key }}" value="0">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                @if($key == 0)
+                                <label for="day" class="col-form-label">Week Day</label>
+                                @endif
+                                <input type="text" class="form-control" value="{{ $val }}" readonly="">
+                            </div>
+                            <div class="form-group col-md-3">
+                                @if($key == 0)
+                                <label for="time_from" class="col-form-label">Time From</label>
+                                @endif
+                                <input type="text" class="form-control timepicker" required="" value="{{ old('time_from')[$key] }}" name="time_from[]">
+                            </div>
+                            <div class="form-group col-md-3">
+                                @if($key == 0)
+                                <label for="time_to" class="col-form-label">Time To</label>
+                                @endif
+                                <input type="text" class="form-control timepicker" required="" value="{{ old('time_to')[$key] }}" name="time_to[]">
+                            </div>
+                            <div class="form-group col-md-2">
+                                @if($key == 0)
+                                <label for="hour_status" class="col-form-label">Closed</label><br>
+                                @endif
+                                <input type="checkbox" class="form-control" name="status{{ $key }}" value="0">
+                            </div>
                         </div>
                         @endforeach
                     </div>
@@ -384,6 +386,16 @@ $(document).ready(function () {
 
     $(document).on("click", ".lock_hour_btn", function () {
         $(this).parent().next().toggle();
+    });
+    
+    $(document).on("click","input[type='checkbox']",function(){
+       if($(this).is(':checked')){
+           $(this).parent().parent().find("input[name='time_from[]']").removeAttr('required').val('');
+           $(this).parent().parent().find("input[name='time_to[]']").removeAttr('required').val('');
+       }else{
+           $(this).parent().parent().find("input[name='time_from[]']").attr('required',"");
+           $(this).parent().parent().find("input[name='time_to[]']").attr('required',"");
+       }
     });
 });
 </script>
