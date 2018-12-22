@@ -106,8 +106,10 @@ use RegistersUsers;
         ]);
 
         Mail::send('auth.emails.activated', array('link' => route('account.activate', $code), 'username' => $data['first_name'] . ' ' . $data['last_name']), function($message) use ($data) {
-            $message->from('test4rvtech@gmail.com', " Welcome To Redpaint");
             $message->to($data['email'], $data['first_name'])->subject('Welcome to Redpaint!');
+        });
+        Mail::send('auth.emails.admin_notify.account', array('first_name' => $data['first_name'], 'last_name' => $data['last_name'], 'email' => $data['email']), function($message) {
+            $message->to('sunny_kumar@rvtechnologies.com')->subject('New account has been created');
         });
         return response()->json(['success' => true, 'messages' => "Your account has been created! We have sent you an email to activate your account."]);
     }

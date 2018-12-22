@@ -17,6 +17,7 @@ use Auth;
 use View;
 use DB;
 use Carbon\Carbon;
+use Mail;
 
 class EventController extends Controller {
 
@@ -174,7 +175,11 @@ class EventController extends Controller {
                             ->with('error-message', 'Business not saved, something is wrong please try again later!');
         }
 
+        $business_link = route('events', $event->event_slug);
 
+        Mail::send('auth.emails.admin_notify.business', array('user_name' => Auth::user()->first_name . ' ' . Auth::user()->last_name, 'link' => $business_link), function($message) {
+            $message->to('sunny_kumar@rvtechnologies.com')->subject('New business has been created');
+        });
 
         return redirect()->route('events.index')
                         ->with('success-message', 'Event created successfully!');
