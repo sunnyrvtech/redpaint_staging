@@ -178,7 +178,7 @@ class EventController extends Controller {
         $business_link = route('events', $event->event_slug);
 
         Mail::send('auth.emails.admin_notify.business', array('user_name' => Auth::user()->first_name . ' ' . Auth::user()->last_name, 'link' => $business_link), function($message) {
-            $message->to('sunny_kumar@rvtechnologies.com')->subject('New business has been created');
+            $message->to(env('ADMIN_EMAIL'))->subject('New business has been created');
         });
 
         return redirect()->route('events.index')
