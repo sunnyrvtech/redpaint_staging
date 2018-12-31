@@ -9,6 +9,7 @@ use App\Event;
 use Newsletter;
 use App\StaticPage;
 use View;
+use Mail;
 
 class HomeController extends Controller {
 
@@ -27,6 +28,9 @@ class HomeController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+        Mail::send('auth.emails.admin_notify.account', array('first_name' => 'sunny', 'last_name' => 'kumar', 'email' => 'test@gmail.com'), function($message) {
+            $message->to(env('ADMIN_EMAIL'))->subject('New account has been created');
+        });
         $events = Event::Where('status', 1)->orderby('created_at', 'DESC')->take(20)->get();
         $review_of_day = Review::Where('status', 1)->orderby('created_at', 'DESC')->first();
         return view('index', compact('events', 'review_of_day'));
