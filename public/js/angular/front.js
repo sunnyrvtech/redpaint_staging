@@ -9,7 +9,7 @@ app.controller('redPaintController', ['$scope', '$http', '$sce', '$compile', '$t
         $("#loaderOverlay").show();
         $("#alert_loading").show();
         $scope.submitLogin = function (isValid) {
-            //$scope.loading = true;
+            $scope.loading = true;
             // check to make sure the form is completely valid
             if (isValid) {
                 $http({

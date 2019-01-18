@@ -99,6 +99,7 @@
                                             </div>
                                             <input class="btn btn-lg btn-success btn-block" type="submit" value="Sign Up">
                                         </form>
+                                        @if (!Session::has('claim_business_slug'))
                                         <fieldset class="hr-line">
                                             <legend align="center">OR</legend>
                                         </fieldset>
@@ -109,6 +110,7 @@
                                             <a href="{{ route('register')}}" class="btn btn-lg btn-default btn-block">Continue as a normal user</a>
                                             @endif
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

@@ -24,7 +24,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="sidebar-map-wrap">
-                            <h3>{{ ucfirst($events->name) }}</h3>
+                            <h3>{{ ucfirst($events->name) }} @if($check_claim_request) <span id="claim_pophover"><i class="fa fa-question-circle"></i><a href="javascript:void(0);">Unclaimed</a></span> @endif</h3>
                             <div class="biz-main-info">
                                 <div class="mapbox-container">
                                     <div class="row text-center">
@@ -294,6 +294,13 @@
                 </div>
             </div>
             <div class="col-md-4 col-sm-5 col-xs-12">
+                @if($check_claim_request)
+                <div class="mapbox-container text-center">
+                    <div class="claim_area">
+                        <strong>Work here? <a class="claim_business" href="javascript:void(0);">Claim this business</a></strong>
+                    </div>
+                </div>
+                @endif
                     <?php
                     $time_array = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
                     $operation_hour = json_decode($events->operation_hour);
@@ -438,6 +445,29 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="claimModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Create a free business user account for <strong>{{ ucfirst($events->name) }}</strong></h4>
+            </div>
+            <div class="modal-body">
+                <form id="claimForm" method="POST" action="{{ route('claim-business') }}">
+                    {{ csrf_field() }}
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" required="" class="form-control" name="email" value="@if(Auth::check()) {{ Auth::user()->email }} @endif" placeholder="Enter email">
+                        <input type="hidden" name="business_slug" value="{{ $events->event_slug }}">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @push('scripts')
 <script src="{{ URL::asset('/slick/slick.js') }}"></script>
@@ -446,19 +476,32 @@ async defer></script>
 <script type="text/javascript" src="{{ URL::asset('/fancybox/jquery.fancybox-1.3.4.js') }}"></script>
 <script type="text/javascript">
 $(document).ready(function () {
-    
+    $("#claim_pophover").popover({
+        html: true,
+        trigger: 'hover',
+        container: '#claim_pophover',
+        placement: 'bottom',
+        content: function () {
+            return '<div class="box"><p><strong>This business has not yet been claimed by the owner or a representative.</strong></p><p class="u-space-b0"><a href="#" class="claim_business">Claim this business</a> to view business statistics, receive messages from prospective customers, and respond to reviews.</p></div>';
+        }
+    }); 
+    $(document).on("click",".claim_business",function(){
+        @if(!Auth::check())
+            $("#claimModal").modal('show');
+        @else
+            $("#loaderOverlay").removeClass("ng-hide");
+            document.getElementById("claimForm").submit();
+        @endif
+    });
     $(document).on("click",".biz-main-info span.btn.set",function(){
        $(this).toggleClass('open'); 
     });
-    
     if($("ul.amenities-list").has("li").length == 0){
         $("ul.amenities-list").parent().remove();
     }
-    
     if($(window).width() <  900){
         $('.js-photo ').removeClass('photo2');
     }
-    
     $(".review-btn").click(function () {
         $('#review-text').focus();
         $('html, body').animate({
@@ -523,7 +566,6 @@ $(document).ready(function () {
         slidesToShow: 1,
         slidesToScroll: 1
     });
-    
     $("#various3").fancybox({
 	'width'		: '100%',
 	'height'	: '100%',

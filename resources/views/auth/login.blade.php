@@ -66,6 +66,7 @@
                                         <div class="sub-text-box">
                                             <small class="subtle-text">New to Redpaint? <a class="signup-link" href="{{ route('register')}}">Sign up</a></small>
                                         </div><br>
+                                        @if (!Session::has('claim_business_slug'))
                                         <fieldset class="hr-line">
                                             <legend align="center">OR</legend>
                                         </fieldset>
@@ -76,6 +77,7 @@
                                             <a href="{{ route('login')}}" class="btn btn-lg btn-default btn-block">Continue as a normal user</a>
                                             @endif
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

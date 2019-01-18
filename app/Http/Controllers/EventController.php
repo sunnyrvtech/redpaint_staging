@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Category;
 use App\SubCategory;
+use App\User;
 use App\Event;
 use App\Ad;
 use App\Review;
 use App\EventLike;
 use App\Country;
 use App\EventImage;
+use App\ClaimBusiness;
 use Image;
 use App\Http\Controllers\Admin\SubCategoryController;
 use Auth;
@@ -18,6 +20,7 @@ use View;
 use DB;
 use Carbon\Carbon;
 use Mail;
+use Session;
 
 class EventController extends Controller {
 
@@ -182,7 +185,7 @@ class EventController extends Controller {
         });
 
         return redirect()->route('events.index')
-                        ->with('success-message', 'Event created successfully!');
+                        ->with('success-message', 'Business created successfully!');
     }
 
     /**
@@ -325,7 +328,7 @@ class EventController extends Controller {
             }
             $events->fill($data)->save();
             return redirect()->route('events.index')
-                            ->with('success-message', 'Event updated successfully!');
+                            ->with('success-message', 'Business updated successfully!');
         }
         return redirect()->route('events.index')
                         ->with('error-message', 'Something went wrong .Please try again later!');
@@ -367,14 +370,20 @@ class EventController extends Controller {
      */
     public function getEventByslug(Request $request, $slug) {
         $data['events'] = Event::Where('event_slug', $slug)->first();
-        $data['event_by_cat'] = Event::Where(['status' => 1, 'category_id' => $data['events']->category_id])->Where('id', '!=', $data['events']->id)->orderby('created_at', 'DESC')->take(5)->get();
-        $data['ads'] = Ad::get();
-        $data['checkUserReviewStatus'] = 0; //set as false
         if ($data['events']) {
-            $checkUserReviewStatus = Review::Where(['user_id' => Auth::id(), 'event_id' => $data['events']->id])->first(array('status'));
+            $data['event_by_cat'] = Event::Where(['status' => 1, 'category_id' => $data['events']->category_id])->Where('id', '!=', $data['events']->id)->orderby('created_at', 'DESC')->take(5)->get();
+            $data['ads'] = Ad::get();
+            $data['checkUserReviewStatus'] = Review::Where(['user_id' => Auth::id(), 'event_id' => $data['events']->id])->first(array('status'));
+            $data['check_count'] = EventLike::Where([['user_id', '=', Auth::id()], ['event_id', '=', $data['events']->id]])->count();
+            $claim_business = ClaimBusiness::Where([['user_id', '=', Auth::id()], ['event_id', '=', $data['events']->id]])->count();
+            $data['check_claim_request'] = false;
+            if ($data['events']->getUserDetails->role_id == 1 && !$claim_business) {
+                $data['check_claim_request'] = true;
+            }
+            $view = View::make('events.view', $data);
+        } else {
+            $view = View::make('errors.404');
         }
-        $data['check_count'] = EventLike::Where([['user_id', '=', Auth::id()], ['event_id', '=', $data['events']->id]])->count();
-        $view = View::make('events.view', $data);
         return $view;
     }
 
@@ -596,6 +605,60 @@ class EventController extends Controller {
         } else {
             return array();
         }
+    }
+
+    /**
+     * function to check email for claim business.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function CheckEmailForclaimBusiness(Request $request) {
+        if (!Auth::check()) {
+            Session::put('claim_business_slug', $request->get('business_slug'));
+            if (User::where('email', '=', $request->get('email'))->first()) {
+                return redirect()->route('login-claim');
+            } else {
+                return redirect()->route('register-claim');
+            }
+        }
+
+        if ($this->claimBusiness($request->get('business_slug'),Auth::user())) {
+            return redirect()->back()
+                            ->with('success-message', 'Claim request has been sent to administartor!');
+        }
+        return redirect()->back()
+                        ->with('error-message', 'Something went wrong .Please try again later!');
+    }
+
+    /**
+     * function to claim business.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function claimBusiness($business_slug, $user) {
+        $event = Event::whereHas('getUserDetails', function($query) {
+                    $query->where('role_id', '=', 1);
+                })->where('event_slug', '=', $business_slug)->first();
+        Session::forget('claim_business_slug');
+        if ($event) {
+            if (!ClaimBusiness::Where(['event_id' => $event->id, 'user_id' => $user->id])->first())
+                ClaimBusiness::create(array('event_id' => $event->id, 'user_id' => $user->id));
+
+            $mail_array = array(
+                'event_name' => $event->name,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'email' => $user->email
+            );
+
+            Mail::send('auth.emails.admin_notify.claim', $mail_array, function($message) use ($mail_array) {
+                $message->to(env('ADMIN_EMAIL'))->subject('New claim request has been placed for this event ' . $mail_array['event_name']);
+            });
+            return true;
+        }
+        return false;
     }
 
     public function createSlug($title) {

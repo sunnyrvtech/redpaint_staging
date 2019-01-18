@@ -23,6 +23,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'IsAdmin'], function () {
     Route::resource('subcategories', 'Admin\SubCategoryController');
     Route::get('subcategories/show/{id}', 'Admin\SubCategoryController@showSubCategory')->name('subcategories-show');
     Route::resource('business', 'Admin\EventController');
+    Route::get('claim/business', 'Admin\ClaimBusinessController@index')->name('claim.business');
+    Route::get('claim/{id}', 'Admin\ClaimBusinessController@claimApproved')->name('claim.approve');
     Route::get('business/images/{id}', 'Admin\EventController@getEventImages')->name('business-images');
     Route::post('business/status', 'Admin\EventController@eventStatus')->name('business-status');
     Route::post('business/image/delete/{id}', 'Admin\EventController@deleteEventImage')->name('business.image.delete');
@@ -39,6 +41,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'IsAdmin'], function () {
 //Auth::routes();
 //Auth routes start here
 Route::get('login', 'Auth\LoginController@index')->name('login');
+Route::get('login/claim', 'Auth\LoginController@index')->name('login-claim');
 Route::get('login/business', 'Auth\LoginController@index')->name('business.login');
 Route::get('password/email', 'Auth\ForgotPasswordController@index')->name('password.email');
 Route::post('password/email', 'Auth\ForgotPasswordController@getEmail');
@@ -47,9 +50,11 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::post('login', 'Auth\LoginController@login');
 Route::get('ads', 'AdController@getAllAds')->name('ads');
 Route::get('register', 'Auth\RegisterController@index')->name('register');
+Route::get('register/claim', 'Auth\RegisterController@index')->name('register-claim');
 Route::get('register/business', 'Auth\RegisterController@index')->name('business.register');
 Route::get('business/upgrade', 'AccountController@upgradeBusinessProfile')->name('business.upgrade');
 Route::post('register', 'Auth\RegisterController@create');
+Route::post('business/claim', 'EventController@CheckEmailForclaimBusiness')->name('claim-business');
 Route::get('search', 'EventController@searchEvent')->name('search');
 Route::post('user_location', 'HomeController@saveUserLocation')->name('user_location');
 Route::get('logout', 'Auth\LoginController@logout');

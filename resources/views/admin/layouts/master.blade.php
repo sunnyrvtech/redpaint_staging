@@ -85,6 +85,9 @@
                         <li class="@if(Request::segment(2) == 'business')active @endif">
                             <a href="{{ route('business.index')}}"><i class="fa fa-fw fa-building-o"></i>Business Event</a>
                         </li>
+                        <li class="@if(Request::segment(2) == 'claim')active @endif">
+                            <a href="{{ route('claim.business')}}"><i class="fa fa-fw fa-building-o"></i>Claim Business Request</a>
+                        </li>
                         <li class="@if(Request::segment(2) == 'reviews')active @endif">
                             <a href="{{ route('reviews.index')}}"><i class="fa fa-fw fa-star"></i>Recent Recommendation</a>
                         </li>

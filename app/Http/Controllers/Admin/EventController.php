@@ -11,6 +11,8 @@ use App\EventImage;
 use App\Category;
 use App\SubCategory;
 use App\Country;
+use Image;
+use Auth;
 use Session;
 use Redirect;
 use Carbon\Carbon;
@@ -50,18 +52,137 @@ class EventController extends Controller {
      *
      * @return Response
      */
-//    public function create() {
-//        
-//    }
+    public function create() {
+        $title = 'Events | create';
+        $categories = Category::Where('status', 1)->get();
+        $countries = Country::get();
+        return View::make('admin.events.add', compact('title','categories', 'countries'));
+    }
 
     /**
      * Store a newly created resource in storage.
      *
      * @return Response
      */
-//    public function store(Request $request) {
-//
-//    }
+    public function store(Request $request, SubCategoryController $sub_cat_controller) {
+        $data = $request->all();
+        $this->validate($request, [
+            'name' => 'required|max:100',
+            'category_id' => 'required',
+            'address' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zip' => 'required',
+            'country_id' => 'required',
+            'price_to' => 'required|numeric',
+            'price_from' => 'required|numeric',
+            'event_image' => 'required|image|mimes:jpeg,png,jpg'
+        ]);
+        if ($request->get('sub_category') != null) {
+            if (!$sub_category = SubCategory::Where('name', 'like', trim($request->get('sub_category')))->first()) {
+                $data['slug'] = $sub_cat_controller->createSlug($data['sub_category']);
+                $sub_data = $data;
+                $sub_data['name'] = $sub_data['sub_category'];
+                $sub_category = SubCategory::create($sub_data);
+            }
+            $data['sub_category_id'] = $sub_category->id;
+        } else {
+            $data['sub_category_id'] = null;
+        }
+        $lat_long = $this->getLatLong($data['country_id'], $data['state'], $data['city'], $data['address'], $data['zip']);
+
+        $data['formatted_address'] = $data['address'] . ',' . $data['city'] . ',' . $data['state'];
+        $data['latitude'] = $lat_long['latitude'];
+        $data['longitude'] = $lat_long['longitude'];
+
+        $operation_hour = array();
+        $brunch_hour = array();
+        $happy_hour = array();
+        $daily_deal = array();
+        $brunch_time_from = false;
+        $happy_time_from = false;
+        foreach ($data['day'] as $key => $val) {
+            $operation_hour[$key] = array(
+                'day' => $val,
+                'time_from' => $data['time_from'][$key],
+                'time_to' => $data['time_to'][$key]
+            );
+            if (isset($data['status' . $key])) {
+                $operation_hour[$key]['time_from'] = null;
+                $operation_hour[$key]['time_to'] = null;
+            }
+            if (!empty($operation_hour[$key]['time_from']) && !empty($operation_hour[$key]['time_to'])) {
+                $operation_hour[$key]['status'] = 1;
+            } else {
+                $operation_hour[$key]['status'] = 0;
+            }
+            if ($data['brunch_time_from'][$key]) {
+                $brunch_time_from = true;
+            }
+            $brunch_hour[$key] = array(
+                'day' => $val,
+                'time_from' => $data['brunch_time_from'][$key],
+                'time_to' => $data['brunch_time_to'][$key],
+            );
+            if ($data['happy_time_from'][$key]) {
+                $happy_time_from = true;
+            }
+            $happy_hour[$key] = array(
+                'day' => $val,
+                'time_from' => $data['happy_time_from'][$key],
+                'time_to' => $data['happy_time_to'][$key],
+            );
+            $daily_deal[$val] = $data['deal_name'][$key] != null ? $data['deal_name'][$key] : 'null';
+        }
+
+        $data['operation_hour'] = json_encode($operation_hour);
+        if ($brunch_time_from)
+            $data['brunch_hour'] = json_encode($brunch_hour);
+        else
+            $data['brunch_hour'] = null;
+        if ($happy_time_from)
+            $data['happy_hour'] = json_encode($happy_hour);
+        else
+            $data['happy_hour'] = null;
+        $data['daily_deal'] = json_encode($daily_deal);
+        if ($request->get('parking') != null) {
+            $data['parking'] = json_encode($data['parking']);
+        }
+
+        $data['user_id'] = Auth::id();
+        $data['event_slug'] = $this->createSlug($data['name']);
+
+        $filename = null;
+        if ($request->file('event_image')) {
+            if ($request->hasFile('event_image')) {
+                $image = $request->file('event_image');
+                $path = base_path('public/event_images/');
+                $type = $image->getClientMimeType();
+                if ($type == 'image/png' || $type == 'image/jpg' || $type == 'image/jpeg') {
+                    $filename = str_random(15) . '.' . $image->getClientOriginalExtension();
+                    $image = Image::make($image)->orientate();
+                    $image->save($path . '/' . $filename);
+                }
+            }
+        }
+
+        if ($filename != null && $event = Event::create($data)) {
+            $event_images = EventImage::Where(['event_id' => $event->id, 'user_id' => Auth::id()])->first();
+            if ($event_images) {
+                $event_images->fill(array('event_images' => json_encode(array($filename))))->save();
+            } else {
+                $data['event_id'] = $event->id;
+                $data['event_images'] = json_encode(array($filename));
+                EventImage::create($data);
+            }
+        } else {
+            return redirect()->back()
+                            ->with('error-message', 'Business not saved, something is wrong please try again later!');
+        }
+
+        return redirect()->route('events.index')
+                        ->with('success-message', 'Business created successfully!');
+    }
 
     /**
      * show function.
@@ -174,9 +295,25 @@ class EventController extends Controller {
         $events = Event::Where(['id' => $id])->first();
 
         if ($events) {
+            if ($request->file('event_image')) {
+                if ($request->hasFile('event_image')) {
+                    $image = $request->file('event_image');
+                    $path = base_path('public/event_images/');
+                    $type = $image->getClientMimeType();
+                    if ($type == 'image/png' || $type == 'image/jpg' || $type == 'image/jpeg') {
+                        $filename = str_random(15) . '.' . $image->getClientOriginalExtension();
+                        $image = Image::make($image)->orientate();
+                        $image->save($path . '/' . $filename);
+                    }
+                }
+
+                $event_images = EventImage::Where(['event_id' => $events->id, 'user_id' => Auth::id()])->first();
+                $eventimageArray = array_merge(array($filename), json_decode($event_images->event_images));
+                $event_images->fill(array('event_images' => json_encode($eventimageArray)))->save();
+            }
             $events->fill($data)->save();
             return redirect()->route('business.index')
-                            ->with('success-message', 'Event updated successfully!');
+                            ->with('success-message', 'Business updated successfully!');
         }
         return redirect()->route('business.index')
                         ->with('error-message', 'Something went wrong .Please try again later!');

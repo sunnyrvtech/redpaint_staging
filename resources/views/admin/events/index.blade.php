@@ -5,6 +5,7 @@
     <div class="row form-group">
         <div class="col-md-12">
             <div class="col-md-4">
+                <a href="{{ route('business.create') }}" class="btn btn-primary">Add New</a>
             </div>
             <!--            <div class="col-md-8">
                             <div class="text-right">

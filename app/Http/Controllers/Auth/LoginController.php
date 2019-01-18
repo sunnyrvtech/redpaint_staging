@@ -74,8 +74,15 @@ use AuthenticatesUsers;
                 Auth::logout();
                 return response()->json(['error' => "You are trying to login as a business user ,please try to login in the normal user screen !."], 401);
             }
-            
-            return response()->json(['intended' => Session::get('backUrl')]);
+            $back_url = Session::get('backUrl');
+            if (Session::has('claim_business_slug')) {
+                $business_slug = Session::get('claim_business_slug');
+                if (app('App\Http\Controllers\EventController')->claimBusiness($business_slug, Auth::user())) {
+                    $back_url = route('events', $business_slug);
+                    Session::flash('success-message', 'Claim request has been sent to administartor!');
+                }
+            }
+            return response()->json(['intended' => $back_url]);
         }
     }
 

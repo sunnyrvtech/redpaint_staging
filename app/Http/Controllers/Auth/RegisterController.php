@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Mail;
 use View;
+use Session;
 
 class RegisterController extends Controller {
     /*
@@ -96,7 +97,7 @@ use RegistersUsers;
             $role_id = 3;
         }
 
-        User::create([
+        $user = User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
@@ -111,7 +112,14 @@ use RegistersUsers;
         Mail::send('auth.emails.admin_notify.account', array('first_name' => $data['first_name'], 'last_name' => $data['last_name'], 'email' => $data['email']), function($message) {
             $message->to(env('ADMIN_EMAIL'))->subject('New account has been created');
         });
-        return response()->json(['success' => true, 'messages' => "Your account has been created! We have sent you an email to activate your account."]);
+
+        $message = "Your account has been created! We have sent you an email to activate your account.";
+        if (Session::has('claim_business_slug')) {
+            if (app('App\Http\Controllers\EventController')->claimBusiness(Session::get('claim_business_slug'),$user)) {
+                $message = "Your account has been created! We have sent you an email to activate your account and Claim request has been sent to administrator!";
+            }
+        }
+        return response()->json(['success' => true, 'messages' => $message]);
     }
 
 }

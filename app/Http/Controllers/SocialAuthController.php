@@ -59,8 +59,6 @@ class SocialAuthController extends Controller {
                 'social_id' => $providerUser->id,
                 'social_type' => $provider,
             ]);
-            Auth::login($users);
-            return Redirect::to(Session::get('backUrl'))->with('success-message', 'login successfully !');
         } else {
             // check user social type
             $user_social_log = DB::table('social_logs')->where('user_id', '=', $users->id)->where('social_type', '=', $provider)->first();
@@ -77,9 +75,17 @@ class SocialAuthController extends Controller {
             //$users->remember_token = $providerUser->token;
             $users->user_image = $this->saveSocialImage(file_get_contents($providerUser->avatar_original), $users->id);
             $users->save();
-            Auth::login($users);
-            return Redirect::to(Session::get('backUrl'));
         }
+        Auth::login($users);
+        $back_url = Session::get('backUrl');
+        if (Session::has('claim_business_slug')) {
+            $business_slug = Session::get('claim_business_slug');
+            if (app('App\Http\Controllers\EventController')->claimBusiness($business_slug, $users)) {
+                $back_url = route('events', $business_slug);
+                Session::flash('success-message', 'Claim request has been sent to administartor!');
+            }
+        }
+        return Redirect::to($back_url);
     }
 
     public function saveSocialImage($image_url, $id) {

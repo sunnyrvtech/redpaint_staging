@@ -719,7 +719,7 @@ fieldset[disabled] .btn-google-plus.active{background-color:#dd4b39;border-color
     border-radius: 5px;
     width: 100%;
 }
-.profile-outer-main button.btn.btn-primary,.profile-outer-main a.btn.btn-primary { background-color: rgb(208, 38, 0);border: medium none rgb(208, 38, 0);font-weight: bold;min-width: 150px;padding: 10px; }
+.profile-outer-main button.btn.btn-primary,.profile-outer-main a.btn.btn-primary,#claimModal .btn.btn-primary { background-color: rgb(208, 38, 0);border: medium none rgb(208, 38, 0);font-weight: bold;min-width: 150px;padding: 10px; }
 .profile-outer-main button.btn.btn-default,.profile-outer-main a.btn.btn-primary { font-weight: bold;min-width: 150px;padding: 10px; }
 .profile-outer-main { margin: 50px 0; }
 .profile-outer-main .radio-btn .form-check-label input { width: auto; }
@@ -1142,6 +1142,15 @@ div#maximage{ width: 100% !important;}
 .biz-main-info span.btn.set.open .dropdown-menu { min-width: 94px;padding: 0px; }
 .biz-main-info span.btn a { color: inherit; }
 .biz-main-info .mapbox-container span.like-count { font-size: 25px; }
+span#claim_pophover { font-size: 17px;color: #337ab7; }
+span#claim_pophover:hover { text-decoration: underline; }
+span#claim_pophover .popover-content { color: #333; }
+.claim_area::before { content: "\f058";font-family: FontAwesome;font-size: 18px; }
+#claimModal{
+    height: 400px;
+    top: calc(50% - 200px) !important;
+}
+
 /*media query css*/
 @media(max-width:1024px){
     .row{ margin-left: 0px; margin-right: 0px; }
