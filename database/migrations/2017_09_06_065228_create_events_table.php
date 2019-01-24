@@ -17,7 +17,7 @@ class CreateEventsTable extends Migration {
             $table->integer('user_id');
             $table->string('event_slug');
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('address');
             $table->string('phone_number')->nullable();
             $table->string('city');
