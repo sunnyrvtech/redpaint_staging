@@ -176,11 +176,11 @@ class EventController extends Controller {
                 EventImage::create($data);
             }
         } else {
-            return redirect()->back()
+            return redirect()->route('business.index')
                             ->with('error-message', 'Business not saved, something is wrong please try again later!');
         }
 
-        return redirect()->route('events.index')
+        return redirect()->route('business.index')
                         ->with('success-message', 'Business created successfully!');
     }
 
