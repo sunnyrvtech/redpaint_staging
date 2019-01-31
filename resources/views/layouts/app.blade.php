@@ -23,20 +23,18 @@
     <!-- Main style css -->
     <link rel="stylesheet" href="{{ URL::asset('css/style.css') }}">
     @stack('stylesheet')
-    <!-- Google Analytics -->
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script>
-            var google_analytic_id = "{{ env('GOOGLE_ANALYTIC_ID') }}";
-        </script>
-        <script async src="https://www.googletagmanager.com/gtag/js?id="+google_analytic_id></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments); }
-            gtag('js', new Date());
-            gtag('config', google_analytic_id);
-        </script>
-        <!-- End Google Analytics -->
+    
+    @if(env('APP_ENV') == 'production')
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131035815-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
+      gtag('config', 'UA-131035815-1');
+    </script>
+    @endif
 </head>
 <body ng-app="redPaintApp" ng-controller="redPaintController">
     <div id="loaderOverlay" ng-show="loading">
