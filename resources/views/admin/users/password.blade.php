@@ -5,7 +5,7 @@
     <div class="row form-group">
         <div class="col-lg-12">
             <h1 class="page-header">
-                Add New User
+                Password Change
             </h1>
         </div>
     </div>
