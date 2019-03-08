@@ -29,10 +29,26 @@
                             <p><b>Phone No:-</b>{{ $events->phone_number }}</p>
                             @endif
                             @if($events->website_url)
-                            <p><b>Web Address:-</b><a target="_blank" href="{{ $events->website_url }}">{{ $events->website_url }}</a></p>
+                            <?php
+                            $web_parsed = parse_url($events->website_url);
+                            if (empty($web_parsed['scheme'])) {
+                                $web_url = 'http://' . $events->website_url;
+                              }else{
+                                $web_url = $events->website_url;
+                              }
+                            ?>
+                            <p><b>Web Address:-</b><a target="_blank" href="{{ $web_url }}">{{ $web_url }}</a></p>
                             @endif
                             @if($events->menu_address)
-                            <p><b>Menu Address:-</b><a target="_blank" href="{{ $events->menu_address }}">{{ $events->menu_address }}</a></p>
+                            <?php
+                            $menu_parsed = parse_url($events->menu_address);
+                            if (empty($menu_parsed['scheme'])) {
+                                $menu_url = 'http://' . $events->menu_address;
+                              }else{
+                                $menu_url = $events->menu_address;
+                              }
+                            ?>
+                            <p><b>Menu Address:-</b><a target="_blank" href="{{ $menu_url }}">{{ $menu_url }}</a></p>
                             @endif
                             <div class="biz-main-info">
                                 <div class="mapbox-container">
