@@ -5,7 +5,7 @@
 <div class="Browse-Category">
     <div class="container">
         <div class="heading"><h2>Browse Businesses by Category</h2></div>
-        <p>A new better way to search for local food.</p>
+        <p>A better way to search for local food.</p>
 
         <ul class="Category_listing">
           <li><a href="{{ route('search') }}?keyword={{ urlencode('daily deals') }}"><span>Daily Deals</span></a></li>
