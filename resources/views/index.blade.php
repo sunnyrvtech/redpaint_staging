@@ -9,8 +9,8 @@
 
         <ul class="Category_listing">
           <li><a href="{{ route('search') }}?keyword={{ urlencode('daily deals') }}"><span>Daily Deals</span></a></li>
-          <li><a href="{{ route('search') }}?keyword={{ urlencode('happy') }}"><span>Happy Hours</span></a></li>
-          <li><a href="{{ route('search') }}?keyword={{ urlencode('brunch') }}"><span>Brunch Hours</span></a></li>
+          <li><a href="{{ route('search') }}?keyword={{ urlencode('happy') }}"><span>Happy Hour</span></a></li>
+          <li><a href="{{ route('search') }}?keyword={{ urlencode('brunch') }}"><span>Brunch</span></a></li>
           <li><a href="{{ route('search') }}"><span>All</span></a></li>
             <!--<li class="show_more_cat"><a href="javascript:void(0);"><div class="three_dots"><i class="fa fa-circle" aria-hidden="true"></i><i class="fa fa-circle" aria-hidden="true"></i><i class="fa fa-circle" aria-hidden="true"></i></div> <span>More Categories</span></a></li>-->
         </ul>
