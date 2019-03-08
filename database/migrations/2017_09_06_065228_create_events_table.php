@@ -38,6 +38,7 @@ class CreateEventsTable extends Migration {
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->string('website_url')->nullable();
+            $table->string('menu_address')->nullable();
             $table->decimal('price_to', 10, 2)->nullable();
             $table->decimal('price_from', 10, 2)->nullable();
             $table->integer('category_id');

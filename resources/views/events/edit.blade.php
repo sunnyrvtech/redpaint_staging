@@ -6,7 +6,7 @@
 <div class="profile-outer-main">
     <div class="row">
         <div class="col-sm-3">
-            @include('accounts.sidebar') 
+            @include('accounts.sidebar')
         </div>
         <div class="col-sm-9">
             <div class="content-header">
@@ -117,6 +117,15 @@
                         </span>
                         @endif
                     </div>
+                    <div class="form-group {{ $errors->has('menu_address') ? ' has-error' : '' }}">
+                        <label for="menu_address" class="col-form-label">Menu Address</label>
+                        <input type="text" class="form-control" name="menu_address" value="{{ $events->menu_address }}" placeholder="Menu Address">
+                        @if ($errors->has('menu_address'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('menu_address') }}</strong>
+                        </span>
+                        @endif
+                    </div>
                     <div class="form-row">
                         <div class="form-group col-md-6{{ $errors->has('category_id') ? ' has-error' : '' }}">
                             <label for="category_id" class="col-form-label">Category</label>
@@ -182,7 +191,7 @@
                         <label>Operating hours </label>
                     </div>
                     <div class="lock_hour_html">
-                        <div class="form-row">
+                        <div class="form-group">
                             @foreach($time_array as $key=>$val)
                             <div class="row">
                                 <div class="form-group col-md-4">
@@ -335,7 +344,7 @@
                         </label>
                     </div>
                     <div class="form-group">
-                        <label for="parking" class="col-form-label">Parking</label> 
+                        <label for="parking" class="col-form-label">Parking</label>
                         <?php $parking = json_decode($events->parking); ?>
                         <label class="checkbox-inline">
                             <input type="checkbox" name="parking[]" @if(!empty($parking) && in_array('street',$parking)) checked @endif value="street"><span>Street</span>
@@ -396,11 +405,11 @@ $(document).ready(function () {
         $url = $url + '?id=' + $id;
         $("input[name='sub_category']").attr('data-url', $url);
     });
-    
+
     $(document).on("click", ".lock_hour_btn", function () {
         $(this).parent().next().toggle();
     });
-    
+
     $(document).on("click","input[type='checkbox']",function(){
        if($(this).is(':checked')){
            $(this).parent().parent().find("input[name='time_from[]']").removeAttr('required').val('');

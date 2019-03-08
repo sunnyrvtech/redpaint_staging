@@ -6,7 +6,7 @@
 <div class="profile-outer-main">
     <div class="row">
         <div class="col-sm-3">
-            @include('accounts.sidebar') 
+            @include('accounts.sidebar')
         </div>
         <div class="col-sm-9">
             <div class="content-header">
@@ -116,6 +116,15 @@
                         </span>
                         @endif
                     </div>
+                    <div class="form-group{{ $errors->has('menu_address') ? ' has-error' : '' }}">
+                        <label for="menu_address" class="col-form-label">Menu Address</label>
+                        <input type="text" class="form-control" name="menu_address" value="{{ old('menu_address') }}" placeholder="Menu Address">
+                        @if ($errors->has('menu_address'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('menu_address') }}</strong>
+                        </span>
+                        @endif
+                    </div>
                     <div class="form-row">
                         <div class="form-group col-md-6{{ $errors->has('category_id') ? ' has-error' : '' }}">
                             <label for="category_id" class="col-form-label">Category</label>
@@ -172,12 +181,13 @@
                     </div>
                     <?php
                     $time_array = array('Mon', "Tue", 'Wed', 'Thu', 'Fri', 'Sat', 'Sun')
-                            
+
                     ?>
                     <div class="form-group">
                         <label>Operating hours </label>
                     </div>
-                    <div class="form-row lock_hour_html">
+                    <div class="lock_hour_html">
+                      <div class="form-group">
                         @foreach($time_array as $key=>$val)
                         <div class="row">
                             <div class="form-group col-md-4">
@@ -206,6 +216,7 @@
                             </div>
                         </div>
                         @endforeach
+                      </div>
                     </div>
                     <div class="form-group">
                         <label for="daily_deals" class="col-form-label">Daily Deals </label><a class="btn lock_hour_btn">Click Here</a>
@@ -328,7 +339,7 @@
                         </label>
                     </div>
                     <div class="form-group">
-                        <label for="parking" class="col-form-label">Parking</label> 
+                        <label for="parking" class="col-form-label">Parking</label>
                         <label class="checkbox-inline">
                             <input type="checkbox" name="parking[]" value="street"><span>Street</span>
                         </label>
@@ -387,7 +398,7 @@ $(document).ready(function () {
     $(document).on("click", ".lock_hour_btn", function () {
         $(this).parent().next().toggle();
     });
-    
+
     $(document).on("click","input[type='checkbox']",function(){
        if($(this).is(':checked')){
            $(this).parent().parent().find("input[name='time_from[]']").removeAttr('required').val('');
@@ -400,6 +411,3 @@ $(document).ready(function () {
 });
 </script>
 @endpush
-
-
-

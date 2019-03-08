@@ -109,6 +109,15 @@
                     </span>
                     @endif
                 </div>
+                <div class="form-group{{ $errors->has('menu_address') ? ' has-error' : '' }}">
+                    <label for="menu_address" class="col-form-label">Menu Address</label>
+                    <input type="text" class="form-control" name="menu_address" value="{{ old('menu_address') }}" placeholder="Menu Address">
+                    @if ($errors->has('menu_address'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('menu_address') }}</strong>
+                    </span>
+                    @endif
+                </div>
                 <div class="row">
                     <div class="form-group col-md-6{{ $errors->has('category_id') ? ' has-error' : '' }}">
                         <label for="category_id" class="col-form-label">Category</label>
@@ -322,7 +331,7 @@
                     </label>
                 </div>
                 <div class="form-group">
-                    <label for="parking" class="col-form-label">Parking</label> 
+                    <label for="parking" class="col-form-label">Parking</label>
                     <label class="checkbox-inline">
                         <input type="checkbox" name="parking[]" value="street"><span>Street</span>
                     </label>

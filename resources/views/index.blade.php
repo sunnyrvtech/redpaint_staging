@@ -8,11 +8,10 @@
         <p>A new better way to search for local food.</p>
 
         <ul class="Category_listing">
-            @foreach($categories->take(4) as $key=>$val)
-            <!--            @if($key < 7)-->
-            <li><a href="{{ route('search') }}?keyword={{ urlencode($val->name) }}"><i class="{{ $val->class_name }}"></i> <span>{{ $val->name }}</span></a></li>
-            <!--@endif-->
-            @endforeach
+          <li><a href="{{ route('search') }}?keyword={{ urlencode('daily deals') }}"><span>Daily Deals</span></a></li>
+          <li><a href="{{ route('search') }}?keyword={{ urlencode('happy') }}"><span>Happy Hours</span></a></li>
+          <li><a href="{{ route('search') }}?keyword={{ urlencode('brunch') }}"><span>Brunch Hours</span></a></li>
+          <li><a href="{{ route('search') }}"><span>All</span></a></li>
             <!--<li class="show_more_cat"><a href="javascript:void(0);"><div class="three_dots"><i class="fa fa-circle" aria-hidden="true"></i><i class="fa fa-circle" aria-hidden="true"></i><i class="fa fa-circle" aria-hidden="true"></i></div> <span>More Categories</span></a></li>-->
         </ul>
         <!--        <div class="more_category">
@@ -31,7 +30,7 @@
             <!--            <div class="find_cities">
                             <div class="dots"><i class="fa fa-circle" aria-hidden="true"></i><i class="fa fa-circle" aria-hidden="true"></i><i class="fa fa-circle" aria-hidden="true"></i> </div>
                             <span>Cities</span>
-            
+
                             <div class="city_list">
                                 sdkfhsdkfh
                             </div>
@@ -102,7 +101,7 @@
                     <div class="notice notice-success">
                         <strong>Notice:-</strong> No review found !
                     </div>
-                    @endif    
+                    @endif
                 </div>
             </div>
             <div class="col-md-4 col-sm-5 col-xs-12">
@@ -127,7 +126,7 @@
                         @endforelse
                         @if($events->take(4)->count() > 3)
                         <li><p class="text-center"><a href="{{ route('search') }}?keyword=recent_events">Browse more lists</a></p></li>
-                        @endif  
+                        @endif
                     </ul>
                 </div>
             </div>

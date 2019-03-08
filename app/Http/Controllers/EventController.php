@@ -441,7 +441,7 @@ class EventController extends Controller {
     }
 
     /**
-     * function to add & remove event likes 
+     * function to add & remove event likes
      *
      * @param  int  $id
      * @return Response
