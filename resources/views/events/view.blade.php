@@ -25,6 +25,15 @@
                     <div class="col-sm-4">
                         <div class="sidebar-map-wrap">
                             <h3>{{ ucfirst($events->name) }} @if($check_claim_request) <span id="claim_pophover"><i class="fa fa-question-circle"></i><a href="javascript:void(0);">Unclaimed</a></span> @endif</h3>
+                            @if($events->phone_number)
+                            <p><b>Phone No:-</b>{{ $events->phone_number }}</p>
+                            @endif
+                            @if($events->website_url)
+                            <p><b>Web Address:-</b><a target="_blank" href="{{ $events->website_url }}">{{ $events->website_url }}</a></p>
+                            @endif
+                            @if($events->menu_address)
+                            <p><b>Menu Address:-</b><a target="_blank" href="{{ $events->menu_address }}">{{ $events->menu_address }}</a></p>
+                            @endif
                             <div class="biz-main-info">
                                 <div class="mapbox-container">
                                     <div class="row text-center">
@@ -49,7 +58,7 @@
                                             @else
                                             <span class="btn"><a href="{{ route('login') }}"><img class="thumbs" src="{{ asset('/images/thumbsup.jpg') }}"> Like</a></span>
                                             @endif
-                                        </div> 
+                                        </div>
                                         <div class="col-md-6 col-xs-6">
                                             <span class="like-count" ng-init='like.count="{{ $events->event_likes->count() }}"'><%like.count%></span></span><br>
                                             <span class="like-txt">Total Likes</span>
@@ -69,8 +78,8 @@
                                 </span>
                                 @endif
                             </div>
-                            <?php  
-                                $daily_deal = json_decode($events->daily_deal); 
+                            <?php
+                                $daily_deal = json_decode($events->daily_deal);
                                 $day_key = date("D");
                             ?>
                             @if(isset($daily_deal->$day_key) && $daily_deal->$day_key !='null')
@@ -84,14 +93,14 @@
                     <div class="col-sm-8">
                         <div class="biz-page-actions">
                                 <a @if(!Auth::check()) href="{{ route('login') }}" @endif class="review-btn">
-                                    <i class="fa fa-star" aria-hidden="true"></i> Write a Recommendation     
+                                    <i class="fa fa-star" aria-hidden="true"></i> Write a Recommendation
                                 </a>
                                 <span class="allbtn-group">
                                     <a href="{{ route('photo.show',$events->event_slug) }}" class="add-photo-button">
-                                        <i class="fa fa-camera" aria-hidden="true"></i>Add Photo     
+                                        <i class="fa fa-camera" aria-hidden="true"></i>Add Photo
                                     </a>
 <!--                                    <a href="#" class="share-icon">
-                                        <i class="fa fa-share-square-o" aria-hidden="true"></i>Share     
+                                        <i class="fa fa-share-square-o" aria-hidden="true"></i>Share
                                     </a>-->
                                 </span>
                             </div>
@@ -143,7 +152,7 @@
                     </div>
                     <div class="col-sm-8">
                         <div class="biz-page-header-right">
-                            
+
                             <!--//                            print_r($events->getEventImages->take(3)->toArray());-->
 
                             <?php
@@ -155,7 +164,7 @@
                             <div class="lightbox-media-parent @if($event_images_array) slickSlider @endif">
                                  <?php $i = 1; ?>
                                 @forelse($event_images_array as $key=>$val)
-                                
+
                                 @if($i % 4 == 0)
                                 <?php $i=1; ?>
                                 @endif
@@ -167,7 +176,7 @@
                                                     <a href="#">
                                                         <img src="{{ URL::asset('/event_images').'/'.$val }}">
                                                     </a>
-                                                    
+
                                                     <a class="view-more" href="{{ route('photo.view', $events->event_slug) }}">
                                                         <span><i class="fa fa-th-large" aria-hidden="true"></i></span>
                                                         <p> See all {{ count($event_images_array) }} photos </p>
@@ -192,12 +201,12 @@
                                 </div>
                                 @endforelse
                              </div>
-                            </div>	
+                            </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row review-amen-area">
             <div class="col-md-8 col-sm-7 col-xs-12">
                 <div>
                     <div class="people-review">
@@ -219,21 +228,21 @@
                                             $user_image = 'default.png';
                                         }
                                         ?>
-                                        
+
                                         <img width="60" height="60" src="{{ URL::asset('/user_images').'/'.$user_image }}">
-                                    </div>	
+                                    </div>
                                     <div class="user-name">
                                         <h5>{{ ucfirst($value->getUserDetails->first_name).' '.str_limit(ucfirst($value->getUserDetails->last_name), $limit = 1, $end = '.') }}</h5>
                                         <p>{{ !empty($value->getUserDetails->city)?$value->getUserDetails->city.',':'' }}{{ $value->getUserDetails->state }}</p>
                                         <span class="rating-qualifier"> {{ date('m/d/Y',strtotime($value->created_at)) }} </span>
-                                    
+
                                     </div>
                                 </div>
                                 <div class="review-by-people">
                                     <div class="">
                                     <span>{{ $value->comment }}</span>
                                     </div>
-                                    
+
                                     @if($user_event_images)
                                     <?php $i = 1; ?>
                                     @foreach($user_event_images as $user_event_image)
@@ -259,7 +268,7 @@
                         @endforelse
                     </div>
                     <div class="pagination_main_wrapper text-center">{{ $events->getReviews()->paginate(15)->links() }}</div>
-                </div>    
+                </div>
                 <div>
                     <div class="write-review">
                         @if(Auth::check() && !$checkUserReviewStatus)
@@ -272,7 +281,7 @@
                             <div class="review-written">
                                 <div class="review-widget">
                                     <div class="form-group {{ $errors->has('comment') ? ' has-error' : '' }}">
-                                        <textarea class="review-textarea form-control" required="" maxlength="1000" id="review-text" name="comment"  placeholder="What do you like about this business? Your recommendation helps others learn about local businesses.">{{ old('comment') }}</textarea> 
+                                        <textarea class="review-textarea form-control" required="" maxlength="1000" id="review-text" name="comment"  placeholder="What do you like about this business? Your recommendation helps others learn about local businesses.">{{ old('comment') }}</textarea>
                                         @if ($errors->has('comment'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('comment') }}</strong>
@@ -318,10 +327,10 @@
                                         @endif
                                     </td>
                                     <td class="extra">
-                                        <?php 
+                                        <?php
                                         $current_time = strtotime(date('h:i A'));
-                                        $time_from = strtotime($operation_hour[$key]->time_from); 
-                                        $time_to = strtotime($operation_hour[$key]->time_to); 
+                                        $time_from = strtotime($operation_hour[$key]->time_from);
+                                        $time_to = strtotime($operation_hour[$key]->time_to);
                                         ?>
                                         @if(isset($operation_hour[$key]->status) && $operation_hour[$key]->status == 0)
                                         <span class="nowrap clse">Closed</span>
@@ -345,7 +354,7 @@
                               <?php $time_flag = true; ?>
                               @foreach($time_array as $val)
                               @if(isset($daily_deal->$val) && $daily_deal->$val != 'null')
-                              @if($time_flag)          
+                              @if($time_flag)
                               <li><strong>Daily Deals</strong><span class="fa fa-plus-square hour_collapse"></span>
                                   <div class="hours_details">
                                       <?php $time_flag = false; ?>
@@ -372,7 +381,7 @@
                                                   <li><strong>{{ $val->day }}</strong><span style="float:right">{{ $val->time_from.' - '.$val->time_to }}</span></li>
                                               </ul>
                                               <p>{{ $events->happy_hour_note }}</p>
-                                              @if($val === end($happy_hour))      
+                                              @if($val === end($happy_hour))
                                           </div>
                                       </li>
                                       @endif
@@ -382,7 +391,7 @@
                               <?php $time_flag = true; ?>
                               @if($brunch_hour)
                                 @foreach($brunch_hour as $val)
-                                    @if($val->time_from && $val->time_to) 
+                                    @if($val->time_from && $val->time_to)
                                         @if($time_flag)
                                         <li><strong>Brunch hours</strong><span class="fa fa-plus-square hour_collapse"></span>
                                             <div class="hours_details">
@@ -392,7 +401,7 @@
                                                     <li><strong>{{ $val->day }}</strong><span style="float:right">{{ $val->time_from.' - '.$val->time_to }}</span></li>
                                                 </ul>
                                                 <p>{{ $events->brunch_hour_note }}</p>
-                                                @if($val === end($brunch_hour))       
+                                                @if($val === end($brunch_hour))
                                             </div>
                                         </li>
                                         @endif
@@ -484,7 +493,7 @@ $(document).ready(function () {
         content: function () {
             return '<div class="box"><p><strong>This business has not yet been claimed by the owner or a representative.</strong></p><p class="u-space-b0"><a href="#" class="claim_business">Claim this business</a> to view business statistics, receive messages from prospective customers, and respond to reviews.</p></div>';
         }
-    }); 
+    });
     $(document).on("click",".claim_business",function(){
         @if(!Auth::check())
             $("#claimModal").modal('show');
@@ -494,7 +503,7 @@ $(document).ready(function () {
         @endif
     });
     $(document).on("click",".biz-main-info span.btn.set",function(){
-       $(this).toggleClass('open'); 
+       $(this).toggleClass('open');
     });
     if($("ul.amenities-list").has("li").length == 0){
         $("ul.amenities-list").parent().remove();
@@ -612,7 +621,3 @@ function initMap() {
 }
 </script>
 @endpush
-
-
-
-

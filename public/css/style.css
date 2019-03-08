@@ -171,7 +171,7 @@ footer .address ul.footer_social li a:hover {
 }
 .info-Link ul li a:hover {
     color: #d03310;
-}	
+}
 .instagram_gallery ul li {
     width: 80px;
     height: 80px;
@@ -360,10 +360,10 @@ section.login-wrp {
 }.btn-google-plus:hover,.btn-google-plus:focus,.btn-google-plus:active,.btn-google-plus.active,.open .dropdown-toggle.btn-google-plus{color:#fff;background-color:#ca3523;border-color:rgba(0,0,0,0.2)}
 .btn-google-plus:active,.btn-google-plus.active,.open .dropdown-toggle.btn-google-plus{background-image:none}
 .btn-google-plus.disabled,.btn-google-plus[disabled],fieldset[disabled] .btn-google-plus,
-.btn-google-plus.disabled:hover,.btn-google-plus[disabled]:hover,fieldset[disabled] 
+.btn-google-plus.disabled:hover,.btn-google-plus[disabled]:hover,fieldset[disabled]
 .btn-google-plus:hover,.btn-google-plus.disabled:focus,
 .btn-google-plus[disabled]:focus,fieldset[disabled] .btn-google-plus:focus,
-.btn-google-plus.disabled:active,.btn-google-plus[disabled]:active,fieldset[disabled] 
+.btn-google-plus.disabled:active,.btn-google-plus[disabled]:active,fieldset[disabled]
 .btn-google-plus:active,.btn-google-plus.disabled.active,.btn-google-plus[disabled].active,
 fieldset[disabled] .btn-google-plus.active{background-color:#dd4b39;border-color:rgba(0,0,0,0.2)}
 /********end social icons********/
@@ -1241,6 +1241,7 @@ span#claim_pophover .popover-content { color: #333; }
     .ca-nav { display: none; }
     .slider_content{ margin-top: 80px; }
     .slider_content h1 { font-size: 55px; }
+    .review-amen-area { display: flex;flex-direction: column-reverse; }
 }
 
 @media (max-width: 480px){

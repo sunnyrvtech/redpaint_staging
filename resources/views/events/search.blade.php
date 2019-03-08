@@ -64,8 +64,8 @@
                                 <span><a href="{{ route('events',$value->event_slug) }}">{{ $value->name }}</a></span>
                                 <span><i class="fa fa-map-marker"></i> {{ ucfirst($value->address).','.ucfirst($value->city).','.ucfirst($value->state).' '.$value->zip }}</span>
                                 <span class="description-search">{{ str_limit($value->description, $limit = 32, $end = '...') }}</span>
-                                <?php  
-                                $daily_deal = json_decode($value->daily_deal); 
+                                <?php
+                                $daily_deal = json_decode($value->daily_deal);
                                 if(Request::get('day') == null)
                                     $day_key = date("D");
                                 else
@@ -78,7 +78,7 @@
                                 </div>
                                 @endif
                                     <!--<p class="business-date-opened"><i class="fa fa-hourglass" aria-hidden="true"></i>Opened 3 weeks ago </p>-->
-                            
+
                             </div>
                         </div>
                     </div>
