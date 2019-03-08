@@ -31,7 +31,7 @@
                     <div class="@if($i%3 == 0) col-md-3 col-xs-12 col-sm-12 @else col-xs-6 col-sm-6 col-md-3 @endif">
                         <a href="{{ URL::asset('/event_images').'/'.$val }}" data-fancybox data-caption="<p><span>Uploaded By:-</span> {{ $value->getUserByEventImageUserId->first_name.' '.$value->getUserByEventImageUserId->last_name }}</p>@if($events->user_id == Auth::id())<a data-href={{ route('photo.destroy', $value->event_id) }} data-id='{{ $val }}' data-title='Delete event image' data-msg='Are you sure you want to delete this event image!' data-method='delete' class='label label-danger confirmationStatus' data-toggle='tooltip' title='Delete event image'>Delete</a> @endif">
                         <div class="thumbnail">
-                            <img style="height:200px;width:100%;" src="{{ URL::asset('/event_images').'/'.$val }}">
+                            <img src="{{ URL::asset('/event_images').'/'.$val }}">
                         </div>
                     </a>
                     </div>
