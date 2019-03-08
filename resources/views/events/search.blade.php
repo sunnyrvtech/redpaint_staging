@@ -93,11 +93,7 @@
                     <strong>Notice:-</strong> No event founds in your location!
                 </div>
                 @endforelse
-                <div class="row">
-                    @if(!empty($events))
-                    <div class="pagination_main_wrapper text-center">{{ $events->appends($_GET)->links() }}</div>
-                    @endif
-                </div>
+              
             </div>
         </div>
     </div>
