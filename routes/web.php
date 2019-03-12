@@ -107,15 +107,11 @@ Route::get('/merchandise', 'HomeController@getMerchandise')->name('merchandise')
 Route::get('/promotional-packages', 'HomeController@getPromotionalPackage')->name('promotional-packages');
 Route::get('/business-support', 'HomeController@getBusinessSupport')->name('business-support');
 Route::get('/terms-and-agreement', 'HomeController@getTermCondition')->name('terms-and-agreement');
-
 Route::get('events/{slug}', 'EventController@getEventByslug')->name('events');
-
+Route::get('events/review/load', 'EventController@loadMoreReview')->name('load-more');
 Route::get('/{provider}/redirect', 'SocialAuthController@redirect');
 Route::get('/{provider}/callback/', 'SocialAuthController@callback');
 
 //Auth routes end here
 
 Route::post('stripe/webhook', 'SubscriptionController@paymentStatus');
-
-
-

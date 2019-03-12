@@ -226,7 +226,7 @@
             <div class="col-md-8 col-sm-7 col-xs-12">
                 <div>
                     <div class="people-review">
-                        @forelse($events->getReviews()->paginate(2) as $value)
+                        @forelse($events->getReviews()->paginate(3) as $value)
                         <?php
                         $user_event_images = App\EventImage::getUserEventImages($value->event_id,$value->user_id);
                         if($user_event_images)
@@ -283,7 +283,9 @@
                         </div>
                         @endforelse
                     </div>
-                    <div class="pagination_main_wrapper text-center">{{ $events->getReviews()->paginate(15)->links() }}</div>
+                    @if($events->getReviews()->count() > 3)
+                    <div class="text-center" style="padding:20px;"><a href="javascript:void(0);" data-page="1" class="btn btn-default load_more">Show More</a></div>
+                    @endif
                 </div>
                 <div>
                     <div class="write-review">
@@ -552,6 +554,22 @@ $(document).ready(function () {
         $('.star-selector').text(default_rating_msg);
         $(".rating-and-comment ul > li:lt(5)").removeClass().addClass('rating');
         $(".rating-and-comment ul > li:lt(" + rate + ")").addClass('rating' + default_rating);
+    });
+    $(document).on("click",".load_more",function () {
+      var me = $(this);
+      var page = me.attr('data-page');
+      var id = "{{ $events->id }}";
+      var route_url = "{{ route('load-more') }}";
+      var total_count = "{{ $events->getReviews()->count() }}";
+      $.get(route_url, { id:id,page: page }, function (data) {
+        var incr_page = parseInt(page)+1;
+        me.attr('data-page',incr_page);
+        var current_count = incr_page*3;
+          if(current_count > total_count){
+            me.remove();
+          }
+          $(".people-review").append(data);
+      });
     });
     $(document).on("click",".hour_collapse.fa-plus-square",function () {
         $('.hours_details').hide();
