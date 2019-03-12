@@ -627,6 +627,7 @@ $(document).ready(function () {
         }
     });
     $(document).on("click",".various32",function (e) {
+        e.preventDefault();
     $(this).fancybox({
 	'width'		: '100%',
 	'height'	: '100%',
