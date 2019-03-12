@@ -225,7 +225,7 @@
         <div class="row review-amen-area">
             <div class="col-md-8 col-sm-7 col-xs-12">
                 <div>
-                    <div class="people-review">
+                    <div class="people-review" id="people-review">
                         @forelse($events->getReviews()->paginate(3) as $value)
                         <?php
                         $user_event_images = App\EventImage::getUserEventImages($value->event_id,$value->user_id);
@@ -626,7 +626,7 @@ $(document).ready(function () {
             $("body").css({'overflow-y':'visible'});
         }
     });
-    $(".people-review .various32").fancybox({
+    $("#people-review .various32").fancybox({
 	'width'		: '100%',
 	'height'	: '100%',
         'onStart': function(){
