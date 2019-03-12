@@ -563,7 +563,7 @@ $(document).ready(function () {
       var route_url = "{{ route('load-more') }}";
       var total_count = "{{ $events->getReviews()->count() }}";
       $.get(route_url, { id:id,page: page }, function (data) {
-        $("#loaderOverlay").removeClass('ng-hide');
+        $("#loaderOverlay").addClass('ng-hide');
         var incr_page = parseInt(page)+1;
         me.attr('data-page',incr_page);
         var current_count = incr_page*3;
@@ -626,9 +626,7 @@ $(document).ready(function () {
             $("body").css({'overflow-y':'visible'});
         }
     });
-    $(document).on("click",".various32",function (e) {
-        e.preventDefault();
-    $(this).fancybox({
+    $(".various32").fancybox({
 	'width'		: '100%',
 	'height'	: '100%',
         'onStart': function(){
@@ -638,7 +636,6 @@ $(document).ready(function () {
         'onClosed': function(){
             $("body").css({'overflow-y':'visible'});
         }
-    });
     });
 });
 </script>
