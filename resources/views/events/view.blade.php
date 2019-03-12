@@ -626,7 +626,7 @@ $(document).ready(function () {
             $("body").css({'overflow-y':'visible'});
         }
     });
-    $(".various32").fancybox({
+    $(".review-inner .various32").fancybox({
 	'width'		: '100%',
 	'height'	: '100%',
         'onStart': function(){
