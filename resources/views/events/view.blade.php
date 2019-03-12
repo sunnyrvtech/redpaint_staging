@@ -556,12 +556,14 @@ $(document).ready(function () {
         $(".rating-and-comment ul > li:lt(" + rate + ")").addClass('rating' + default_rating);
     });
     $(document).on("click",".load_more",function () {
+      $("#loaderOverlay").removeClass('ng-hide');
       var me = $(this);
       var page = me.attr('data-page');
       var id = "{{ $events->id }}";
       var route_url = "{{ route('load-more') }}";
       var total_count = "{{ $events->getReviews()->count() }}";
       $.get(route_url, { id:id,page: page }, function (data) {
+        $("#loaderOverlay").addClass('ng-hide');
         var incr_page = parseInt(page)+1;
         me.attr('data-page',incr_page);
         var current_count = incr_page*3;

@@ -386,6 +386,7 @@ class EventController extends Controller {
         }
         return $view;
     }
+
     /**
      * function to load more event reviews
      *
@@ -393,67 +394,59 @@ class EventController extends Controller {
      * @return Response
      */
     public function loadMoreReview(Request $request) {
-      $page = $request->get('page');
-      $take = 3;
-      $skip = $page*$take;
-      $review = Review::Where(['event_id' => $request->get('id')])->skip($skip)->take($take)->orderby('created_at','DESC')->get();
+        $page = $request->get('page');
+        $take = 3;
+        $skip = $page * $take;
+        $review = Review::Where(['event_id' => $request->get('id')])->skip($skip)->take($take)->orderby('created_at', 'DESC')->get();
         $html = '';
-        foreach($review as $key=>$value){
-          $user_event_images = EventImage::getUserEventImages($value->event_id,$value->user_id);
+        foreach ($review as $key => $value) {
+            $user_event_images = EventImage::getUserEventImages($value->event_id, $value->user_id);
 
-              if ($value->getUserDetails->user_image) {
-                  $user_image = $value->getUserDetails->user_image;
-              } else {
-                  $user_image = 'default.png';
-              }
-
-              $html.='<div>';
-                  $html.='<div class="review-inner">';
-                      $html.='<div class="person-detail">';
-                          $html.='<div class="img-side">';
-                            $html.='<img width="60" height="60" src="'. url()->asset('/user_images').'/'.$user_image .'">';
-                          $html.='</div>';
-                          $html.='<div class="user-name">';
-                              $html.='<h5>'.ucfirst($value->getUserDetails->first_name).' '.str_limit(ucfirst($value->getUserDetails->last_name), $limit = 1, $end = '.').'</h5>';
-                              $html.='<p>'. $value->getUserDetails->city. ",". $value->getUserDetails->state.'</p>';
-                              $html.='<span class="rating-qualifier">'. date('m/d/Y',strtotime($value->created_at)).'</span>';
-                          $html.='</div>';
-                      $html.='</div>';
-                      $html.='<div class="review-by-people">';
-                          $html.='<div class="">';
-                          $html.='<span>'. $value->comment.'</span>';
-                          $html.='</div>';
-
-                            $user_event_images = json_decode($user_event_images->event_images);
-                  if($user_event_images){
-                            $i = 1;
-
-  foreach($user_event_images as $user_event_image){
-    if($i%3 == 0){
-      $classname = "col-md-12 col-xs-12 col-sm-12";
-    }else{
-      $classname = "col-xs-6 col-sm-6 col-md-6";
-    }
-
-
-  $html.='<div style="padding-right: 0;padding-left: 0;" class="'.$classname.'">';
-      $html.='<a href="'. url()->asset('/event_images').'/'.$user_event_image.'" class="various32">';
-          $html.='<div style="margin-bottom: 0;" class="thumbnail">';
-          $html.='<img style="height:150px;width:100%;" src="'. url()->asset('/event_images').'/'.$user_event_image.'">';
-         $html.='</div>';
-      $html.='</a>';
-  $html.='</div>';
-   $i++;
-}
-
-                          }
-
-
-                          $html.='</div>';
-                          $html.='</div>';
-                          $html.='</div>';
+            if ($value->getUserDetails->user_image) {
+                $user_image = $value->getUserDetails->user_image;
+            } else {
+                $user_image = 'default.png';
+            }
+            $html .= '<div>';
+            $html .= '<div class="review-inner">';
+            $html .= '<div class="person-detail">';
+            $html .= '<div class="img-side">';
+            $html .= '<img width="60" height="60" src="' . url()->asset('/user_images') . '/' . $user_image . '">';
+            $html .= '</div>';
+            $html .= '<div class="user-name">';
+            $html .= '<h5>' . ucfirst($value->getUserDetails->first_name) . ' ' . str_limit(ucfirst($value->getUserDetails->last_name), $limit = 1, $end = '.') . '</h5>';
+            $html .= '<p>' . $value->getUserDetails->city . "," . $value->getUserDetails->state . '</p>';
+            $html .= '<span class="rating-qualifier">' . date('m/d/Y', strtotime($value->created_at)) . '</span>';
+            $html .= '</div>';
+            $html .= '</div>';
+            $html .= '<div class="review-by-people">';
+            $html .= '<div class="">';
+            $html .= '<span>' . $value->comment . '</span>';
+            $html .= '</div>';
+            $user_event_images = json_decode($user_event_images->event_images);
+            if ($user_event_images) {
+                $i = 1;
+                foreach ($user_event_images as $user_event_image) {
+                    if ($i % 3 == 0) {
+                        $classname = "col-md-12 col-xs-12 col-sm-12";
+                    } else {
+                        $classname = "col-xs-6 col-sm-6 col-md-6";
+                    }
+                    $html .= '<div style="padding-right: 0;padding-left: 0;" class="' . $classname . '">';
+                    $html .= '<a href="' . url()->asset('/event_images') . '/' . $user_event_image . '" class="various32">';
+                    $html .= '<div style="margin-bottom: 0;" class="thumbnail">';
+                    $html .= '<img style="height:150px;width:100%;" src="' . url()->asset('/event_images') . '/' . $user_event_image . '">';
+                    $html .= '</div>';
+                    $html .= '</a>';
+                    $html .= '</div>';
+                    $i++;
+                }
+            }
+            $html .= '</div>';
+            $html .= '</div>';
+            $html .= '</div>';
         }
-      return $html;
+        return $html;
     }
 
     /**
@@ -692,7 +685,7 @@ class EventController extends Controller {
             }
         }
 
-        if ($this->claimBusiness($request->get('business_slug'),Auth::user())) {
+        if ($this->claimBusiness($request->get('business_slug'), Auth::user())) {
             return redirect()->back()
                             ->with('success-message', 'Claim request has been sent to administartor!');
         }
