@@ -226,7 +226,7 @@
             <div class="col-md-8 col-sm-7 col-xs-12">
                 <div>
                     <div class="people-review">
-                        @forelse($events->getReviews()->paginate(15) as $value)
+                        @forelse($events->getReviews()->paginate(2) as $value)
                         <?php
                         $user_event_images = App\EventImage::getUserEventImages($value->event_id,$value->user_id);
                         if($user_event_images)

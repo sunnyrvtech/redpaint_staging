@@ -14,13 +14,13 @@ use App\Country;
 use App\EventImage;
 use App\ClaimBusiness;
 use Image;
-use App\Http\Controllers\Admin\SubCategoryController;
 use Auth;
 use View;
 use DB;
 use Carbon\Carbon;
 use Mail;
 use Session;
+use App\Http\Controllers\Admin\SubCategoryController;
 
 class EventController extends Controller {
 
