@@ -263,7 +263,7 @@
                                     <?php $i = 1; ?>
                                     @foreach($user_event_images as $user_event_image)
                                     <div style="padding-right: 0;padding-left: 0;" class="@if($i%3 == 0) col-md-12 col-xs-12 col-sm-12 @else col-xs-6 col-sm-6 col-md-6 @endif">
-                                        <a href="{{ URL::asset('/event_images').'/'.$user_event_image }}" onclick="showFancybox()">
+                                        <a href="{{ URL::asset('/event_images').'/'.$user_event_image }}" class="various32">
                                             <div style="margin-bottom: 0;" class="thumbnail">
                                                 <img style="height:150px;width:100%;" src="{{ URL::asset('/event_images').'/'.$user_event_image }}">
                                            </div>
@@ -563,7 +563,7 @@ $(document).ready(function () {
       var route_url = "{{ route('load-more') }}";
       var total_count = "{{ $events->getReviews()->count() }}";
       $.get(route_url, { id:id,page: page }, function (data) {
-        $("#loaderOverlay").addClass('ng-hide');
+        $("#loaderOverlay").removeClass('ng-hide');
         var incr_page = parseInt(page)+1;
         me.attr('data-page',incr_page);
         var current_count = incr_page*3;
@@ -626,8 +626,8 @@ $(document).ready(function () {
             $("body").css({'overflow-y':'visible'});
         }
     });
-    function showFancybox(){
-    $.fancybox({
+    $(document).on("click",".various32",function (e) {
+    $(this).fancybox({
 	'width'		: '100%',
 	'height'	: '100%',
         'onStart': function(){
@@ -638,7 +638,7 @@ $(document).ready(function () {
             $("body").css({'overflow-y':'visible'});
         }
     });
-    }
+    });
 });
 </script>
 <script type="text/javascript">
