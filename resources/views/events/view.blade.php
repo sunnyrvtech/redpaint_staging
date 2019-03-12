@@ -263,7 +263,7 @@
                                     <?php $i = 1; ?>
                                     @foreach($user_event_images as $user_event_image)
                                     <div style="padding-right: 0;padding-left: 0;" class="@if($i%3 == 0) col-md-12 col-xs-12 col-sm-12 @else col-xs-6 col-sm-6 col-md-6 @endif">
-                                        <a href="{{ URL::asset('/event_images').'/'.$user_event_image }}" class="various32">
+                                        <a href="{{ URL::asset('/event_images').'/'.$user_event_image }}" onclick="showFancybox()">
                                             <div style="margin-bottom: 0;" class="thumbnail">
                                                 <img style="height:150px;width:100%;" src="{{ URL::asset('/event_images').'/'.$user_event_image }}">
                                            </div>
@@ -626,7 +626,8 @@ $(document).ready(function () {
             $("body").css({'overflow-y':'visible'});
         }
     });
-    $(".various32").fancybox({
+    function showFancybox(){
+    $.fancybox({
 	'width'		: '100%',
 	'height'	: '100%',
         'onStart': function(){
@@ -637,6 +638,7 @@ $(document).ready(function () {
             $("body").css({'overflow-y':'visible'});
         }
     });
+    }
 });
 </script>
 <script type="text/javascript">
