@@ -626,9 +626,12 @@ $(document).ready(function () {
             $("body").css({'overflow-y':'visible'});
         }
     });
-    $(".various32").fancybox({
+    $(document).on("click",".various32",function(e){
+          e.preventDefault();
+        $.fancybox({
 	'width'		: '100%',
 	'height'	: '100%',
+        'href': $(this).attr('href'),
         'onStart': function(){
             $("body").css({'overflow-y':'hidden'});
             $(window).scrollTop(0);
@@ -636,6 +639,7 @@ $(document).ready(function () {
         'onClosed': function(){
             $("body").css({'overflow-y':'visible'});
         }
+    });
     });
 });
 </script>
