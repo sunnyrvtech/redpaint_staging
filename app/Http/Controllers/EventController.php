@@ -435,7 +435,7 @@ class EventController extends Controller {
                     $html .= '<div style="padding-right: 0;padding-left: 0;" class="' . $classname . '">';
                     $html .= '<a href="' . url()->asset('/event_images') . '/' . $user_event_image . '" class="various32">';
                     $html .= '<div style="margin-bottom: 0;" class="thumbnail">';
-                    $html .= '<img src="' . url()->asset('/event_images') . '/' . $user_event_image . '">';
+                    $html .= '<img style="height:150px;" src="' . url()->asset('/event_images') . '/' . $user_event_image . '">';
                     $html .= '</div>';
                     $html .= '</a>';
                     $html .= '</div>';
