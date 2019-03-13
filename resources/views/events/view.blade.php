@@ -447,7 +447,10 @@
                               @endif
                           </ul>
                       </div>
-                <div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-5 col-xs-12 col-md-offset-8 col-sm-offset-7">
                     <div class="heading"><h4><b>You may also consider</b></h4></div>
                     <div class="RecentLists">
                         <ul>
@@ -468,7 +471,6 @@
                         </ul>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 </div>
@@ -627,7 +629,7 @@ $(document).ready(function () {
         }
     });
     $(document).on("click",".various32",function(e){
-          e.preventDefault();
+        e.preventDefault();
         $.fancybox({
 	'width'		: '100%',
 	'height'	: '100%',
