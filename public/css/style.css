@@ -1190,7 +1190,6 @@ span#claim_pophover .popover-content { color: #333; }
         transform: translate(-50%, -0%);
         top: 0% !important;
     }
-    .renderPreviewImage .thumbnail img { width: auto;height: auto; }
 }
 
 
@@ -1222,6 +1221,7 @@ span#claim_pophover .popover-content { color: #333; }
     .Browse-Category ul.Category_listing li a{ font-size: 15px; }
     .Browse-Category ul.Category_listing li a i{ font-size: 30px; }
     .ca-container{ height: 500px; }
+    .renderPreviewImage .thumbnail img { width: auto;height: auto; }
 }
 
 @media (max-width: 767px){
