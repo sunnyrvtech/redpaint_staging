@@ -866,6 +866,16 @@ fieldset[disabled] .btn-google-plus.active{background-color:#dd4b39;border-color
     font-size: 20px;
     top:-5px;
 }
+.website-map .map-box-address::before{
+    content: "\f0ac";
+    font-size: 20px;
+    top:-5px;
+}
+.menu-map .map-box-address::before{
+    content: "\f0c9";
+    font-size: 20px;
+    top:-5px;
+}
 .mapbox-text li a {
     color: rgb(51, 51, 51);
     text-decoration: underline !important;
@@ -1258,5 +1268,6 @@ span#claim_pophover .popover-content { color: #333; }
     .btn-social { width: 100%;margin-top: 5px; }
     .biz-main-info span.btn { font-size: 15px; }
     .biz-main-info .mapbox-container span.like-txt { font-size: 12px; }
+    .search_form .form_main ul.search_Category li { display: block; }
 }
 /***********/

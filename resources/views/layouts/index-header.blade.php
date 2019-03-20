@@ -76,25 +76,10 @@
                 <div class="form_main">
                     <div class="Logo_f"><img src="{{ URL::asset('images/black-logo.png') }}"></div>
                     <ul class="search_Category">
-                        @foreach($categories as $value)
-                        <li class="@if(!empty($value->getSubCategory->toArray())) dropdown @endif">
-                            <a href="{{ route('search') }}?keyword={{ urlencode($value->name) }}"  @if(!empty($value->getSubCategory->toArray())) class="dropdown-toggle" data-toggle="dropdown" @endif><i class="{{ $value->class_name }}"></i> {{ $value->name }}
-                                @if(!empty($value->getSubCategory->toArray())) 
-                                <b class="caret"></b>
-                                @endif
-                            </a>
-                            @if(!empty($value->getSubCategory->toArray()))
-                            <ul class="dropdown-menu">
-                                @foreach($value->getSubCategory->take(10) as $val)
-                                <li><a href="{{ route('subcategory.search',$val->id) }}">{{ $val->name }}</a></li>
-                                @endforeach
-                                @if(count($value->getSubCategory) > 10)
-                                <li><a href="{{ route('subcategory.all',$value->id) }}" class="more_sub_cat">More Sub Category</a></li>
-                                @endif
-                            </ul>
-                            @endif
-                        </li>
-                        @endforeach
+                        <li><a href="{{ route('search') }}?keyword={{ urlencode('daily deals') }}"><span>Daily Deals</span></a></li>
+                        <li><a href="{{ route('search') }}?keyword={{ urlencode('happy') }}"><span>Happy Hour</span></a></li>
+                        <li><a href="{{ route('search') }}?keyword={{ urlencode('brunch') }}"><span>Brunch</span></a></li>
+                        <li><a href="{{ route('search') }}"><span>All</span></a></li>
                     </ul>
                     <form class="seacrg_city" action="{{ route('search') }}">
                         <div class="col-md-5 col-sm-5 col-xs-12 custom_column">

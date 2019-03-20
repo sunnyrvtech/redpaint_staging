@@ -25,31 +25,6 @@
                     <div class="col-sm-4">
                         <div class="sidebar-map-wrap">
                             <h3>{{ ucfirst($events->name) }} @if($check_claim_request) <span id="claim_pophover"><i class="fa fa-question-circle"></i><a href="javascript:void(0);">Unclaimed</a></span> @endif</h3>
-                            @if($events->phone_number)
-                            <p><b>Phone No:-</b>{{ $events->phone_number }}</p>
-                            @endif
-                            @if($events->website_url)
-                            <?php
-                            $web_parsed = parse_url($events->website_url);
-                            if (empty($web_parsed['scheme'])) {
-                                $web_url = 'http://' . $events->website_url;
-                              }else{
-                                $web_url = $events->website_url;
-                              }
-                            ?>
-                            <p><b>Web Address:-</b><a target="_blank" href="{{ $web_url }}">{{ $web_url }}</a></p>
-                            @endif
-                            @if($events->menu_address)
-                            <?php
-                            $menu_parsed = parse_url($events->menu_address);
-                            if (empty($menu_parsed['scheme'])) {
-                                $menu_url = 'http://' . $events->menu_address;
-                              }else{
-                                $menu_url = $events->menu_address;
-                              }
-                            ?>
-                            <p><b>Menu Address:-</b><a target="_blank" href="{{ $menu_url }}">{{ $menu_url }}</a></p>
-                            @endif
                             <div class="biz-main-info">
                                 <div class="mapbox-container">
                                     <div class="row text-center">
@@ -147,21 +122,43 @@
                                                 <a href="{{ route('maps',$events->id) }}" id="various3">Get Direction</a>
                                             </div>
                                         </li>
-<!--                                                                            <li class="ph-call">
-                                                                                <div class="map-box-address">
-                                                                                    <div class="phone-call"> (415) 926-8065 </div>
-                                                                                </div>
-                                                                            </li>
-                                                                            <li class="message-map">
-                                                                                <div class="map-box-address">
-                                                                                    <a href="#">Message</a>
-                                                                                </div>
-                                                                            </li>
-                                                                            <li class="mob-call">
-                                                                                <div class="map-box-address">
-                                                                                    <a href="#"> Send to your Phone</a>
-                                                                                </div>
-                                                                            </li>-->
+                                        @if($events->phone_number)
+                                        <li class="ph-call">
+                                            <div class="map-box-address">
+                                                <div class="phone-call">{{ $events->phone_number }}</div>
+                                            </div>
+                                        </li>
+                                        @endif
+                                       @if($events->website_url)
+                                       <?php
+                                        $web_parsed = parse_url($events->website_url);
+                                        if (empty($web_parsed['scheme'])) {
+                                            $web_url = 'http://' . $events->website_url;
+                                          }else{
+                                            $web_url = $events->website_url;
+                                          }
+                                        ?>
+                                        <li class="website-map">
+                                            <div class="map-box-address">
+                                                <a target="_blank" href="{{ $web_url }}">{{ $web_url }}</a>
+                                            </div>
+                                        </li>
+                                        @endif
+                                        @if($events->menu_address)
+                                        <?php
+                                        $menu_parsed = parse_url($events->menu_address);
+                                        if (empty($menu_parsed['scheme'])) {
+                                            $menu_url = 'http://' . $events->menu_address;
+                                          }else{
+                                            $menu_url = $events->menu_address;
+                                          }
+                                        ?>
+                                        <li class="menu-map">
+                                            <div class="map-box-address">
+                                                <a target="_blank" href="{{ $menu_url }}">Menu</a>
+                                            </div>
+                                        </li>
+                                        @endif
                                     </ul>
                                 </div>
                             </div>
