@@ -621,8 +621,6 @@ class EventController extends Controller {
                         })->paginate(20);
             }
         }
-
-        dd($events);
         $view = View::make('events.search', compact('events'));
         if ($request->wantsJson()) {
             $sections = $view->renderSections();
