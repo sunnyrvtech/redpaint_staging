@@ -567,7 +567,7 @@ class EventController extends Controller {
                         $query->whereNotNull($hour_check)
                                 ->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                 ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
-                    })->paginate(20);
+                    })->orderBy('latitude','DESC')->paginate(20);
         } else {
             if ($keyword != null && $keyword != 'recent_events' && $keyword != 'daily_deals') {
                 $events = Event::Where('status', 1)->Where(function($query) use ($keyword, $address, $distant_array) {
@@ -589,7 +589,7 @@ class EventController extends Controller {
                                         ->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                         ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
                             }
-                        })->paginate(20);
+                        })->orderBy('latitude','DESC')->paginate(20);
             } elseif ($address != null) {
                 $events = Event::Where('status', 1)->Where(function($query) use ($address) {
                             if ($address != null) {
@@ -598,12 +598,12 @@ class EventController extends Controller {
                         })->orWhere(function($query) use ($distant_array) {
                             $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                     ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
-                        })->paginate(20);
+                        })->orderBy('latitude','DESC')->paginate(20);
             } elseif ($keyword == 'recent_events') {
                 $events = Event::Where('status', 1)->Where(function($query) use ($distant_array) {
                             $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                     ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
-                        })->orderby('created_at', 'DESC')->paginate(20);
+                        })->orderby('latitude', 'DESC')->paginate(20);
             } elseif ($keyword == 'daily_deals') {
                 if ($days == null) {
                     $days = date('D');
@@ -612,17 +612,15 @@ class EventController extends Controller {
                 $events = Event::Where('status', 1)->whereRaw("daily_deal NOT REGEXP '" . $regrex . "'")->Where(function($query) use ($distant_array) {
                             $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                     ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
-                        })->paginate(20);
+                        })->orderBy('latitude','DESC')->paginate(20);
             } else {
 
                 $events = Event::Where('status', 1)->Where(function($query) use ($distant_array) {
                             $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                     ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
-                        })->paginate(20);
+                        })->orderBy('latitude','DESC')->paginate(20);
             }
         }
-
-        dd($events);
         $view = View::make('events.search', compact('events'));
         if ($request->wantsJson()) {
             $sections = $view->renderSections();
