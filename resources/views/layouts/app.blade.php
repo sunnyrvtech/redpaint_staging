@@ -269,6 +269,7 @@
 //                $(this).toggleClass('open');
 //                $('b', this).toggleClass("caret caret-up");                
 //            });
+console.log("{{ Session::has('latitude') }}");
         @if(!Session::has('latitude') && !Session::has('longitude'))    
             getGeoLocation();
             function getGeoLocation() {
