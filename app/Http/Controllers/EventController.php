@@ -539,6 +539,7 @@ class EventController extends Controller {
         $miles = 20;
         $lat = $request->session()->get('latitude');
         $lng = $request->session()->get('longitude');
+        $circle_radius = 3959;
 
         $distant_array['lat_dist_minus'] = $lat - ($miles * 0.018);
         $distant_array['lat_dist_plus'] = $lat + ($miles * 0.018);
@@ -562,7 +563,23 @@ class EventController extends Controller {
             $hour_check = 'brunch_hour';
         }
 
-        if ($hour_check) {
+        if($hour_check && $request->get('flag_test')){
+            $lat = 37.660358;
+            $lng = -77.383072;
+            $circle_radius = 3959;
+            $distant_array['lat_dist_minus'] = $lat - ($miles * 0.018);
+            $distant_array['lat_dist_plus'] = $lat + ($miles * 0.018);
+            $distant_array['lng_dist_minus'] = $lng - ($miles * 0.018);
+            $distant_array['lng_dist_plus'] = $lng + ($miles * 0.018);
+             $events = Event::select('*', DB::raw('('.$circle_radius.' * acos( cos( radians(' . $lat . ') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(' . $lng . ') ) + sin( radians(' . $lat .') ) * sin( radians( latitude ) ) ) ) AS distance'))->Where('status', 1)->Where(function($query) use ($distant_array, $hour_check) {
+                        $query->whereNotNull($hour_check)
+                                ->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
+                                ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
+                    })->orderBy('latitude','DESC')->get();
+
+dd($events);
+
+        }else if ($hour_check) {
             $events = Event::Where('status', 1)->Where(function($query) use ($distant_array, $hour_check) {
                         $query->whereNotNull($hour_check)
                                 ->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
