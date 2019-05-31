@@ -615,11 +615,22 @@ class EventController extends Controller {
                                     ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
                         })->orderBy('distance')->paginate(20);
             } else {
-
+                $lat = 37.660358;
+            $lng = -77.383072;
+             $distant_array['lat_dist_minus'] = $lat - ($miles * 0.018);
+        $distant_array['lat_dist_plus'] = $lat + ($miles * 0.018);
+        $distant_array['lng_dist_minus'] = $lng - ($miles * 0.018);
+        $distant_array['lng_dist_plus'] = $lng + ($miles * 0.018);
                 $events = Event::select('*', DB::raw('('.$circle_radius.' * acos( cos( radians(' . $lat . ') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(' . $lng . ') ) + sin( radians(' . $lat .') ) * sin( radians( latitude ) ) ) ) AS distance'))->Where('status', 1)->Where(function($query) use ($distant_array) {
                             $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                     ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
-                        })->orderBy('latitude','DESC')->paginate(20);
+                        })->orderBy('latitude','DESC')->get();
+
+                foreach($events as $key=>$value){
+                    echo $value->distance."<br>";
+                }
+
+die;
             }
         }
         $view = View::make('events.search', compact('events'));
