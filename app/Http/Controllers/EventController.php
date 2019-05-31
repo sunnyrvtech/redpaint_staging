@@ -575,10 +575,10 @@ class EventController extends Controller {
                         $query->whereNotNull($hour_check)
                                 ->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                 ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
-                    })->orderBy('latitude','DESC')->get();
-foreach ($events as $key => $value) {
-    echo $value->distance."<br>";
-}
+                    })->orderBy('distance')->get();
+// foreach ($events as $key => $value) {
+//     echo $value->distance."<br>";
+// }
 dd($events);
 
         }else if ($hour_check) {
