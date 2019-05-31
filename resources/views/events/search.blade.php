@@ -77,7 +77,7 @@
                                     <span>{{ $daily_deal->$day_key }}</span>
                                 </div>
                                 @endif
-                                    <!--<p class="business-date-opened"><i class="fa fa-hourglass" aria-hidden="true"></i>Opened 3 weeks ago </p>-->
+                                    <p class="business-date-opened"><i class="fa fa-road" aria-hidden="true"></i>{{ number_format($value->distance,2) }} miles</p>
 
                             </div>
                         </div>
