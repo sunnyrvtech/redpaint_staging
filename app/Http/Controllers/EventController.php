@@ -564,12 +564,6 @@ class EventController extends Controller {
         }
 
         if ($hour_check) {
-            $lat = 37.660358;
-            $lng = -77.383072;
-                $distant_array['lat_dist_minus'] = $lat - ($miles * 0.018);
-        $distant_array['lat_dist_plus'] = $lat + ($miles * 0.018);
-        $distant_array['lng_dist_minus'] = $lng - ($miles * 0.018);
-        $distant_array['lng_dist_plus'] = $lng + ($miles * 0.018);
             $events = Event::select('*', DB::raw('('.$circle_radius.' * acos( cos( radians(' . $lat . ') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(' . $lng . ') ) + sin( radians(' . $lat .') ) * sin( radians( latitude ) ) ) ) AS distance'))->Where('status', 1)->Where(function($query) use ($distant_array, $hour_check) {
                         $query->whereNotNull($hour_check)
                                 ->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
@@ -577,7 +571,7 @@ class EventController extends Controller {
                     })->orderBy('distance')->paginate(20);
         } else {
             if ($keyword != null && $keyword != 'recent_events' && $keyword != 'daily_deals') {
-                $events = Event::Where('status', 1)->Where(function($query) use ($keyword, $address, $distant_array) {
+                $events = Event::select('*', DB::raw('('.$circle_radius.' * acos( cos( radians(' . $lat . ') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(' . $lng . ') ) + sin( radians(' . $lat .') ) * sin( radians( latitude ) ) ) ) AS distance'))->Where('status', 1)->Where(function($query) use ($keyword, $address, $distant_array) {
                             if ($address != null) {
                                 $query->Where('events.name', 'LIKE', '%' . $keyword . '%')
                                         ->orWhere('events.formatted_address', 'LIKE', '%' . $address . '%');
@@ -596,33 +590,33 @@ class EventController extends Controller {
                                         ->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                         ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
                             }
-                        })->orderBy('latitude','DESC')->paginate(20);
+                        })->orderBy('distance')->paginate(20);
             } elseif ($address != null) {
-                $events = Event::Where('status', 1)->Where(function($query) use ($address) {
+                $events = Event::select('*', DB::raw('('.$circle_radius.' * acos( cos( radians(' . $lat . ') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(' . $lng . ') ) + sin( radians(' . $lat .') ) * sin( radians( latitude ) ) ) ) AS distance'))->Where('status', 1)->Where(function($query) use ($address) {
                             if ($address != null) {
                                 $query->Where('events.formatted_address', 'LIKE', '%' . $address . '%');
                             }
                         })->orWhere(function($query) use ($distant_array) {
                             $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                     ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
-                        })->orderBy('latitude','DESC')->paginate(20);
+                        })->orderBy('distance')->paginate(20);
             } elseif ($keyword == 'recent_events') {
-                $events = Event::Where('status', 1)->Where(function($query) use ($distant_array) {
+                $events = Event::select('*', DB::raw('('.$circle_radius.' * acos( cos( radians(' . $lat . ') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(' . $lng . ') ) + sin( radians(' . $lat .') ) * sin( radians( latitude ) ) ) ) AS distance'))->Where('status', 1)->Where(function($query) use ($distant_array) {
                             $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                     ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
-                        })->orderby('latitude', 'DESC')->paginate(20);
+                        })->orderby('distance')->paginate(20);
             } elseif ($keyword == 'daily_deals') {
                 if ($days == null) {
                     $days = date('D');
                 }
                 $regrex = '"' . $days . '"' . ':"[^"]*[[:<:]]null[[:>:]]';
-                $events = Event::Where('status', 1)->whereRaw("daily_deal NOT REGEXP '" . $regrex . "'")->Where(function($query) use ($distant_array) {
+                $events = Event::select('*', DB::raw('('.$circle_radius.' * acos( cos( radians(' . $lat . ') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(' . $lng . ') ) + sin( radians(' . $lat .') ) * sin( radians( latitude ) ) ) ) AS distance'))->Where('status', 1)->whereRaw("daily_deal NOT REGEXP '" . $regrex . "'")->Where(function($query) use ($distant_array) {
                             $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                     ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
-                        })->orderBy('latitude','DESC')->paginate(20);
+                        })->orderBy('distance')->paginate(20);
             } else {
 
-                $events = Event::Where('status', 1)->Where(function($query) use ($distant_array) {
+                $events = Event::select('*', DB::raw('('.$circle_radius.' * acos( cos( radians(' . $lat . ') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(' . $lng . ') ) + sin( radians(' . $lat .') ) * sin( radians( latitude ) ) ) ) AS distance'))->Where('status', 1)->Where(function($query) use ($distant_array) {
                             $query->WhereBetween('latitude', [$distant_array['lat_dist_minus'], $distant_array['lat_dist_plus']])
                                     ->WhereBetween('longitude', [$distant_array['lng_dist_minus'], $distant_array['lng_dist_plus']]);
                         })->orderBy('latitude','DESC')->paginate(20);
