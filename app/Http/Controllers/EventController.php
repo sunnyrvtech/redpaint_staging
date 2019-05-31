@@ -622,7 +622,7 @@ class EventController extends Controller {
                 }
             }
         }else{
-            $events = null;
+            $events = array();
         }
         $view = View::make('events.search', compact('events'));
         if ($request->wantsJson()) {
