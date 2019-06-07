@@ -88,10 +88,10 @@
             <div class="row">
                 <div class="form_main">
                     <ul class="search_Category">
-                        <li><a href="{{ route('search') }}?keyword={{ urlencode('daily deals') }}"><span>Daily Deals</span></a></li>
-                        <li><a href="{{ route('search') }}?keyword={{ urlencode('happy') }}"><span>Happy Hour</span></a></li>
-                        <li><a href="{{ route('search') }}?keyword={{ urlencode('brunch') }}"><span>Brunch</span></a></li>
-                        <li><a href="{{ route('search') }}"><span>All</span></a></li>
+                        <li><a href="{{ route('search') }}?keyword={{ urlencode('daily deals') }}"><i class="fa fa-dollar"></i><span>Daily Deals</span></a></li>
+                        <li><a href="{{ route('search') }}?keyword={{ urlencode('happy') }}"><i class="fa fa-glass"></i><span>Happy Hour</span></a></li>
+                        <li><a href="{{ route('search') }}?keyword={{ urlencode('brunch') }}"><i class="icofont icofont-egg-poached"></i><span>Brunch</span></a></li>
+                        <li><a href="{{ route('search') }}"><i class="icofont icofont-fork-and-knife"></i><span>All</span></a></li>
                     </ul>
                 </div>
             </div>
