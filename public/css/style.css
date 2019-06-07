@@ -66,7 +66,7 @@ header.header{position:relative;min-height:633px}
 .Browse-Category ul.Category_listing{text-align:left;float:left;width:100%;margin-top:35px}
 .Browse-Category ul.Category_listing li{width:100%;max-width:25%;float:left;padding:10px}
 .Browse-Category ul.Category_listing li a{display:block;min-height:83px;border:solid 1px #bebebe;text-align:center;line-height:83px;font-size:23px;font-weight:100;color:#3a3a3a;border-radius:5px}
-.Browse-Category ul.Category_listing li a i{font-size:40px;display:inline-block;vertical-align:middle;color:#777;-webkit-transition:all .4s;-moz-transition:all .4s;-ms-transition:all .4s;transition:all .4s}
+.Browse-Category ul.Category_listing li a i{font-size:30px;display:inline-block;vertical-align:middle;color:#777;-webkit-transition:all .4s;-moz-transition:all .4s;-ms-transition:all .4s;transition:all .4s}
 .Browse-Category ul.Category_listing li a .three_dots{display:inline-block;vertical-align:middle}
 .Browse-Category ul.Category_listing li a .three_dots i{font-size:7px;margin:-5px 4px 0 0}
 .Browse-Category ul li a:hover{background:#d01e10;border-color:#d01e10;color:#fff}
